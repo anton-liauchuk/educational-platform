@@ -1,20 +1,28 @@
 package com.user.management.exception;
 
+import com.user.management.dto.ErrorResponseDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.io.IOException;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandlerController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandlerController.class);
 
     @Bean
     public ErrorAttributes errorAttributes() {
@@ -27,6 +35,27 @@ public class GlobalExceptionHandlerController {
                 return errorAttributes;
             }
         };
+    }
+
+    /**
+     * Handle resource not found exception.
+     *
+     * @param exception an exception
+     * @return an error message
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity handleResourceNotFoundException(final ResourceNotFoundException exception) {
+        LOGGER.warn("Resource not found", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorResponseDto.aResponseDTO(exception.getMessage()));
+    }
+
+    // todo review handler
+    @ExceptionHandler(value = {ConstraintViolationException.class, ValidationException.class})
+    public ResponseEntity validationError(Exception exception) {
+        LOGGER.warn("ConstraintViolationException/ValidationException", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorResponseDto.aResponseDTO(exception.getMessage()));
     }
 
     @ExceptionHandler(InvalidTokenException.class)

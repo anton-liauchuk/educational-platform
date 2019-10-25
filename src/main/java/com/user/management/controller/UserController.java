@@ -2,9 +2,9 @@ package com.user.management.controller;
 
 import com.user.management.dto.UserDataDTO;
 import com.user.management.dto.UserResponseDTO;
-import com.user.management.model.User;
+import com.user.management.mapper.UserMapper;
 import com.user.management.service.UserService;
-import org.modelmapper.ModelMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/users")
+@AllArgsConstructor
 public class UserController {
 
     private UserService userService;
-    private ModelMapper modelMapper;
-
-    public UserController(UserService userService, ModelMapper modelMapper) {
-        this.userService = userService;
-        this.modelMapper = modelMapper;
-    }
+    private UserMapper userMapper;
 
     @PostMapping("/signin")
     public String login(@RequestParam String username,
@@ -30,7 +26,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public String signup(@RequestBody UserDataDTO user) {
-        return userService.signup(modelMapper.map(user, User.class));
+        return userService.signup(userMapper.toUser(user));
     }
 
     @DeleteMapping(value = "/{username}")
@@ -43,13 +39,13 @@ public class UserController {
     @GetMapping(value = "/{username}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public UserResponseDTO search(@PathVariable String username) {
-        return modelMapper.map(userService.search(username), UserResponseDTO.class);
+        return userMapper.toUserResponseDTO(userService.search(username));
     }
 
     @GetMapping(value = "/me")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public UserResponseDTO whoami(HttpServletRequest req) {
-        return modelMapper.map(userService.whoami(req), UserResponseDTO.class);
+        return userMapper.toUserResponseDTO(userService.whoami(req));
     }
 
     @GetMapping("/refresh")

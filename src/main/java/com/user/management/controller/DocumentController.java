@@ -3,6 +3,7 @@ package com.user.management.controller;
 import com.user.management.dto.DocumentDTO;
 import com.user.management.model.Document;
 import com.user.management.service.DocumentService;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,15 +15,11 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/documents")
+@AllArgsConstructor
 public class DocumentController {
 
     private DocumentService documentService;
     private ModelMapper modelMapper;
-
-    public DocumentController(DocumentService documentService, ModelMapper modelMapper) {
-        this.documentService = documentService;
-        this.modelMapper = modelMapper;
-    }
 
     @PostMapping
     public ResponseEntity<?> create(DocumentDTO dto) {
