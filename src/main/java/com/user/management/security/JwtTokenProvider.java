@@ -1,7 +1,7 @@
 package com.user.management.security;
 
 import com.user.management.exception.InvalidTokenException;
-import com.user.management.model.Role;
+import com.user.management.domain.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

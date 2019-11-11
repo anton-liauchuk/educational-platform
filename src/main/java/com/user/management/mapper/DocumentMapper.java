@@ -1,7 +1,7 @@
 package com.user.management.mapper;
 
-import com.user.management.dto.DocumentDTO;
-import com.user.management.model.Document;
+import com.user.management.domain.dto.DocumentDTO;
+import com.user.management.domain.Document;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

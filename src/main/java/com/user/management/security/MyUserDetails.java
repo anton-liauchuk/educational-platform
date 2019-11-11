@@ -1,6 +1,6 @@
 package com.user.management.security;
 
-import com.user.management.model.User;
+import com.user.management.domain.User;
 import com.user.management.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,7 @@
 package com.user.management.dto;
 
 
-import com.user.management.model.Role;
+import com.user.management.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

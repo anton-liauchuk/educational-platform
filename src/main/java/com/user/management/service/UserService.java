@@ -1,6 +1,6 @@
 package com.user.management.service;
 
-import com.user.management.model.User;
+import com.user.management.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 

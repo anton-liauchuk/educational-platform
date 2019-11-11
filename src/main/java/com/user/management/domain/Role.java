@@ -1,4 +1,4 @@
-package com.user.management.model;
+package com.user.management.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 

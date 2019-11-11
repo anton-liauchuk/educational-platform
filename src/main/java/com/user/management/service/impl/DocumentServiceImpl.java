@@ -1,25 +1,25 @@
 package com.user.management.service.impl;
 
 import com.user.management.exception.ResourceNotFoundException;
-import com.user.management.model.Document;
+import com.user.management.domain.Document;
 import com.user.management.repository.DocumentRepository;
 import com.user.management.service.DocumentService;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
+@AllArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
 
-
-    public DocumentServiceImpl(DocumentRepository documentRepository) {
-        this.documentRepository = documentRepository;
-    }
 
     @Override
     public Document save(Document document) {

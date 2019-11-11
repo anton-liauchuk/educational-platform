@@ -1,8 +1,8 @@
 package com.user.management.controller;
 
-import com.user.management.dto.DocumentDTO;
+import com.user.management.domain.dto.DocumentDTO;
 import com.user.management.mapper.DocumentMapper;
-import com.user.management.model.Document;
+import com.user.management.domain.Document;
 import com.user.management.service.DocumentService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

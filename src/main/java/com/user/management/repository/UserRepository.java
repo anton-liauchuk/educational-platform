@@ -1,6 +1,6 @@
 package com.user.management.repository;
 
-import com.user.management.model.User;
+import com.user.management.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;
