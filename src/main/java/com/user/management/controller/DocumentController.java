@@ -1,8 +1,6 @@
 package com.user.management.controller;
 
 import com.user.management.domain.dto.DocumentDTO;
-import com.user.management.mapper.DocumentMapper;
-import com.user.management.domain.Document;
 import com.user.management.service.DocumentService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,20 +17,17 @@ import static org.springframework.http.ResponseEntity.ok;
 public class DocumentController {
 
     private DocumentService documentService;
-    private DocumentMapper documentMapper;
 
     @PostMapping
     public ResponseEntity<?> create(DocumentDTO dto) {
-        final Document document = documentMapper.toDocument(dto);
-        final Document saved = documentService.save(document);
-        return new ResponseEntity<>(documentMapper.toDTO(saved), HttpStatus.CREATED);
+        final DocumentDTO saved = documentService.save(dto);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> put(@PathVariable Integer id, DocumentDTO dto) {
-        final Document document = documentMapper.toDocument(dto);
-        final Document saved = documentService.save(document);
-        return ok(documentMapper.toDTO(saved));
+        final DocumentDTO saved = documentService.save(dto);
+        return ok(saved);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -42,13 +37,12 @@ public class DocumentController {
 
     @GetMapping
     Page<DocumentDTO> findAll(Pageable pageable) {
-        return documentService.findAll(pageable)
-                .map(document -> documentMapper.toDTO(document));
+        return documentService.findAll(pageable);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable Integer id) {
-        return ok(documentMapper.toDTO(documentService.findById(id).get()));
+        return ok(documentService.findById(id));
     }
 
 }

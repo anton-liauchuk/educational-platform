@@ -1,19 +1,10 @@
 package com.user.management.service;
 
-import com.user.management.domain.User;
-
-import javax.servlet.http.HttpServletRequest;
+import com.user.management.domain.dto.UserDTO;
 
 public interface UserService {
-    String signin(String username, String password);
-
-    String signup(User user);
 
     void delete(String username);
 
-    User search(String username);
-
-    User whoami(HttpServletRequest req);
-
-    String refresh(String username);
+    UserDTO search(String username);
 }

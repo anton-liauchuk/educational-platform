@@ -1,7 +1,9 @@
 package com.user.management.service.impl;
 
-import com.user.management.exception.ResourceNotFoundException;
 import com.user.management.domain.Document;
+import com.user.management.domain.dto.DocumentDTO;
+import com.user.management.exception.ResourceNotFoundException;
+import com.user.management.mapper.DocumentMapper;
 import com.user.management.repository.DocumentRepository;
 import com.user.management.service.DocumentService;
 import lombok.AllArgsConstructor;
@@ -19,11 +21,12 @@ import java.util.Optional;
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
+    private final DocumentMapper documentMapper;
 
 
     @Override
-    public Document save(Document document) {
-        return documentRepository.save(document);
+    public DocumentDTO save(DocumentDTO document) {
+        return documentMapper.toDTO(documentRepository.save(documentMapper.toDocument(document)));
     }
 
     @Override
@@ -36,17 +39,18 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Page<Document> findAll(Pageable pageable) {
-        return documentRepository.findAll(pageable);
+    public Page<DocumentDTO> findAll(Pageable pageable) {
+        final Page<Document> result = documentRepository.findAll(pageable);
+        return result.map(documentMapper::toDTO);
     }
 
     @Override
-    public Optional<Document> findById(Integer id) {
+    public DocumentDTO findById(Integer id) {
         final Optional<Document> document = documentRepository.findById(id);
         if (document.isEmpty()) {
             throw new ResourceNotFoundException("No document available with id = " + id);
         }
-        return document;
+        return documentMapper.toDTO(document.get());
     }
 }
 

@@ -1,17 +1,14 @@
 package com.user.management.mapper;
 
-import com.user.management.dto.UserDataDTO;
-import com.user.management.dto.UserResponseDTO;
 import com.user.management.domain.User;
+import com.user.management.domain.dto.UserDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    User toUser(UserDataDTO userDataDTO);
+    User toUser(UserDTO userDataDTO);
 
-    UserDataDTO toDTO(User user);
-
-    UserResponseDTO toUserResponseDTO(User user);
+    UserDTO toDTO(User user);
 
 }

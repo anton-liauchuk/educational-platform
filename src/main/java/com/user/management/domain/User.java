@@ -24,10 +24,4 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String email;
-
-    @Size(min = 8, message = "Minimum password length: 8 characters")
-    private String password;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<Role> roles;
 }
