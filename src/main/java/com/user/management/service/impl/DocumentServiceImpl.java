@@ -11,8 +11,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -38,11 +36,16 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public DocumentDTO findById(Integer id) {
-        final Optional<Document> document = documentRepository.findById(id);
-        if (document.isEmpty()) {
-            throw new ResourceNotFoundException("No document available with id = " + id);
-        }
-        return documentMapper.toDTO(document.get());
+        final Document document = documentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Document not found."));
+        return documentMapper.toDTO(document);
+    }
+
+    @Override
+    public void save(Integer id, DocumentDTO dto) {
+        final Document document = documentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Document not found."));
+        documentMapper.updateDocumentFromDTO(dto, document);
     }
 }
 

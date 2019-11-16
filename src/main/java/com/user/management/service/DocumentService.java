@@ -9,4 +9,6 @@ public interface DocumentService {
     void deleteById(Integer id);
 
     DocumentDTO findById(Integer id);
+
+    void save(Integer id, DocumentDTO dto);
 }

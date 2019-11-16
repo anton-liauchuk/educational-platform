@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class DocumentController {
 
-    private DocumentService documentService;
+    private final DocumentService documentService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -21,7 +21,7 @@ public class DocumentController {
 
     @PutMapping(value = "/{id}")
     public void put(@PathVariable Integer id, DocumentDTO dto) {
-        documentService.save(dto);
+        documentService.save(id, dto);
     }
 
     @DeleteMapping(value = "/{id}")
