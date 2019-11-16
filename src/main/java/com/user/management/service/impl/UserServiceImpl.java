@@ -4,13 +4,13 @@ import com.user.management.domain.dto.UserDTO;
 import com.user.management.mapper.UserMapper;
 import com.user.management.repository.UserRepository;
 import com.user.management.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;

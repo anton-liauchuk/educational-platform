@@ -6,10 +6,8 @@ import com.user.management.exception.ResourceNotFoundException;
 import com.user.management.mapper.DocumentMapper;
 import com.user.management.repository.DocumentRepository;
 import com.user.management.service.DocumentService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
@@ -36,12 +34,6 @@ public class DocumentServiceImpl implements DocumentService {
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(e.getMessage());
         }
-    }
-
-    @Override
-    public Page<DocumentDTO> findAll(Pageable pageable) {
-        final Page<Document> result = documentRepository.findAll(pageable);
-        return result.map(documentMapper::toDTO);
     }
 
     @Override

@@ -2,32 +2,26 @@ package com.user.management.controller;
 
 import com.user.management.domain.dto.DocumentDTO;
 import com.user.management.service.DocumentService;
-import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/documents")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DocumentController {
 
     private DocumentService documentService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<?> create(DocumentDTO dto) {
-        final DocumentDTO saved = documentService.save(dto);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    public DocumentDTO create(DocumentDTO dto) {
+        return documentService.save(dto);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> put(@PathVariable Integer id, DocumentDTO dto) {
-        final DocumentDTO saved = documentService.save(dto);
-        return ok(saved);
+    public void put(@PathVariable Integer id, DocumentDTO dto) {
+        documentService.save(dto);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -35,14 +29,9 @@ public class DocumentController {
         documentService.deleteById(id);
     }
 
-    @GetMapping
-    Page<DocumentDTO> findAll(Pageable pageable) {
-        return documentService.findAll(pageable);
-    }
-
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id) {
-        return ok(documentService.findById(id));
+    public DocumentDTO findById(@PathVariable Integer id) {
+        return documentService.findById(id);
     }
 
 }
