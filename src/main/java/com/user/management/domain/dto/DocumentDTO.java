@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +14,6 @@ public class DocumentDTO {
     // todo review id in DTO
     private Integer id;
 
-    @Size(min = 4, max = 255, message = "Minimum name length: 4 characters")
+    @NotBlank(message = "Document name must be specified")
     private String name;
 }

@@ -4,11 +4,16 @@ import com.user.management.domain.dto.DocumentDTO;
 import com.user.management.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 @RestController
 @RequestMapping("/documents")
 @RequiredArgsConstructor
+@Validated
 public class DocumentController {
 
     private final DocumentService documentService;
@@ -16,7 +21,7 @@ public class DocumentController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     // todo DocumentResponse as return type
-    public DocumentDTO create(@RequestBody DocumentDTO dto) {
+    public DocumentDTO create(@Valid @RequestBody DocumentDTO dto) {
         return documentService.save(dto);
     }
 
@@ -26,12 +31,13 @@ public class DocumentController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable Integer id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@Valid @Positive @PathVariable Integer id) {
         documentService.deleteById(id);
     }
 
     @GetMapping(value = "/{id}")
-    public DocumentDTO findById(@PathVariable Integer id) {
+    public DocumentDTO findById(@Valid @Positive @PathVariable Integer id) {
         return documentService.findById(id);
     }
 

@@ -49,11 +49,11 @@ public class GlobalExceptionHandlerController {
                 .body(ErrorResponseDto.aResponseDTO(exception.getMessage()));
     }
 
-    // todo review handler
+    // todo review handler for ConstraintViolationException
     @ExceptionHandler(value = {ConstraintViolationException.class, ValidationException.class})
     public ResponseEntity validationError(Exception exception) {
         LOGGER.warn("ConstraintViolationException/ValidationException", exception);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ErrorResponseDto.aResponseDTO(exception.getMessage()));
     }
 
