@@ -15,12 +15,13 @@ public class DocumentController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public DocumentDTO create(DocumentDTO dto) {
+    // todo DocumentResponse as return type
+    public DocumentDTO create(@RequestBody DocumentDTO dto) {
         return documentService.save(dto);
     }
 
     @PutMapping(value = "/{id}")
-    public void put(@PathVariable Integer id, DocumentDTO dto) {
+    public void put(@PathVariable Integer id, @RequestBody DocumentDTO dto) {
         documentService.save(id, dto);
     }
 
