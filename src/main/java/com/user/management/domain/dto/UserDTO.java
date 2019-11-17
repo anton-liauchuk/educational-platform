@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDTO {
 
+    // todo review id in DTO
     private Integer id;
     private String username;
     private String email;

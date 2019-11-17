@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class DocumentDTO {
 
+    // todo review id in DTO
     private Integer id;
 
     @Size(min = 4, max = 255, message = "Minimum name length: 4 characters")

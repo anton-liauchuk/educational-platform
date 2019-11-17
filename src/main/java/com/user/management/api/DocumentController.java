@@ -1,4 +1,4 @@
-package com.user.management.controller;
+package com.user.management.api;
 
 import com.user.management.domain.dto.DocumentDTO;
 import com.user.management.service.DocumentService;

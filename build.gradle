@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.9.RELEASE'
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
 }
@@ -18,17 +18,23 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform()
+}
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    // todo organize versions in one place
+    // todo remove junit4 dependency from spring dependency
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-devtools'
-    implementation 'io.jsonwebtoken:jjwt:0.7.0'
     implementation 'org.mapstruct:mapstruct:1.3.1.Final'
+
     compileOnly 'org.projectlombok:lombok'
+
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.3.1.Final'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation 'io.rest-assured:rest-assured:3.3.0'
 }
