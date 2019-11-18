@@ -14,30 +14,30 @@ import javax.validation.constraints.Positive;
 @RequestMapping("/documents")
 @RequiredArgsConstructor
 @Validated
-public class DocumentController {
+class DocumentController {
 
     private final DocumentService documentService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     // todo DocumentResponse as return type
-    public DocumentDTO create(@Valid @RequestBody DocumentDTO dto) {
-        return documentService.save(dto);
+    DocumentDTO create(@Valid @RequestBody DocumentDTO dto) {
+        return documentService.create(dto);
     }
 
     @PutMapping(value = "/{id}")
-    public void put(@PathVariable Integer id, @RequestBody DocumentDTO dto) {
-        documentService.save(id, dto);
+    void update(@Valid @Positive @PathVariable Integer id, @Valid @RequestBody DocumentDTO dto) {
+        documentService.update(id, dto);
     }
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@Valid @Positive @PathVariable Integer id) {
+    void delete(@Valid @Positive @PathVariable Integer id) {
         documentService.deleteById(id);
     }
 
     @GetMapping(value = "/{id}")
-    public DocumentDTO findById(@Valid @Positive @PathVariable Integer id) {
+    DocumentDTO findById(@Valid @Positive @PathVariable Integer id) {
         return documentService.findById(id);
     }
 

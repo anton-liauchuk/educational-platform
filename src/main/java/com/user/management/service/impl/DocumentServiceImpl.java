@@ -21,7 +21,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
-    public DocumentDTO save(DocumentDTO document) {
+    public DocumentDTO create(DocumentDTO document) {
         return documentMapper.toDTO(documentRepository.save(documentMapper.toDocument(document)));
     }
 
@@ -42,7 +42,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public void save(Integer id, DocumentDTO dto) {
+    public void update(Integer id, DocumentDTO dto) {
         final Document document = documentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Document not found."));
         documentMapper.updateDocumentFromDTO(dto, document);

@@ -70,7 +70,7 @@ class DocumentApiTest {
                 .contentType(ContentType.JSON)
 
                 .when()
-                .body((ResourceUtils.getFile(this.getClass().getResource("/document_request.json"))))
+                .body((ResourceUtils.getFile(this.getClass().getResource("/create_document_request.json"))))
                 .post("/documents")
 
                 .then()
@@ -114,20 +114,73 @@ class DocumentApiTest {
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
-//    @Test
-//    void putGivenExistingDocumentIdMustReturnOkTest() throws FileNotFoundException {
-//        // todo recheck that this document id does not exist
-//        final Integer id = createDocument();
-//        given()
-//                .contentType(ContentType.JSON)
-//
-//                .when()
-//                .body((ResourceUtils.getFile(this.getClass().getResource("/document_request.json"))))
-//                .put("/documents/{id}", id)
-//
-//                .then()
-//                .statusCode(HttpStatus.NOT_FOUND.value());
-//    }
+    @Test
+    void updateGivenExistingDocumentIdMustReturnOkTest() throws FileNotFoundException {
+        final Integer id = createDocument();
+        // todo review given method
+        given()
+                .contentType(ContentType.JSON)
+
+                .when()
+                .body((ResourceUtils.getFile(this.getClass().getResource("/update_document_request.json"))))
+                .put("/documents/{id}", id)
+
+                .then()
+                .statusCode(HttpStatus.OK.value());
+
+        final DocumentDTO updatedDocument = get("/documents/{id}", id)
+
+                .then()
+                .statusCode(HttpStatus.OK.value())
+
+                .extract()
+                .as(DocumentDTO.class);
+
+        assertThat(updatedDocument)
+                .hasFieldOrPropertyWithValue("id", id)
+                .hasFieldOrPropertyWithValue("name", "update_test_document_name");
+    }
+
+    @Test
+    void updateGivenNotExistingDocumentIdMustReturnNotFoundTest() throws FileNotFoundException {
+        given()
+                .contentType(ContentType.JSON)
+
+                .when()
+                .body((ResourceUtils.getFile(this.getClass().getResource("/update_document_request.json"))))
+                .put("/documents/{id}", 12345)
+
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    void updateGivenInValidDocumentIdMustReturnNotFoundTest() throws FileNotFoundException {
+        given()
+                .contentType(ContentType.JSON)
+
+                .when()
+                .body((ResourceUtils.getFile(this.getClass().getResource("/update_document_request.json"))))
+                .put("/documents/{id}", "invalid_id_32")
+
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void updateGivenInValidDocumentMustReturnNotFoundTest() throws FileNotFoundException {
+        final Integer id = createDocument();
+
+        given()
+                .contentType(ContentType.JSON)
+
+                .when()
+                .body((ResourceUtils.getFile(this.getClass().getResource("/invalid_document_request.json"))))
+                .put("/documents/{id}", id)
+
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
 
     // todo review throwing exception
     private Integer createDocument() throws FileNotFoundException {
@@ -135,7 +188,7 @@ class DocumentApiTest {
                 .contentType(ContentType.JSON)
 
                 .when()
-                .body((ResourceUtils.getFile(this.getClass().getResource("/document_request.json"))))
+                .body((ResourceUtils.getFile(this.getClass().getResource("/create_document_request.json"))))
                 .post("/documents")
 
                 .then()
