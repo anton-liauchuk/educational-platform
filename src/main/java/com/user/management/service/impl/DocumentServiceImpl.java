@@ -21,6 +21,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
+    // todo validate that id is null
     public DocumentDTO create(DocumentDTO document) {
         return documentMapper.toDTO(documentRepository.save(documentMapper.toDocument(document)));
     }
