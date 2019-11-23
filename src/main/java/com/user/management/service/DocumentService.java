@@ -6,9 +6,9 @@ public interface DocumentService {
 
     DocumentDTO create(DocumentDTO document);
 
-    void deleteById(Integer id);
+    void delete(Integer id);
 
-    DocumentDTO findById(Integer id);
+    DocumentDTO find(Integer id);
 
-    void update(Integer id, DocumentDTO dto);
+    void update(DocumentDTO dto);
 }

@@ -1,7 +1,7 @@
 package com.user.management.service.impl;
 
 import com.user.management.domain.dto.UserDTO;
-import com.user.management.mapper.UserMapper;
+import com.user.management.service.mapper.UserMapper;
 import com.user.management.repository.UserRepository;
 import com.user.management.service.UserService;
 import lombok.RequiredArgsConstructor;

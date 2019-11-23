@@ -1,5 +1,8 @@
 package com.user.management.api;
 
+import com.user.management.api.dto.DocumentRequest;
+import com.user.management.api.dto.DocumentResponse;
+import com.user.management.api.mapper.DocumentApiMapper;
 import com.user.management.domain.dto.DocumentDTO;
 import com.user.management.service.DocumentService;
 import lombok.RequiredArgsConstructor;
@@ -17,28 +20,35 @@ import javax.validation.constraints.Positive;
 class DocumentController {
 
     private final DocumentService documentService;
+    private final DocumentApiMapper mapper;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    // todo DocumentResponse as return type
-    DocumentDTO create(@Valid @RequestBody DocumentDTO dto) {
-        return documentService.create(dto);
+        // todo DocumentResponse as return type
+    DocumentResponse create(@Valid @RequestBody DocumentRequest request) {
+        final DocumentDTO convertedRequest = mapper.toDTO(request);
+        final DocumentDTO createdDocument = documentService.create(convertedRequest);
+        return mapper.toResponse(createdDocument);
     }
 
     @PutMapping(value = "/{id}")
-    void update(@Valid @Positive @PathVariable Integer id, @Valid @RequestBody DocumentDTO dto) {
-        documentService.update(id, dto);
+    void update(@Valid @Positive @PathVariable Integer id, @Valid @RequestBody DocumentRequest request) {
+        final DocumentDTO dto = mapper.toDTO(request);
+        // todo recheck solution
+        dto.setId(id);
+        documentService.update(dto);
     }
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@Valid @Positive @PathVariable Integer id) {
-        documentService.deleteById(id);
+        documentService.delete(id);
     }
 
     @GetMapping(value = "/{id}")
-    DocumentDTO findById(@Valid @Positive @PathVariable Integer id) {
-        return documentService.findById(id);
+    DocumentResponse findById(@Valid @Positive @PathVariable Integer id) {
+        final DocumentDTO dto = documentService.find(id);
+        return mapper.toResponse(dto);
     }
 
 }

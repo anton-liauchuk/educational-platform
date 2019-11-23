@@ -2,7 +2,8 @@ package com.user.management.service.impl;
 
 import com.user.management.domain.Document;
 import com.user.management.domain.dto.DocumentDTO;
-import com.user.management.mapper.DocumentMapper;
+import com.user.management.exception.ResourceNotFoundException;
+import com.user.management.service.mapper.DocumentMapper;
 import com.user.management.repository.DocumentRepository;
 import com.user.management.service.DocumentService;
 import org.junit.jupiter.api.Test;
@@ -10,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.dao.EmptyResultDataAccessException;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class DocumentServiceImplTest {
@@ -33,11 +36,10 @@ class DocumentServiceImplTest {
     void createValidDocumentMustReturnDocumentTest() {
         final DocumentDTO input = new DocumentDTO();
         input.setName("test_name");
-        final Document expectedResult = new Document();
-        expectedResult.setId(111);
-        expectedResult.setName("test_name");
-        // todo remove any
-        doReturn(expectedResult).when(documentRepository).save(any());
+        final Document savedDocument = new Document();
+        savedDocument.setId(111);
+        savedDocument.setName("test_name");
+        doReturn(savedDocument).when(documentRepository).save(argThat((Document d) -> d.getName().equals(input.getName())));
 
         final DocumentDTO result = documentService.create(input);
 
@@ -45,7 +47,72 @@ class DocumentServiceImplTest {
         verify(documentMapper).toDocument(input);
         verify(documentMapper).toDTO(argThat((Document d) -> d.getName().equals(input.getName())));
         assertThat(result)
-                .hasFieldOrPropertyWithValue("id", expectedResult.getId())
-                .hasFieldOrPropertyWithValue("name", expectedResult.getName());
+                .hasFieldOrPropertyWithValue("id", savedDocument.getId())
+                .hasFieldOrPropertyWithValue("name", savedDocument.getName());
+    }
+
+    @Test
+    void deleteValidDocumentMustDeleteDocumentTest() {
+        documentService.delete(1);
+
+        verify(documentRepository).deleteById(1);
+    }
+
+    @Test
+    void deleteNotExistingDocumentMustThrowResourceNotFoundExceptionTest() {
+        doThrow(new EmptyResultDataAccessException(1)).when(documentRepository).deleteById(234);
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> documentService.delete(234));
+    }
+
+    @Test
+    void findExistingDocumentMustReturnDocumentTest() {
+        final Document existingDocument = new Document();
+        existingDocument.setId(111);
+        existingDocument.setName("test_name");
+        doReturn(Optional.of(existingDocument)).when(documentRepository).findById(111);
+
+        final DocumentDTO result = documentService.find(111);
+
+        verify(documentRepository).findById(111);
+        assertThat(result)
+                .hasFieldOrPropertyWithValue("id", 111)
+                .hasFieldOrPropertyWithValue("name", "test_name");
+    }
+
+    @Test
+    void findNotExistingDocumentMustThrowResourceNotFoundExceptionTest() {
+        doReturn(Optional.empty()).when(documentRepository).findById(111);
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> documentService.find(111));
+    }
+
+    @Test
+    void updateExistingDocumentMustUpdateDocumentTest() {
+        final DocumentDTO input = new DocumentDTO();
+        input.setId(111);
+        input.setName("test_name");
+        final Document existingDocument = new Document();
+        existingDocument.setId(111);
+        existingDocument.setName("test_name");
+        doReturn(Optional.of(existingDocument)).when(documentRepository).findById(111);
+
+        documentService.update(input);
+
+        verify(documentRepository).findById(111);
+        verify(documentMapper).updateDocumentFromDTO(input, existingDocument);
+    }
+
+    @Test
+    void updateNotExistingDocumentMustThrowResourceNotFoundExceptionTest() {
+        final DocumentDTO input = new DocumentDTO();
+        input.setId(111);
+        input.setName("test_name");
+        doReturn(Optional.empty()).when(documentRepository).findById(111);
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> documentService.update(input));
     }
 }

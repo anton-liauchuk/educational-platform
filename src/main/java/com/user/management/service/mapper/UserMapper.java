@@ -1,4 +1,4 @@
-package com.user.management.mapper;
+package com.user.management.service.mapper;
 
 import com.user.management.domain.User;
 import com.user.management.domain.dto.UserDTO;

@@ -3,9 +3,9 @@ package com.user.management.service.impl;
 import com.user.management.domain.Document;
 import com.user.management.domain.dto.DocumentDTO;
 import com.user.management.exception.ResourceNotFoundException;
-import com.user.management.mapper.DocumentMapper;
 import com.user.management.repository.DocumentRepository;
 import com.user.management.service.DocumentService;
+import com.user.management.service.mapper.DocumentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,17 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
-    private final DocumentMapper documentMapper;
-
+    private final DocumentMapper mapper;
 
     @Override
     // todo validate that id is null
-    public DocumentDTO create(DocumentDTO document) {
-        return documentMapper.toDTO(documentRepository.save(documentMapper.toDocument(document)));
+    public DocumentDTO create(DocumentDTO dto) {
+        final Document document = mapper.toDocument(dto);
+        final Document saved = documentRepository.save(document);
+        return mapper.toDTO(saved);
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void delete(Integer id) {
         try {
             documentRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
@@ -36,17 +37,17 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public DocumentDTO findById(Integer id) {
+    public DocumentDTO find(Integer id) {
         final Document document = documentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Document not found."));
-        return documentMapper.toDTO(document);
+        return mapper.toDTO(document);
     }
 
     @Override
-    public void update(Integer id, DocumentDTO dto) {
-        final Document document = documentRepository.findById(id)
+    public void update(DocumentDTO dto) {
+        final Document document = documentRepository.findById(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Document not found."));
-        documentMapper.updateDocumentFromDTO(dto, document);
+        mapper.updateDocumentFromDTO(dto, document);
     }
 }
 
