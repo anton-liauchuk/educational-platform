@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
+    id "org.asciidoctor.convert" version "2.3.0"
 }
 
 group = 'com.user'
@@ -18,11 +19,22 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
 test {
     useJUnitPlatform()
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
 }
 
 dependencies {
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     // todo organize versions in one place
     // todo remove junit4 dependency from spring dependency
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -39,4 +51,5 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
 }

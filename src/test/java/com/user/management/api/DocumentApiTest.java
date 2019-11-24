@@ -2,13 +2,17 @@ package com.user.management.api;
 
 import com.user.management.domain.dto.DocumentDTO;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.ResourceUtils;
@@ -17,26 +21,38 @@ import java.io.FileNotFoundException;
 
 import static io.restassured.RestAssured.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
 
 // todo jsonassert dependency from spring boot
-@ExtendWith(SpringExtension.class)
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class DocumentApiTest {
+
+    private RequestSpecification documentationSpec;
 
     @LocalServerPort
     private int port;
 
     @BeforeEach
-    void setup() {
+    void setup(RestDocumentationContextProvider restDocumentation) {
         RestAssured.port = port;
+        documentationSpec = new RequestSpecBuilder()
+                .addFilter(documentationConfiguration(restDocumentation)).build();
     }
 
     @Test
     void findByIdGivenExistingDocumentIdMustReturnCorrespondingDocumentTest() throws FileNotFoundException {
         final Integer id = createDocument();
         // todo remove hardcoded url
-        final DocumentDTO result = get("/documents/{id}", id)
+        final DocumentDTO result = given(documentationSpec)
+                .filter(document("findById",
+                        responseFields(
+                                fieldWithPath("id").description("Document id"),
+                                fieldWithPath("name").description("Document name"))))
+                .get("/documents/{id}", id)
 
                 .then()
                 .statusCode(HttpStatus.OK.value())
@@ -66,7 +82,14 @@ class DocumentApiTest {
 
     @Test
     void createValidDocumentMustReturnCreatedDocumentTest() throws FileNotFoundException {
-        final DocumentDTO response = given()
+        final DocumentDTO response = given(documentationSpec)
+                .filter(document("create",
+                        requestFields(
+                                fieldWithPath("name").description("Document name")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("Document id"),
+                                fieldWithPath("name").description("Document name"))))
                 .contentType(ContentType.JSON)
 
                 .when()
@@ -118,7 +141,11 @@ class DocumentApiTest {
     void updateGivenExistingDocumentIdMustReturnOkTest() throws FileNotFoundException {
         final Integer id = createDocument();
         // todo review given method
-        given()
+        given(documentationSpec)
+                .filter(document("update",
+                        requestFields(
+                                fieldWithPath("name").description("Document name")
+                        )))
                 .contentType(ContentType.JSON)
 
                 .when()
