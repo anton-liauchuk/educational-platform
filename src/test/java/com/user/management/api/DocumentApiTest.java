@@ -131,7 +131,11 @@ class DocumentApiTest {
     @Test
     void deleteGivenNotExistingDocumentIdMustReturnBadRequestTest() {
         // todo recheck that this document id does not exist
-        delete("/documents/{id}", 12345)
+        given(documentationSpec)
+                .filter(document("delete"))
+
+                .when()
+                .delete("/documents/{id}", 12345)
 
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
