@@ -1,4 +1,4 @@
-package com.user.management.exception;
+package com.user.management.api.exception;
 
 /**
  * Signals that an exception has occurred while loading or updating an object in data storage.

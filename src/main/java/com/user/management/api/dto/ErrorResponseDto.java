@@ -1,4 +1,4 @@
-package com.user.management.dto;
+package com.user.management.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

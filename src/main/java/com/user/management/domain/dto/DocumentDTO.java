@@ -13,5 +13,7 @@ public class DocumentDTO {
 
     // todo review id in DTO
     private Integer id;
+
+    @NotBlank(message = "Document name must be specified")
     private String name;
 }

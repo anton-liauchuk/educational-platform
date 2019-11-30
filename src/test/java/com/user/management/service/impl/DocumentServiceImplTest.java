@@ -1,11 +1,11 @@
 package com.user.management.service.impl;
 
+import com.user.management.api.exception.ResourceNotFoundException;
 import com.user.management.domain.Document;
 import com.user.management.domain.dto.DocumentDTO;
-import com.user.management.exception.ResourceNotFoundException;
-import com.user.management.service.mapper.DocumentMapper;
 import com.user.management.repository.DocumentRepository;
 import com.user.management.service.DocumentService;
+import com.user.management.service.mapper.DocumentMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,10 +36,10 @@ class DocumentServiceImplTest {
     @Test
     void createValidDocumentMustReturnDocumentTest() {
         final DocumentDTO input = new DocumentDTO();
-        input.setName("test_name");
+        input.setName("test_name" );
         final Document savedDocument = new Document();
         savedDocument.setId(111);
-        savedDocument.setName("test_name");
+        savedDocument.setName("test_name" );
         doReturn(savedDocument).when(documentRepository).save(argThat((Document d) -> d.getName().equals(input.getName())));
 
         final DocumentDTO result = documentService.create(input);
@@ -49,6 +50,20 @@ class DocumentServiceImplTest {
         assertThat(result)
                 .hasFieldOrPropertyWithValue("id", savedDocument.getId())
                 .hasFieldOrPropertyWithValue("name", savedDocument.getName());
+    }
+
+    @Test
+    void createNotValidDocumentMustThrowConstraintViolationExceptionTest() {
+        final DocumentDTO input = new DocumentDTO();
+
+        assertThrows(ConstraintViolationException.class,
+                () -> documentService.create(input));
+    }
+
+    @Test
+    void createNullDocumentMustThrowConstraintViolationExceptionTest() {
+        assertThrows(ConstraintViolationException.class,
+                () -> documentService.create(null));
     }
 
     @Test
@@ -70,7 +85,7 @@ class DocumentServiceImplTest {
     void findExistingDocumentMustReturnDocumentTest() {
         final Document existingDocument = new Document();
         existingDocument.setId(111);
-        existingDocument.setName("test_name");
+        existingDocument.setName("test_name" );
         doReturn(Optional.of(existingDocument)).when(documentRepository).findById(111);
 
         final DocumentDTO result = documentService.find(111);
@@ -78,7 +93,7 @@ class DocumentServiceImplTest {
         verify(documentRepository).findById(111);
         assertThat(result)
                 .hasFieldOrPropertyWithValue("id", 111)
-                .hasFieldOrPropertyWithValue("name", "test_name");
+                .hasFieldOrPropertyWithValue("name", "test_name" );
     }
 
     @Test
@@ -93,10 +108,10 @@ class DocumentServiceImplTest {
     void updateExistingDocumentMustUpdateDocumentTest() {
         final DocumentDTO input = new DocumentDTO();
         input.setId(111);
-        input.setName("test_name");
+        input.setName("test_name" );
         final Document existingDocument = new Document();
         existingDocument.setId(111);
-        existingDocument.setName("test_name");
+        existingDocument.setName("test_name" );
         doReturn(Optional.of(existingDocument)).when(documentRepository).findById(111);
 
         documentService.update(input);
@@ -109,10 +124,24 @@ class DocumentServiceImplTest {
     void updateNotExistingDocumentMustThrowResourceNotFoundExceptionTest() {
         final DocumentDTO input = new DocumentDTO();
         input.setId(111);
-        input.setName("test_name");
+        input.setName("test_name" );
         doReturn(Optional.empty()).when(documentRepository).findById(111);
 
         assertThrows(ResourceNotFoundException.class,
                 () -> documentService.update(input));
+    }
+
+    @Test
+    void updateNotValidDocumentMustThrowConstraintViolationExceptionTest() {
+        final DocumentDTO input = new DocumentDTO();
+
+        assertThrows(ConstraintViolationException.class,
+                () -> documentService.update(input));
+    }
+
+    @Test
+    void updateNullDocumentMustThrowConstraintViolationExceptionTest() {
+        assertThrows(ConstraintViolationException.class,
+                () -> documentService.update(null));
     }
 }

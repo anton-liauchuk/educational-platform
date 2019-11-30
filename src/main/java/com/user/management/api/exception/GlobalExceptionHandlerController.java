@@ -1,6 +1,6 @@
-package com.user.management.exception;
+package com.user.management.api.exception;
 
-import com.user.management.dto.ErrorResponseDto;
+import com.user.management.api.dto.ErrorResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;

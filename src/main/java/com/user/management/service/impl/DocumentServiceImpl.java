@@ -2,7 +2,7 @@ package com.user.management.service.impl;
 
 import com.user.management.domain.Document;
 import com.user.management.domain.dto.DocumentDTO;
-import com.user.management.exception.ResourceNotFoundException;
+import com.user.management.api.exception.ResourceNotFoundException;
 import com.user.management.repository.DocumentRepository;
 import com.user.management.service.DocumentService;
 import com.user.management.service.mapper.DocumentMapper;
@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 @Service
 @Transactional
 @RequiredArgsConstructor
