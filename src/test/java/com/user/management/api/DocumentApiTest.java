@@ -26,7 +26,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.documentationConfiguration;
 
 // todo jsonassert dependency from spring boot
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@ExtendWith(RestDocumentationExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class DocumentApiTest {

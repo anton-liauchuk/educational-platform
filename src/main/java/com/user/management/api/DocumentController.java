@@ -7,7 +7,6 @@ import com.user.management.domain.dto.DocumentDTO;
 import com.user.management.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,7 +15,6 @@ import javax.validation.constraints.Positive;
 @RestController
 @RequestMapping("/documents")
 @RequiredArgsConstructor
-@Validated
 class DocumentController {
 
     private final DocumentService documentService;
@@ -24,7 +22,6 @@ class DocumentController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-        // todo DocumentResponse as return type
     DocumentResponse create(@Valid @RequestBody DocumentRequest request) {
         final DocumentDTO convertedRequest = mapper.toDTO(request);
         final DocumentDTO createdDocument = documentService.create(convertedRequest);
