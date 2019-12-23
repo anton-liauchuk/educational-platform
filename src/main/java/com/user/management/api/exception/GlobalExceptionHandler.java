@@ -1,6 +1,6 @@
 package com.user.management.api.exception;
 
-import com.user.management.api.dto.ErrorResponseDto;
+import com.user.management.api.dto.ErrorResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.util.Map;
 
 @RestControllerAdvice
-public class GlobalExceptionHandlerController {
+public class GlobalExceptionHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandlerController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Bean
     public ErrorAttributes errorAttributes() {
@@ -43,18 +43,18 @@ public class GlobalExceptionHandlerController {
      * @return an error message
      */
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity handleResourceNotFoundException(final ResourceNotFoundException exception) {
+    public ResponseEntity<ErrorResponseDTO> handleResourceNotFoundException(final ResourceNotFoundException exception) {
         LOGGER.warn("Resource not found", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(ErrorResponseDto.aResponseDTO(exception.getMessage()));
+                .body(ErrorResponseDTO.aResponseDTO(exception.getMessage()));
     }
 
     // todo review handler for ConstraintViolationException
     @ExceptionHandler(value = {ConstraintViolationException.class, ValidationException.class})
-    public ResponseEntity validationError(Exception exception) {
+    public ResponseEntity<ErrorResponseDTO> validationError(Exception exception) {
         LOGGER.warn("ConstraintViolationException/ValidationException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ErrorResponseDto.aResponseDTO(exception.getMessage()));
+                .body(ErrorResponseDTO.aResponseDTO(exception.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

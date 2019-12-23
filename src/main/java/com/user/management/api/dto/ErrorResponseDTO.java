@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorResponseDto {
+public class ErrorResponseDTO {
 
     private String errorMessage;
 
@@ -19,8 +19,8 @@ public class ErrorResponseDto {
      * @param message message
      * @return dto
      */
-    public static ErrorResponseDto aResponseDTO(final String message) {
-        final ErrorResponseDto dto = new ErrorResponseDto();
+    public static ErrorResponseDTO aResponseDTO(final String message) {
+        final ErrorResponseDTO dto = new ErrorResponseDTO();
         dto.setErrorMessage(message);
         return dto;
     }
@@ -32,8 +32,8 @@ public class ErrorResponseDto {
      * @param details details  of response
      * @return dto
      */
-    public static ErrorResponseDto aResponseDTO(final String message, final String details) {
-        final ErrorResponseDto dto = aResponseDTO(message);
+    public static ErrorResponseDTO aResponseDTO(final String message, final String details) {
+        final ErrorResponseDTO dto = aResponseDTO(message);
         dto.setDetailException(details);
         return dto;
     }
