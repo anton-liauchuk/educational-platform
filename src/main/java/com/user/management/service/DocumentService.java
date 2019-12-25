@@ -9,6 +9,7 @@ public interface DocumentService {
 
     DocumentDTO create(@Valid @NotNull DocumentDTO document);
 
+    // todo valid positive on id
     void delete(Integer id);
 
     DocumentDTO find(Integer id);

@@ -1,0 +1,52 @@
+package com.user.management.service.impl;
+
+import com.user.management.api.exception.ResourceNotFoundException;
+import com.user.management.domain.Tag;
+import com.user.management.domain.dto.TagDTO;
+import com.user.management.repository.TagRepository;
+import com.user.management.service.TagService;
+import com.user.management.service.mapper.TagMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+@Validated
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class TagServiceImpl implements TagService {
+
+    private final TagRepository tagRepository;
+    private final TagMapper mapper;
+
+
+    // todo review annotations in Impl
+    @Override
+    public TagDTO create(@Valid @NotNull TagDTO dto) {
+        final Tag tag = mapper.toTag(dto);
+        final Tag saved = tagRepository.save(tag);
+        return mapper.toDTO(saved);
+    }
+
+    @Override
+    public void delete(@Valid @NotBlank String name) {
+        try {
+            tagRepository.deleteByName(name);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(e.getMessage());
+        }
+    }
+
+    @Override
+    public TagDTO find(@Valid @NotBlank String name) {
+        var tag = tagRepository.findByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException("Tag not found."));
+        return mapper.toDTO(tag);
+    }
+}

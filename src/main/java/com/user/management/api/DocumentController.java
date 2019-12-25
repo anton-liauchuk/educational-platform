@@ -30,7 +30,7 @@ class DocumentController {
 
     @PutMapping(value = "/{id}")
     void update(@Valid @Positive @PathVariable Integer id, @Valid @RequestBody DocumentRequest request) {
-        final DocumentDTO dto = mapper.toDTO(request);
+        var dto = mapper.toDTO(request);
         // todo recheck solution
         dto.setId(id);
         documentService.update(dto);
@@ -44,7 +44,7 @@ class DocumentController {
 
     @GetMapping(value = "/{id}")
     DocumentResponse findById(@Valid @Positive @PathVariable Integer id) {
-        final DocumentDTO dto = documentService.find(id);
+        var dto = documentService.find(id);
         return mapper.toResponse(dto);
     }
 

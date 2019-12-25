@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
+// todo review is it needed to have tests for methods without logic
 @SpringBootTest
 class DocumentServiceImplTest {
 
