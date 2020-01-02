@@ -1,10 +1,10 @@
-package com.user.management.api;
+package com.user.management.documents.api;
 
-import com.user.management.api.dto.DocumentRequest;
-import com.user.management.api.dto.DocumentResponse;
-import com.user.management.api.mapper.DocumentApiMapper;
-import com.user.management.domain.dto.DocumentDTO;
-import com.user.management.service.DocumentService;
+import com.user.management.documents.api.dto.DocumentRequest;
+import com.user.management.documents.api.dto.DocumentResponse;
+import com.user.management.documents.api.mapper.DocumentApiMapper;
+import com.user.management.documents.domain.dto.DocumentDTO;
+import com.user.management.documents.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

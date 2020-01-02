@@ -1,5 +1,6 @@
-package com.user.management.domain;
+package com.user.management.documents.domain;
 
+import com.user.management.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

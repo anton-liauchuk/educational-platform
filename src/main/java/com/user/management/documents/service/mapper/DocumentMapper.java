@@ -1,7 +1,7 @@
-package com.user.management.service.mapper;
+package com.user.management.documents.service.mapper;
 
-import com.user.management.domain.Document;
-import com.user.management.domain.dto.DocumentDTO;
+import com.user.management.documents.domain.Document;
+import com.user.management.documents.domain.dto.DocumentDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

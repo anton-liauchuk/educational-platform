@@ -1,11 +1,11 @@
-package com.user.management.service.impl;
+package com.user.management.documents.service.impl;
 
-import com.user.management.domain.Document;
-import com.user.management.domain.dto.DocumentDTO;
+import com.user.management.documents.domain.Document;
+import com.user.management.documents.domain.dto.DocumentDTO;
 import com.user.management.api.exception.ResourceNotFoundException;
-import com.user.management.repository.DocumentRepository;
-import com.user.management.service.DocumentService;
-import com.user.management.service.mapper.DocumentMapper;
+import com.user.management.documents.domain.DocumentRepository;
+import com.user.management.documents.service.DocumentService;
+import com.user.management.documents.service.mapper.DocumentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;

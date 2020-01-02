@@ -1,6 +1,6 @@
-package com.user.management.api;
+package com.user.management.documents.api;
 
-import com.user.management.domain.dto.DocumentDTO;
+import com.user.management.documents.domain.dto.DocumentDTO;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.ResourceUtils;
 
 import java.io.FileNotFoundException;

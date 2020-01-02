@@ -1,4 +1,4 @@
-package com.user.management.api.dto;
+package com.user.management.documents.api.dto;
 
 import lombok.Data;
 

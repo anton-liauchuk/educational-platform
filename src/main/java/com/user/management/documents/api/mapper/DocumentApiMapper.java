@@ -1,8 +1,8 @@
-package com.user.management.api.mapper;
+package com.user.management.documents.api.mapper;
 
-import com.user.management.api.dto.DocumentRequest;
-import com.user.management.api.dto.DocumentResponse;
-import com.user.management.domain.dto.DocumentDTO;
+import com.user.management.documents.api.dto.DocumentRequest;
+import com.user.management.documents.api.dto.DocumentResponse;
+import com.user.management.documents.domain.dto.DocumentDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

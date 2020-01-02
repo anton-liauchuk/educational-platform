@@ -1,4 +1,4 @@
-package com.user.management.domain.dto;
+package com.user.management.documents.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

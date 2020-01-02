@@ -1,6 +1,6 @@
-package com.user.management.service;
+package com.user.management.documents.service;
 
-import com.user.management.domain.dto.DocumentDTO;
+import com.user.management.documents.domain.dto.DocumentDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
