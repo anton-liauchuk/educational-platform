@@ -88,7 +88,7 @@ class TagApiTest {
                 .contentType(ContentType.JSON)
 
                 .when()
-                .body((ResourceUtils.getFile(this.getClass().getResource("/create_document_request.json"))))
+                .body((ResourceUtils.getFile(this.getClass().getResource("/create_tag_request.json"))))
                 .post("/tags")
 
                 .then()
@@ -134,47 +134,47 @@ class TagApiTest {
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
-    @Test
-    void updateGivenExistingTagNameMustReturnOkTest() throws FileNotFoundException {
-        final String name = createTag();
-        given(documentationSpec)
-                .filter(document("update",
-                        requestFields(
-                                fieldWithPath("name").description("Tag name")
-                        )))
-                .contentType(ContentType.JSON)
+//    @Test
+//    void updateGivenExistingTagNameMustReturnOkTest() throws FileNotFoundException {
+//        final String name = createTag();
+//        given(documentationSpec)
+//                .filter(document("update",
+//                        requestFields(
+//                                fieldWithPath("name").description("Tag name")
+//                        )))
+//                .contentType(ContentType.JSON)
+//
+//                .when()
+//                .body((ResourceUtils.getFile(this.getClass().getResource("/update_tag_request.json"))))
+//                .put("/tags/{name}", name)
+//
+//                .then()
+//                .statusCode(HttpStatus.OK.value());
+//
+//        final TagDTO updatedTag = get("/tags/{name}", name)
+//
+//                .then()
+//                .statusCode(HttpStatus.OK.value())
+//
+//                .extract()
+//                .as(TagDTO.class);
+//
+//        assertThat(updatedTag)
+//                .hasFieldOrPropertyWithValue("name", "update_test_tag_name");
+//    }
 
-                .when()
-                .body((ResourceUtils.getFile(this.getClass().getResource("/update_tag_request.json"))))
-                .put("/tags/{name}", name)
-
-                .then()
-                .statusCode(HttpStatus.OK.value());
-
-        final TagDTO updatedTag = get("/tags/{name}", name)
-
-                .then()
-                .statusCode(HttpStatus.OK.value())
-
-                .extract()
-                .as(TagDTO.class);
-
-        assertThat(updatedTag)
-                .hasFieldOrPropertyWithValue("name", "update_test_tag_name");
-    }
-
-    @Test
-    void updateGivenNotExistingTagNameMustReturnNotFoundTest() throws FileNotFoundException {
-        given()
-                .contentType(ContentType.JSON)
-
-                .when()
-                .body((ResourceUtils.getFile(this.getClass().getResource("/update_tag_request.json"))))
-                .put("/tags/{name}", 12345)
-
-                .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
-    }
+//    @Test
+//    void updateGivenNotExistingTagNameMustReturnNotFoundTest() throws FileNotFoundException {
+//        given()
+//                .contentType(ContentType.JSON)
+//
+//                .when()
+//                .body((ResourceUtils.getFile(this.getClass().getResource("/update_tag_request.json"))))
+//                .put("/tags/{name}", 12345)
+//
+//                .then()
+//                .statusCode(HttpStatus.NOT_FOUND.value());
+//    }
 
 //    @Test
 //    void updateGivenInValidTagNameMustReturnNotFoundTest() throws FileNotFoundException {

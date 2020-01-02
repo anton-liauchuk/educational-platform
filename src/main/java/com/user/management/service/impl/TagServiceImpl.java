@@ -7,7 +7,6 @@ import com.user.management.repository.TagRepository;
 import com.user.management.service.TagService;
 import com.user.management.service.mapper.TagMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -36,10 +35,9 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public void delete(@Valid @NotBlank String name) {
-        try {
-            tagRepository.deleteByName(name);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(e.getMessage());
+        final int result = tagRepository.deleteByName(name);
+        if (result == 0) {
+            throw new ResourceNotFoundException(String.format("No %s entity with name %s exists!", Tag.class, name));
         }
     }
 

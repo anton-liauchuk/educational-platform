@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface TagRepository extends JpaRepository<Tag, Integer> {
 
-    void deleteByName(String name);
+    int deleteByName(String name);
 
     Optional<Tag> findByName(String name);
 

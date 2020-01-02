@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class ErrorResponseDTO {
 
     private String errorMessage;
-
     private String detailException;
 
     /**

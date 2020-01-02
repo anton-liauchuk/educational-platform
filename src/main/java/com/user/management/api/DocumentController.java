@@ -9,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Positive;
-
 @RestController
 @RequestMapping("/documents")
 @RequiredArgsConstructor
@@ -22,14 +19,14 @@ class DocumentController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    DocumentResponse create(@Valid @RequestBody DocumentRequest request) {
+    DocumentResponse create(@RequestBody DocumentRequest request) {
         final DocumentDTO convertedRequest = mapper.toDTO(request);
         final DocumentDTO createdDocument = documentService.create(convertedRequest);
         return mapper.toResponse(createdDocument);
     }
 
     @PutMapping(value = "/{id}")
-    void update(@Valid @Positive @PathVariable Integer id, @Valid @RequestBody DocumentRequest request) {
+    void update(@PathVariable Integer id, @RequestBody DocumentRequest request) {
         var dto = mapper.toDTO(request);
         // todo recheck solution
         dto.setId(id);
@@ -38,12 +35,12 @@ class DocumentController {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void delete(@Valid @Positive @PathVariable Integer id) {
+    void delete(@PathVariable Integer id) {
         documentService.delete(id);
     }
 
     @GetMapping(value = "/{id}")
-    DocumentResponse findById(@Valid @Positive @PathVariable Integer id) {
+    DocumentResponse findById(@PathVariable Integer id) {
         var dto = documentService.find(id);
         return mapper.toResponse(dto);
     }

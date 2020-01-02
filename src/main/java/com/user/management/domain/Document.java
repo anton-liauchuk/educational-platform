@@ -17,6 +17,7 @@ public class Document {
     private Integer id;
     private String name;
 
+    // todo implement logic for setting up user
     @ManyToOne
     private User owner;
 }
