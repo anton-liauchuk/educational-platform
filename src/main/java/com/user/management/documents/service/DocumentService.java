@@ -2,18 +2,17 @@ package com.user.management.documents.service;
 
 import com.user.management.documents.domain.dto.DocumentDTO;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-
+/**
+ * Document application service.
+ */
 public interface DocumentService {
 
-    DocumentDTO create(@Valid @NotNull DocumentDTO document);
+    DocumentDTO create(DocumentDTO document);
 
     // todo valid positive on id
-    void delete(@Valid @Positive Integer id);
+    void delete(Integer id);
 
-    DocumentDTO find(@Valid @Positive Integer id);
+    DocumentDTO find(Integer id);
 
-    void update(@Valid @NotNull DocumentDTO dto);
+    void update(DocumentDTO dto);
 }
