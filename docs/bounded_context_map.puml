@@ -1,0 +1,30 @@
+@startuml
+
+namespace administration {
+  Administrator "1" -- "many" CourseProposalDecision : is making >
+  CourseProposalDecision -- CourseProposal : for >
+}
+
+namespace userservice  {
+  User -- administration.Administrator
+}
+
+namespace courseservice {
+  Teacher -- Course : submits for review >
+  Course -- administration.CourseProposal : available for enrollment after approve
+  Teacher -- userservice.User
+}
+
+namespace courseenrollmentsservice {
+  Student -- CourseEnrollment : enrolls course >
+  CourseEnrollment -- courseservice.Course : for >
+  Student -- userservice.User
+}
+
+namespace coursereviewsservice {
+  Student -- CourseReview : is making feedback >
+  CourseReview -- courseenrollmentsservice.CourseEnrollment : for >
+  Student -- userservice.User
+}
+
+@enduml
