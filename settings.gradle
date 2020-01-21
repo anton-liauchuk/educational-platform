@@ -1,1 +1,3 @@
-rootProject.name = 'management'
+rootProject.name = 'platform'
+include 'userservice'
+
