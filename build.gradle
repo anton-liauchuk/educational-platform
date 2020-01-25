@@ -9,7 +9,6 @@ allprojects {
 }
 
 subprojects {
-
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'java-library'
@@ -17,12 +16,6 @@ subprojects {
     group = 'com.user'
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = '11'
-
-    configurations {
-        compileOnly {
-            extendsFrom annotationProcessor
-        }
-    }
 
     dependencyManagement {
         imports {
