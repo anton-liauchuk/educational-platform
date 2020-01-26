@@ -1,0 +1,11 @@
+plugins {
+    id "org.springframework.boot" version "2.2.1.RELEASE"
+}
+
+dependencies {
+    // todo review other possible solutions
+    implementation project(':userservice')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    runtimeOnly 'com.h2database:h2'
+}
