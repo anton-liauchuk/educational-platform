@@ -1,7 +1,7 @@
 package com.educational.platform.userservice.service;
 
-import com.educational.platform.userservice.dto.UserRegistrationDTO;
-import com.educational.platform.userservice.dto.UserResponseDTO;
+import com.educational.platform.userservice.model.dto.UserRegistrationDTO;
+import com.educational.platform.userservice.model.dto.UserResponseDTO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +17,7 @@ public interface UserService {
      * @param password password
      * @return token
      */
-    String signin(String username, String password);
+    String signIn(String username, String password);
 
     /**
      * Sign up.
@@ -25,7 +25,7 @@ public interface UserService {
      * @param dto user registration dto
      * @return token
      */
-    String signup(UserRegistrationDTO dto);
+    String signUp(UserRegistrationDTO dto);
 
     /**
      * Deletes a user.
@@ -48,7 +48,7 @@ public interface UserService {
      * @param req request
      * @return user
      */
-    UserResponseDTO whoami(HttpServletRequest req);
+    UserResponseDTO whoAmI(HttpServletRequest req);
 
     /**
      * Refreshes a token.

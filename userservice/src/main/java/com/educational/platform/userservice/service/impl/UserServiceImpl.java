@@ -1,7 +1,7 @@
 package com.educational.platform.userservice.service.impl;
 
-import com.educational.platform.userservice.dto.UserRegistrationDTO;
-import com.educational.platform.userservice.dto.UserResponseDTO;
+import com.educational.platform.userservice.model.dto.UserRegistrationDTO;
+import com.educational.platform.userservice.model.dto.UserResponseDTO;
 import com.educational.platform.userservice.exception.CustomException;
 import com.educational.platform.userservice.mapper.UserMapper;
 import com.educational.platform.userservice.model.User;
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
 
     @Override
-    public String signin(String username, String password) {
+    public String signIn(String username, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRoles());
@@ -39,10 +39,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String signup(UserRegistrationDTO dto) {
+    public String signUp(UserRegistrationDTO dto) {
         final User user = mapper.toUser(dto);
         if (!userRepository.existsByUsername(dto.getUsername())) {
-            dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
             userRepository.save(user);
             return jwtTokenProvider.createToken(dto.getUsername(), dto.getRoles());
         } else {
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO whoami(HttpServletRequest req) {
+    public UserResponseDTO whoAmI(HttpServletRequest req) {
         final User user = userRepository.findByUsername(jwtTokenProvider.getUsername(jwtTokenProvider.resolveToken(req)));
         return mapper.toUserResponse(user);
     }

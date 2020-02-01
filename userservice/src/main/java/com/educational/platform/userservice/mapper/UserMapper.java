@@ -1,7 +1,7 @@
 package com.educational.platform.userservice.mapper;
 
-import com.educational.platform.userservice.dto.UserRegistrationDTO;
-import com.educational.platform.userservice.dto.UserResponseDTO;
+import com.educational.platform.userservice.model.dto.UserRegistrationDTO;
+import com.educational.platform.userservice.model.dto.UserResponseDTO;
 import com.educational.platform.userservice.model.User;
 import org.mapstruct.Mapper;
 

@@ -1,4 +1,6 @@
 rootProject.name = 'platform'
 include 'userservice'
 include 'configuration'
+include 'common'
+include 'web'
 
