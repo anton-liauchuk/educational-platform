@@ -1,18 +1,17 @@
 package com.educational.platform.userservice.service.impl;
 
-import com.educational.platform.userservice.model.dto.UserRegistrationDTO;
-import com.educational.platform.userservice.model.dto.UserResponseDTO;
-import com.educational.platform.userservice.exception.CustomException;
+import com.educational.platform.common.exception.ResourceNotFoundException;
+import com.educational.platform.common.exception.UnprocessableEntityException;
 import com.educational.platform.userservice.mapper.UserMapper;
 import com.educational.platform.userservice.model.User;
+import com.educational.platform.userservice.model.dto.UserRegistrationDTO;
+import com.educational.platform.userservice.model.dto.UserResponseDTO;
 import com.educational.platform.userservice.repository.UserRepository;
 import com.educational.platform.userservice.security.JwtTokenProvider;
 import com.educational.platform.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,24 +29,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String signIn(String username, String password) {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRoles());
-        } catch (AuthenticationException e) {
-            throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRoles());
     }
 
     @Override
     public String signUp(UserRegistrationDTO dto) {
-        final User user = mapper.toUser(dto);
-        if (!userRepository.existsByUsername(dto.getUsername())) {
-            user.setPassword(passwordEncoder.encode(dto.getPassword()));
-            userRepository.save(user);
-            return jwtTokenProvider.createToken(dto.getUsername(), dto.getRoles());
-        } else {
-            throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
+        if (userRepository.existsByUsername(dto.getUsername())) {
+            throw new UnprocessableEntityException(String.format("Username: [%s] is already in use", dto.getUsername()));
         }
+
+        final User user = mapper.toUser(dto);
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        userRepository.save(user);
+        return jwtTokenProvider.createToken(dto.getUsername(), dto.getRoles());
     }
 
     @Override
@@ -59,7 +54,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDTO search(String username) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new CustomException("The user doesn't exist", HttpStatus.NOT_FOUND);
+            throw new ResourceNotFoundException(String.format("The user with username: [%s] doesn't exist", username));
         }
         return mapper.toUserResponse(user);
     }

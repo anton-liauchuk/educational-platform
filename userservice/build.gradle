@@ -1,4 +1,6 @@
 dependencies {
+    implementation project(':common')
+
     // todo organize versions in one place
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
