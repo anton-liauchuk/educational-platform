@@ -1,0 +1,8 @@
+{
+  "username": "test_username",
+  "email": "test_email@gmail.com",
+  "password": "test_password",
+  "roles": [
+    "ROLE_CLIENT"
+  ]
+}
