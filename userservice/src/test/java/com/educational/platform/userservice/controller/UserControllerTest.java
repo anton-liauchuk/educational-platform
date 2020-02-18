@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.ResourceUtils;
 
@@ -37,7 +38,7 @@ public class UserControllerTest {
                 .post("/users/signup")
 
                 .then()
-                .statusCode(200)
+                .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON);
     }
 
@@ -51,7 +52,7 @@ public class UserControllerTest {
 
                 .then()
                 .log().all()
-                .statusCode(200)
+                .statusCode(HttpStatus.BAD_REQUEST.value())
                 .contentType(ContentType.JSON);
     }
 
@@ -65,7 +66,7 @@ public class UserControllerTest {
                 .post("/users/signup")
 
                 .then()
-                .statusCode(200)
+                .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON);
     }
 }
