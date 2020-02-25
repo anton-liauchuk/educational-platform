@@ -1,4 +1,4 @@
-package com.educational.platform.userservice.controller;
+package com.educational.platform.userservice.api;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -17,7 +17,7 @@ import static io.restassured.RestAssured.with;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserControllerTest {
+public class UserApiTest {
 
     @LocalServerPort
     int port;
@@ -35,7 +35,7 @@ public class UserControllerTest {
                 .contentType(ContentType.JSON)
 
                 .when()
-                .post("/users/signup")
+                .post("/users/sign-up")
 
                 .then()
                 .statusCode(HttpStatus.OK.value())
@@ -44,29 +44,15 @@ public class UserControllerTest {
 
     @Test
     void register_invalidPassword_badRequest() throws FileNotFoundException {
-        with().body(ResourceUtils.getFile(this.getClass().getResource("/invalid_password_singup.json")))
+        with().body(ResourceUtils.getFile(this.getClass().getResource("/invalid_password_signup.json")))
                 .contentType(ContentType.JSON)
 
                 .when()
-                .post("/users/signup")
+                .post("/users/sign-up")
 
                 .then()
                 .log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
-                .contentType(ContentType.JSON);
-    }
-
-
-    @Test
-    void register() {
-        with().body("{}")
-                .contentType(ContentType.JSON)
-
-                .when()
-                .post("/users/signup")
-
-                .then()
-                .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON);
     }
 }

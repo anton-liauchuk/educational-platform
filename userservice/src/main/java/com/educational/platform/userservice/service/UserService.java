@@ -1,9 +1,6 @@
 package com.educational.platform.userservice.service;
 
 import com.educational.platform.userservice.model.dto.UserRegistrationDTO;
-import com.educational.platform.userservice.model.dto.UserResponseDTO;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Represents User Service.
@@ -24,38 +21,8 @@ public interface UserService {
      *
      * @param dto user registration dto
      * @return token
+     * @throws com.educational.platform.common.exception.UnprocessableEntityException if username is use
      */
     String signUp(UserRegistrationDTO dto);
-
-    /**
-     * Deletes a user.
-     *
-     * @param username username
-     */
-    void delete(String username);
-
-    /**
-     * Searches a user by username.
-     *
-     * @param username username
-     * @return user
-     */
-    UserResponseDTO search(String username);
-
-    /**
-     * Provides info about current user.
-     *
-     * @param req request
-     * @return user
-     */
-    UserResponseDTO whoAmI(HttpServletRequest req);
-
-    /**
-     * Refreshes a token.
-     *
-     * @param username username
-     * @return token
-     */
-    String refreshToken(String username);
 
 }

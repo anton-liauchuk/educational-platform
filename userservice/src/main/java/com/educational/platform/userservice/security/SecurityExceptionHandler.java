@@ -11,6 +11,7 @@ import java.io.IOException;
 /**
  * Represents the logic for handling security exceptions.
  */
+// todo is it needed
 @RestControllerAdvice
 public class SecurityExceptionHandler {
 
