@@ -43,4 +43,15 @@ public class UserControllerIntegrationTest {
                 .andExpect(status().isUnprocessableEntity());
     }
 
+
+    @Test
+    public void register_validSignUp_ok() throws Exception {
+        when(userService.signUp(any())).thenReturn("TOKEN-VALUE");
+
+        mockMvc.perform(post("/users/sign-up")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(Files.readAllBytes(ResourceUtils.getFile(this.getClass().getResource("/valid_signup.json")).toPath())))
+                .andExpect(status().isOk());
+    }
+
 }
