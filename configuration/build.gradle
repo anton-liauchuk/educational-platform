@@ -4,6 +4,6 @@ plugins {
 
 dependencies {
     // todo review other possible solutions
-    implementation project(':userservice')
+    implementation project(':users')
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
