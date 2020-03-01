@@ -6,15 +6,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Represents Teacher model.
+ * Represents Lecture domain model.
  */
 @Entity
-public class Teacher {
+public class Lecture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
+    private String name;
+    private String description;
+    private String content;
 
 }
