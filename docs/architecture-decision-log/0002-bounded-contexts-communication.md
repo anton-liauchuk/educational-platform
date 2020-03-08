@@ -8,6 +8,12 @@ Accepted
 ## Context
 Some data should be available for several bounded contexts. The solution should be defined for retrieving the data from other bounded contexts.
 
+todo
+## Possible solutions
+### 1. Direct method call
+
+### 2. Event-driven
+
 ## Decision
 Communication between bounded contexts asynchronous. Bounded contexts don't share data, it's forbidden to create a transaction which spans more than one bounded context.
 - https://www.infoq.com/news/2014/11/sharing-data-bounded-contexts/

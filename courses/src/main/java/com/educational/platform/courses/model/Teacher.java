@@ -8,6 +8,7 @@ import javax.persistence.Id;
 /**
  * Represents Teacher model.
  */
+// todo relation to user from user service
 @Entity
 public class Teacher {
 
