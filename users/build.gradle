@@ -1,6 +1,7 @@
 dependencies {
     implementation project(':common')
     implementation project(':web')
+    implementation project(':integration-events')
 
     // todo organize versions in one place
     implementation 'org.springframework.boot:spring-boot-starter-web'

@@ -1,6 +1,7 @@
 package com.educational.platform.users.service.impl;
 
 import com.educational.platform.common.exception.UnprocessableEntityException;
+import com.educational.platform.integration.events.UserCreatedIntegrationEvent;
 import com.educational.platform.users.mapper.UserMapper;
 import com.educational.platform.users.model.User;
 import com.educational.platform.users.model.dto.UserRegistrationDTO;
@@ -8,12 +9,15 @@ import com.educational.platform.users.repository.UserRepository;
 import com.educational.platform.users.security.JwtTokenProvider;
 import com.educational.platform.users.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -21,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final ApplicationEventPublisher eventPublisher;
     private final UserMapper mapper;
 
     @Override
@@ -38,6 +43,9 @@ public class UserServiceImpl implements UserService {
         final User user = mapper.toUser(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         userRepository.save(user);
+
+        eventPublisher.publishEvent(new UserCreatedIntegrationEvent(user, user.getUsername()));
+
         return jwtTokenProvider.createToken(dto.getUsername(), dto.getRoles());
     }
 

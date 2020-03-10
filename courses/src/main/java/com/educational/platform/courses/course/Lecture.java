@@ -1,4 +1,4 @@
-package com.educational.platform.courses.model;
+package com.educational.platform.courses.course;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

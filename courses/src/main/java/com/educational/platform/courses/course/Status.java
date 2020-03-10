@@ -1,4 +1,4 @@
-package com.educational.platform.courses.model;
+package com.educational.platform.courses.course;
 
 /**
  * Represents Course Status.
