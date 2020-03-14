@@ -22,16 +22,16 @@ public class Course {
     private String name;
     private String description;
     private Status status;
-    private Teacher teacher;
-    private CourseRating rating;
-    private List<Lecture> lectures;
+//    private Teacher teacher;
+//    private CourseRating rating;
+//    private List<Lecture> lectures;
 
     public void approvedByAdmin() {
         status = Status.APPROVED;
     }
 
     public void updateRating(double value) {
-        rating = new CourseRating(value);
+//        rating = new CourseRating(value);
     }
 
     // todo implement

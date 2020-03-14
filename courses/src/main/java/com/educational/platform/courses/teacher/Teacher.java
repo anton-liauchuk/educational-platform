@@ -9,7 +9,7 @@ import javax.persistence.*;
 /**
  * Represents Teacher model.
  */
-// todo relation to user from user service
+// todo relation to user from user module
 @Getter
 @Setter
 @Entity
