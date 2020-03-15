@@ -1,9 +1,6 @@
 package com.educational.platform.courses.course;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Represents Lecture domain model.
@@ -14,6 +11,9 @@ public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @ManyToOne
+    private Course course;
 
     private String name;
     private String description;

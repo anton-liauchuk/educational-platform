@@ -1,11 +1,10 @@
 package com.educational.platform.courses.course;
 
+import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.teacher.Teacher;
+import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -13,6 +12,7 @@ import java.util.List;
  */
 // todo mark as aggregate root
 @Entity
+@Getter
 public class Course {
 
     @Id
@@ -22,9 +22,20 @@ public class Course {
     private String name;
     private String description;
     private Status status;
-//    private Teacher teacher;
-//    private CourseRating rating;
-//    private List<Lecture> lectures;
+
+    @OneToOne
+    private Teacher teacher;
+
+    @OneToOne
+    private CourseRating rating;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Lecture> lectures;
+
+    public Course(CreateCourseCommand command) {
+        this.name = command.getName();
+        this.description = command.getDescription();
+    }
 
     public void approvedByAdmin() {
         status = Status.APPROVED;
