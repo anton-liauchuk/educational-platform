@@ -1,23 +1,20 @@
 package com.educational.platform.courses.course;
 
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
 /**
  * Represents Course Rating model.
  */
-@Entity
-@RequiredArgsConstructor
+@Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@EqualsAndHashCode
+@ToString
 public class CourseRating {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private final double rating;
+    private double rating;
 
 }

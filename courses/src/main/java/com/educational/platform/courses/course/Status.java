@@ -5,7 +5,8 @@ package com.educational.platform.courses.course;
  */
 public enum Status {
 
-    WAITING_APPROVAL,
-    APPROVED
+    DRAFT,
+    PUBLISHED,
+    ARCHIVED
 
 }
