@@ -4,17 +4,19 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.Status;
+import com.educational.platform.courses.course.create.CreateCourseCommand;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,15 +34,22 @@ public class PublishCourseCommandHandlerTest {
     void handle_existingCourse_courseSavedWithStatusPublished() {
         // given
         final PublishCourseCommand command = new PublishCourseCommand(15);
-        final Course correspondingCourse = new Course();
-        correspondingCourse.setId(15);
+
+        final CreateCourseCommand createCourseCommand = new CreateCourseCommand("name", "description");
+        final Course correspondingCourse = new Course(createCourseCommand);
         when(repository.findById(15)).thenReturn(Optional.of(correspondingCourse));
 
         // when
         sut.handle(command);
 
         // then
-        verify(repository).save(argThat(course -> course.getId() == 15 && Status.PUBLISHED.equals(course.getStatus())));
+        final ArgumentCaptor<Course> argument = ArgumentCaptor.forClass(Course.class);
+        verify(repository).save(argument.capture());
+        final Course course = argument.getValue();
+        assertThat(course)
+                .hasFieldOrPropertyWithValue("name", "name")
+                .hasFieldOrPropertyWithValue("description", "description")
+                .hasFieldOrPropertyWithValue("status", Status.PUBLISHED);
     }
 
 

@@ -2,8 +2,6 @@ package com.educational.platform.courses.course;
 
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.teacher.Teacher;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,8 +11,6 @@ import java.util.List;
  */
 // todo mark as aggregate root
 @Entity
-@Getter
-@Setter
 public class Course {
 
     @Id
@@ -31,11 +27,6 @@ public class Course {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Lecture> lectures;
-
-    // todo constructor for tests, review solution
-    public Course() {
-        this.rating = new CourseRating(0);
-    }
 
     // todo validation
     public Course(CreateCourseCommand command) {

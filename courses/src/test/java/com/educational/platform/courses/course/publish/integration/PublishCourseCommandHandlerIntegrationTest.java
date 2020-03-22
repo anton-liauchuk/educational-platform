@@ -4,7 +4,6 @@ import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.Status;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
-import com.educational.platform.courses.course.create.CreateCourseCommandHandler;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommandHandler;
 import org.junit.jupiter.api.Test;
@@ -12,13 +11,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.data.domain.Example;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -36,21 +34,21 @@ public class PublishCourseCommandHandlerIntegrationTest {
     @Test
     void handle_existingCourse_courseSavedWithStatusPublished() {
         // given
-        final Course existingCourse = new Course();
-        existingCourse.setName("name");
-        existingCourse.setName("description");
-        existingCourse.setStatus(Status.DRAFT);
+        final CreateCourseCommand createCourseCommand = new CreateCourseCommand("name", "description");
+        final Course existingCourse = new Course(createCourseCommand);
         repository.save(existingCourse);
 
-        final PublishCourseCommand command = new PublishCourseCommand(existingCourse.getId());
+        final Integer id = (Integer) ReflectionTestUtils.getField(existingCourse, "id");
+        final PublishCourseCommand command = new PublishCourseCommand(id);
 
         // when
         sut.handle(command);
 
         // then
-        final Optional<Course> saved = repository.findById(existingCourse.getId());
+        assertThat(id).isNotNull();
+        final Optional<Course> saved = repository.findById(id);
         assertThat(saved).isNotEmpty();
         final Course course = saved.get();
-        assertThat(course.getStatus()).isEqualTo(Status.PUBLISHED);
+        assertThat(course).hasFieldOrPropertyWithValue("status", Status.PUBLISHED);
     }
 }

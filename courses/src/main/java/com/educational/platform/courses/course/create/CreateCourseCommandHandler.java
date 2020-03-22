@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * Command handler for {@link CreateCourseCommand} creates a course.
  */
+// todo should be transactional?
 @RequiredArgsConstructor
 @Component
 public class CreateCourseCommandHandler {

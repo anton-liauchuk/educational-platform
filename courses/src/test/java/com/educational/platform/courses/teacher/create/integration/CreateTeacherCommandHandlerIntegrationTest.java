@@ -37,7 +37,8 @@ public class CreateTeacherCommandHandlerIntegrationTest {
 
         // then
         final Teacher saved = repository.findByUsername(username);
-        assertThat(saved.getId()).isNotNull();
-        assertThat(saved.getUsername()).isEqualTo(username);
+        assertThat(saved)
+                .hasFieldOrPropertyWithValue("username", username)
+                .hasFieldOrProperty("id").isNotNull();
     }
 }

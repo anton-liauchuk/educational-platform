@@ -41,8 +41,8 @@ public class CreateCourseCommandHandlerIntegrationTest {
         final Optional<Course> saved = repository.findOne(Example.of(new Course(command)));
         assertThat(saved).isNotEmpty();
         final Course course = saved.get();
-        assertThat(course.getId()).isNotNull();
-        assertThat(course.getName()).isEqualTo("name");
-        assertThat(course.getDescription()).isEqualTo("description");
+        assertThat(course).hasFieldOrProperty("id").isNotNull();
+        assertThat(course).hasFieldOrPropertyWithValue("name", "name");
+        assertThat(course).hasFieldOrPropertyWithValue("description", "description");
     }
 }

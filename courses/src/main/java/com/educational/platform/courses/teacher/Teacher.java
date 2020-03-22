@@ -1,8 +1,6 @@
 package com.educational.platform.courses.teacher;
 
 import com.educational.platform.courses.teacher.create.CreateTeacherCommand;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,8 +11,6 @@ import javax.persistence.Id;
  * Represents Teacher model.
  */
 // todo relation to user from user module
-@Getter
-@Setter
 @Entity
 public class Teacher {
 

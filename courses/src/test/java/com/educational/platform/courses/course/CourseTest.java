@@ -11,7 +11,8 @@ public class CourseTest {
     @Test
     void publish_publishedStatus() {
         // given
-        final Course course = new Course();
+        final CreateCourseCommand createCourseCommand = new CreateCourseCommand("name", "description");
+        final Course course = new Course(createCourseCommand);
 
         // when
         course.publish();

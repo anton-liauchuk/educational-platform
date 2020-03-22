@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * Event listener for {@link UserCreatedIntegrationEvent}.
  */
+// todo should be transactional?
 @Component
 @RequiredArgsConstructor
 public class UserCreatedIntegrationEventListener {

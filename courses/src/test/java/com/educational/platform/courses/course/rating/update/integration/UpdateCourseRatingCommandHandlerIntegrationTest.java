@@ -3,7 +3,7 @@ package com.educational.platform.courses.course.rating.update.integration;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseRating;
 import com.educational.platform.courses.course.CourseRepository;
-import com.educational.platform.courses.course.Status;
+import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.rating.update.UpdateCourseRatingCommand;
 import com.educational.platform.courses.course.rating.update.UpdateCourseRatingCommandHandler;
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -31,24 +32,23 @@ public class UpdateCourseRatingCommandHandlerIntegrationTest {
 
 
     @Test
-    void handle_existingCourse_courseSavedWithStatusPublished() {
+    void handle_existingCourse_courseSavedWithUpdatedRating() {
         // given
-        final Course existingCourse = new Course();
-        existingCourse.setName("name");
-        existingCourse.setName("description");
-        existingCourse.setStatus(Status.DRAFT);
-        existingCourse.setRating(new CourseRating(3.2));
+        final CreateCourseCommand createCourseCommand = new CreateCourseCommand("name", "description");
+        final Course existingCourse = new Course(createCourseCommand);
         repository.save(existingCourse);
 
-        final UpdateCourseRatingCommand command = new UpdateCourseRatingCommand(existingCourse.getId(), 4.3);
+        final Integer id = (Integer) ReflectionTestUtils.getField(existingCourse, "id");
+        final UpdateCourseRatingCommand command = new UpdateCourseRatingCommand(id, 4.3);
 
         // when
         sut.handle(command);
 
         // then
-        final Optional<Course> saved = repository.findById(existingCourse.getId());
+        assertThat(id).isNotNull();
+        final Optional<Course> saved = repository.findById(id);
         assertThat(saved).isNotEmpty();
         final Course course = saved.get();
-        assertThat(course.getRating()).isEqualTo(new CourseRating(4.3));
+        assertThat(course).hasFieldOrPropertyWithValue("rating", new CourseRating(4.3));
     }
 }
