@@ -18,10 +18,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
 
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testCompile 'io.rest-assured:rest-assured:4.2.0'
-    testCompile 'io.rest-assured:json-path:4.2.0'
-    testCompile 'io.rest-assured:xml-path:4.2.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.rest-assured:rest-assured:4.2.0'
+    testImplementation 'io.rest-assured:json-path:4.2.0'
+    testImplementation 'io.rest-assured:xml-path:4.2.0'
 }
 
 compileJava {
