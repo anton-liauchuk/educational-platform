@@ -5,6 +5,7 @@ import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Component
+@Transactional
 public class UpdateCourseRatingCommandHandler {
 
     private final CourseRepository repository;

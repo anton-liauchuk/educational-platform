@@ -1,29 +1,29 @@
 package com.educational.platform.courses.course.create.integration;
 
 import com.educational.platform.courses.course.Course;
+import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.create.CreateCourseCommandHandler;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Example;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
+@SpringBootTest
 public class CreateCourseCommandHandlerIntegrationTest {
 
 
     @Autowired
     private CourseRepository repository;
 
+    @Autowired
+    private CourseFactory courseFactory;
 
     @SpyBean
     private CreateCourseCommandHandler sut;
@@ -38,7 +38,7 @@ public class CreateCourseCommandHandlerIntegrationTest {
         sut.handle(command);
 
         // then
-        final Optional<Course> saved = repository.findOne(Example.of(new Course(command)));
+        final Optional<Course> saved = repository.findOne(Example.of(courseFactory.createFrom(command)));
         assertThat(saved).isNotEmpty();
         final Course course = saved.get();
         assertThat(course).hasFieldOrProperty("id").isNotNull();

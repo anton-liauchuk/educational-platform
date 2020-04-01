@@ -3,9 +3,12 @@ package com.educational.platform.courses.course;
 
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(SpringExtension.class)
 public class CourseTest {
 
     @Test
@@ -18,7 +21,8 @@ public class CourseTest {
         course.publish();
 
         // then
-        assertThat(course).hasFieldOrPropertyWithValue("status", Status.PUBLISHED);
+        assertThat(course)
+                .hasFieldOrPropertyWithValue("status", Status.PUBLISHED);
     }
 
 
@@ -31,7 +35,8 @@ public class CourseTest {
         final Course course = new Course(command);
 
         // then
-        assertThat(course).hasFieldOrPropertyWithValue("name", "name")
+        assertThat(course)
+                .hasFieldOrPropertyWithValue("name", "name")
                 .hasFieldOrPropertyWithValue("description", "description");
     }
 

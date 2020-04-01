@@ -28,8 +28,14 @@ public class Course {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Lecture> lectures;
 
-    // todo validation
-    public Course(CreateCourseCommand command) {
+    // for JPA
+    private Course() {
+
+    }
+
+    // todo is it correct to have validation inside constructor? in the case of super() can be issues
+    // possible solution -> factory
+    Course(CreateCourseCommand command) {
         this.name = command.getName();
         this.description = command.getDescription();
         this.rating = new CourseRating(0);

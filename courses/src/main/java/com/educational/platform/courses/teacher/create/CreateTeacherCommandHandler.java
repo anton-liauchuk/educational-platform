@@ -4,12 +4,14 @@ import com.educational.platform.courses.teacher.Teacher;
 import com.educational.platform.courses.teacher.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Command handler for {@link CreateTeacherCommand} creates a teacher.
  */
 @RequiredArgsConstructor
 @Component
+@Transactional
 public class CreateTeacherCommandHandler {
 
     private final TeacherRepository teacherRepository;
