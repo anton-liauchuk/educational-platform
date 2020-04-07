@@ -14,7 +14,10 @@ public class CourseTest {
     @Test
     void publish_publishedStatus() {
         // given
-        final CreateCourseCommand createCourseCommand = new CreateCourseCommand("name", "description");
+        final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()
+                .name("name")
+                .description("description")
+                .build();
         final Course course = new Course(createCourseCommand);
 
         // when
@@ -29,7 +32,10 @@ public class CourseTest {
     @Test
     void create_validCommand_createdCourse() {
         // given
-        final CreateCourseCommand command = new CreateCourseCommand("name", "description");
+        final CreateCourseCommand command = CreateCourseCommand.builder()
+                .name("name")
+                .description("description")
+                .build();
 
         // when
         final Course course = new Course(command);

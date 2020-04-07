@@ -34,7 +34,10 @@ public class PublishCourseCommandHandlerIntegrationTest {
     @Test
     void handle_existingCourse_courseSavedWithStatusPublished() {
         // given
-        final CreateCourseCommand createCourseCommand = new CreateCourseCommand("name", "description");
+        final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()
+                .name("name")
+                .description("description")
+                .build();
         final Course existingCourse = courseFactory.createFrom(createCourseCommand);
         repository.save(existingCourse);
 

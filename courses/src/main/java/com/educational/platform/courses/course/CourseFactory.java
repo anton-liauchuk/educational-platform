@@ -4,7 +4,10 @@ import com.educational.platform.courses.course.create.CreateCourseCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
+import java.util.Set;
 
 /**
  * Represents Course Factory.
@@ -15,8 +18,18 @@ public class CourseFactory {
 
     private final Validator validator;
 
+    /**
+     * Creates course from command.
+     *
+     * @param courseCommand course command
+     * @return course
+     * @throws ConstraintViolationException in the case of validation issues
+     */
     public Course createFrom(CreateCourseCommand courseCommand) {
-        validator.validate(courseCommand);
+        final Set<ConstraintViolation<CreateCourseCommand>> violations = validator.validate(courseCommand);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
 
         return new Course(courseCommand);
     }

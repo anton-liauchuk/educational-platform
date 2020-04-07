@@ -46,7 +46,10 @@ public class PublishCourseCommandHandlerTest {
         // given
         final PublishCourseCommand command = new PublishCourseCommand(15);
 
-        final CreateCourseCommand createCourseCommand = new CreateCourseCommand("name", "description");
+        final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()
+                .name("name")
+                .description("description")
+                .build();
         final Course correspondingCourse = courseFactory.createFrom(createCourseCommand);
         when(repository.findById(15)).thenReturn(Optional.of(correspondingCourse));
 

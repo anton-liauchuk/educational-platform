@@ -32,7 +32,10 @@ public class CreateCourseCommandHandlerIntegrationTest {
     @Test
     void handle_validCourse_courseSaved() {
         // given
-        final CreateCourseCommand command = new CreateCourseCommand("name", "description");
+        final CreateCourseCommand command = CreateCourseCommand.builder()
+                .name("name")
+                .description("description")
+                .build();
 
         // when
         sut.handle(command);

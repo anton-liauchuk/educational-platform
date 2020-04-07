@@ -46,7 +46,10 @@ public class UpdateCourseRatingCommandHandlerTest {
         // given
         final UpdateCourseRatingCommand command = new UpdateCourseRatingCommand(15, 3.2);
 
-        final CreateCourseCommand createCourseCommand = new CreateCourseCommand("name", "description");
+        final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()
+                .name("name")
+                .description("description")
+                .build();
         final Course correspondingCourse = courseFactory.createFrom(createCourseCommand);
         when(repository.findById(15)).thenReturn(Optional.of(correspondingCourse));
 

@@ -33,8 +33,6 @@ public class Course {
 
     }
 
-    // todo is it correct to have validation inside constructor? in the case of super() can be issues
-    // possible solution -> factory
     Course(CreateCourseCommand command) {
         this.name = command.getName();
         this.description = command.getDescription();
