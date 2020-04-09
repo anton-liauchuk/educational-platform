@@ -21,6 +21,7 @@ public class Course {
     private String description;
     private Status status;
     private CourseRating rating;
+    private NumberOfStudents numberOfStudents;
 
     @OneToOne
     private Teacher teacher;
@@ -37,6 +38,7 @@ public class Course {
         this.name = command.getName();
         this.description = command.getDescription();
         this.rating = new CourseRating(0);
+        this.numberOfStudents = new NumberOfStudents(0);
     }
 
     public void publish() {
@@ -49,6 +51,10 @@ public class Course {
 
     public void updateRating(double value) {
         rating = new CourseRating(value);
+    }
+
+    public void updateNumberOfStudents(int value) {
+        numberOfStudents = new NumberOfStudents(value);
     }
 
     // todo implement
