@@ -10,23 +10,23 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 /**
- * Command handler for {@link UpdateNumberOfStudentsCommand} updates a rating course.
+ * Command handler for {@link IncreaseNumberOfStudentsCommand} increases a number of students.
  */
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class UpdateNumberOfStudentsCommandHandler {
+public class IncreaseNumberOfStudentsCommandHandler {
 
     private final CourseRepository repository;
 
-    public void handle(UpdateNumberOfStudentsCommand command) {
+    public void handle(IncreaseNumberOfStudentsCommand command) {
         final Optional<Course> dbResult = repository.findById(command.getId());
         if (dbResult.isEmpty()) {
             throw new ResourceNotFoundException(String.format("Course with id: %s not found", command.getId()));
         }
 
         final Course course = dbResult.get();
-        course.updateNumberOfStudents(command.getNumber());
+        course.increaseNumberOfStudents();
         repository.save(course);
     }
 

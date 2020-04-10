@@ -3,10 +3,8 @@ package com.educational.platform.courses.course.numberofstudents.update;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.*;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
-import com.educational.platform.courses.course.numberofsudents.update.UpdateNumberOfStudentsCommand;
-import com.educational.platform.courses.course.numberofsudents.update.UpdateNumberOfStudentsCommandHandler;
-import com.educational.platform.courses.course.rating.update.UpdateCourseRatingCommand;
-import com.educational.platform.courses.course.rating.update.UpdateCourseRatingCommandHandler;
+import com.educational.platform.courses.course.numberofsudents.update.IncreaseNumberOfStudentsCommand;
+import com.educational.platform.courses.course.numberofsudents.update.IncreaseNumberOfStudentsCommandHandler;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +32,7 @@ public class UpdateNumberOfStudentsCommandHandlerTest {
     private CourseRepository repository;
 
     @InjectMocks
-    private UpdateNumberOfStudentsCommandHandler sut;
+    private IncreaseNumberOfStudentsCommandHandler sut;
 
     @BeforeEach
     void setUp() {
@@ -45,7 +43,7 @@ public class UpdateNumberOfStudentsCommandHandlerTest {
     @Test
     void handle_existingCourse_courseSavedWithUpdatedNumberOfStudents() {
         // given
-        final UpdateNumberOfStudentsCommand command = new UpdateNumberOfStudentsCommand(15, 53);
+        final IncreaseNumberOfStudentsCommand command = new IncreaseNumberOfStudentsCommand(15);
 
         final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()
                 .name("name")
@@ -64,14 +62,14 @@ public class UpdateNumberOfStudentsCommandHandlerTest {
         assertThat(course)
                 .hasFieldOrPropertyWithValue("name", "name")
                 .hasFieldOrPropertyWithValue("description", "description")
-                .hasFieldOrPropertyWithValue("numberOfStudents", new NumberOfStudents(53));
+                .hasFieldOrPropertyWithValue("numberOfStudents", new NumberOfStudents(1));
     }
 
 
     @Test
     void handle_invalidId_resourceNotFoundException() {
         // given
-        final UpdateNumberOfStudentsCommand command = new UpdateNumberOfStudentsCommand(15, 53);
+        final IncreaseNumberOfStudentsCommand command = new IncreaseNumberOfStudentsCommand(15);
         when(repository.findById(15)).thenReturn(Optional.empty());
 
         // when

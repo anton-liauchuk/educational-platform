@@ -4,13 +4,12 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Update course rating command.
+ * Increase number of students command.
  */
 @Data
 @RequiredArgsConstructor
-public class UpdateNumberOfStudentsCommand {
+public class IncreaseNumberOfStudentsCommand {
 
     private final Integer id;
-    private final int number;
 
 }

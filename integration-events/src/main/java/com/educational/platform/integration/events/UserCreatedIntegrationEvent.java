@@ -14,10 +14,11 @@ public class UserCreatedIntegrationEvent extends ApplicationEvent {
 
 
     /**
-     * Create a new {@code ApplicationEvent}.
+     * Create a new {@code UserCreatedIntegrationEvent}.
      *
-     * @param source the object on which the event initially occurred or with
-     *               which the event is associated (never {@code null})
+     * @param source   the object on which the event initially occurred or with
+     *                 which the event is associated (never {@code null})
+     * @param username username
      */
     public UserCreatedIntegrationEvent(Object source, String username) {
         super(source);

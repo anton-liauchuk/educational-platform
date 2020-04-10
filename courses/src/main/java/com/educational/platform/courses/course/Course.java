@@ -53,8 +53,8 @@ public class Course {
         rating = new CourseRating(value);
     }
 
-    public void updateNumberOfStudents(int value) {
-        numberOfStudents = new NumberOfStudents(value);
+    public void increaseNumberOfStudents() {
+        numberOfStudents = new NumberOfStudents(numberOfStudents.getNumber() + 1);
     }
 
     // todo implement

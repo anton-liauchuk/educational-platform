@@ -2,10 +2,8 @@ package com.educational.platform.courses.course.numberofstudents.update.integrat
 
 import com.educational.platform.courses.course.*;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
-import com.educational.platform.courses.course.numberofsudents.update.UpdateNumberOfStudentsCommand;
-import com.educational.platform.courses.course.numberofsudents.update.UpdateNumberOfStudentsCommandHandler;
-import com.educational.platform.courses.course.rating.update.UpdateCourseRatingCommand;
-import com.educational.platform.courses.course.rating.update.UpdateCourseRatingCommandHandler;
+import com.educational.platform.courses.course.numberofsudents.update.IncreaseNumberOfStudentsCommand;
+import com.educational.platform.courses.course.numberofsudents.update.IncreaseNumberOfStudentsCommandHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +25,7 @@ public class UpdateNumberOfStudentsCommandHandlerIntegrationTest {
     private CourseFactory courseFactory;
 
     @SpyBean
-    private UpdateNumberOfStudentsCommandHandler sut;
+    private IncreaseNumberOfStudentsCommandHandler sut;
 
 
     @Test
@@ -41,7 +39,7 @@ public class UpdateNumberOfStudentsCommandHandlerIntegrationTest {
         repository.save(existingCourse);
 
         final Integer id = (Integer) ReflectionTestUtils.getField(existingCourse, "id");
-        final UpdateNumberOfStudentsCommand command = new UpdateNumberOfStudentsCommand(id, 53);
+        final IncreaseNumberOfStudentsCommand command = new IncreaseNumberOfStudentsCommand(id);
 
         // when
         sut.handle(command);
@@ -51,6 +49,6 @@ public class UpdateNumberOfStudentsCommandHandlerIntegrationTest {
         final Optional<Course> saved = repository.findById(id);
         assertThat(saved).isNotEmpty();
         final Course course = saved.get();
-        assertThat(course).hasFieldOrPropertyWithValue("numberOfStudents", new NumberOfStudents(53));
+        assertThat(course).hasFieldOrPropertyWithValue("numberOfStudents", new NumberOfStudents(1));
     }
 }
