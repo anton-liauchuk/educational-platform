@@ -25,12 +25,12 @@ public class StudentEnrolledToCourseIntegrationEventListenerTest {
 
 
     @Test
-    void handleUserCreatedEvent_updateNumberOfStudentsCommandExecuted() {
+    void handleStudentEnrolledToCourseEvent_updateNumberOfStudentsCommandExecuted() {
         // given
         final StudentEnrolledToCourseIntegrationEvent event = new StudentEnrolledToCourseIntegrationEvent(new Object(), 15, "username");
 
         // when
-        sut.handleUserCreatedEvent(event);
+        sut.handleStudentEnrolledToCourseEvent(event);
 
         // then
         final ArgumentCaptor<IncreaseNumberOfStudentsCommand> argument = ArgumentCaptor.forClass(IncreaseNumberOfStudentsCommand.class);

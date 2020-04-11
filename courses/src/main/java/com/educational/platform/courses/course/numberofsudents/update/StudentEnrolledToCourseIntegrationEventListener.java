@@ -17,7 +17,7 @@ public class StudentEnrolledToCourseIntegrationEventListener {
 
     @Async
     @EventListener
-    public void handleUserCreatedEvent(StudentEnrolledToCourseIntegrationEvent event) {
+    public void handleStudentEnrolledToCourseEvent(StudentEnrolledToCourseIntegrationEvent event) {
         handler.handle(new IncreaseNumberOfStudentsCommand(event.getCourseId()));
     }
 
