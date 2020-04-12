@@ -3,7 +3,7 @@ package com.educational.platform.courses.course.publish.integration;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
-import com.educational.platform.courses.course.Status;
+import com.educational.platform.courses.course.PublishStatus;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommandHandler;
@@ -39,6 +39,7 @@ public class PublishCourseCommandHandlerIntegrationTest {
                 .description("description")
                 .build();
         final Course existingCourse = courseFactory.createFrom(createCourseCommand);
+        existingCourse.approve();
         repository.save(existingCourse);
 
         final Integer id = (Integer) ReflectionTestUtils.getField(existingCourse, "id");
@@ -52,6 +53,6 @@ public class PublishCourseCommandHandlerIntegrationTest {
         final Optional<Course> saved = repository.findById(id);
         assertThat(saved).isNotEmpty();
         final Course course = saved.get();
-        assertThat(course).hasFieldOrPropertyWithValue("status", Status.PUBLISHED);
+        assertThat(course).hasFieldOrPropertyWithValue("publishStatus", PublishStatus.PUBLISHED);
     }
 }

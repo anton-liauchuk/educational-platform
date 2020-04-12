@@ -19,7 +19,8 @@ public class Course {
 
     private String name;
     private String description;
-    private Status status;
+    private PublishStatus publishStatus;
+    private ApprovalStatus approvalStatus;
     private CourseRating rating;
     private NumberOfStudents numberOfStudents;
 
@@ -39,14 +40,28 @@ public class Course {
         this.description = command.getDescription();
         this.rating = new CourseRating(0);
         this.numberOfStudents = new NumberOfStudents(0);
+        this.publishStatus = PublishStatus.DRAFT;
+        this.approvalStatus = ApprovalStatus.NOT_SENT_FOR_APPROVAL;
+    }
+
+    public void approve() {
+        approvalStatus = ApprovalStatus.APPROVED;
+    }
+
+    public void decline() {
+        approvalStatus = ApprovalStatus.DECLINED;
     }
 
     public void publish() {
-        status = Status.PUBLISHED;
+        if (approvalStatus != ApprovalStatus.APPROVED) {
+            throw new CourseCannotBePublishedException(id);
+        }
+
+        publishStatus = PublishStatus.PUBLISHED;
     }
 
     public void archive() {
-        status = Status.ARCHIVED;
+        publishStatus = PublishStatus.ARCHIVED;
     }
 
     public void updateRating(double value) {

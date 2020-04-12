@@ -1,9 +1,9 @@
 package com.educational.platform.courses.course;
 
 /**
- * Represents Course Status.
+ * Represents Course Publish Status.
  */
-public enum Status {
+public enum PublishStatus {
 
     DRAFT,
     PUBLISHED,

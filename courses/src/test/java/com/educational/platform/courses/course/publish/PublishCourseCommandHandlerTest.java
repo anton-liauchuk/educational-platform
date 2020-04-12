@@ -4,7 +4,7 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
-import com.educational.platform.courses.course.Status;
+import com.educational.platform.courses.course.PublishStatus;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +51,7 @@ public class PublishCourseCommandHandlerTest {
                 .description("description")
                 .build();
         final Course correspondingCourse = courseFactory.createFrom(createCourseCommand);
+        correspondingCourse.approve();
         when(repository.findById(15)).thenReturn(Optional.of(correspondingCourse));
 
         // when
@@ -63,7 +64,7 @@ public class PublishCourseCommandHandlerTest {
         assertThat(course)
                 .hasFieldOrPropertyWithValue("name", "name")
                 .hasFieldOrPropertyWithValue("description", "description")
-                .hasFieldOrPropertyWithValue("status", Status.PUBLISHED);
+                .hasFieldOrPropertyWithValue("publishStatus", PublishStatus.PUBLISHED);
     }
 
 
