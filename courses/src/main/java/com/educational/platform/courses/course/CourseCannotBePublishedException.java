@@ -12,7 +12,6 @@ public class CourseCannotBePublishedException extends RuntimeException {
         this.id = id;
     }
 
-
     @Override
     public String getMessage() {
         return "Course with id = " + id + " cannot be published, course should be approved by admin at first";

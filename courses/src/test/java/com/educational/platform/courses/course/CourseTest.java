@@ -102,4 +102,40 @@ public class CourseTest {
                 .hasFieldOrPropertyWithValue("approvalStatus", ApprovalStatus.NOT_SENT_FOR_APPROVAL);
     }
 
+    @Test
+    void sendToApprove_courseAlreadyApproved_courseAlreadyApprovedException() {
+        // given
+        final CreateCourseCommand command = CreateCourseCommand.builder()
+                .name("name")
+                .description("description")
+                .build();
+        final Course course = new Course(command);
+        ReflectionTestUtils.setField(course, "id", 15);
+        ReflectionTestUtils.setField(course, "approvalStatus", ApprovalStatus.APPROVED);
+
+        // when
+        final ThrowableAssert.ThrowingCallable sendToApprove = course::sendToApprove;
+
+        // then
+        assertThatExceptionOfType(CourseAlreadyApprovedException.class).isThrownBy(sendToApprove);
+    }
+
+    @Test
+    void sendToApprove_waitingForApprovalStatus() {
+        // given
+        final CreateCourseCommand command = CreateCourseCommand.builder()
+                .name("name")
+                .description("description")
+                .build();
+        final Course course = new Course(command);
+        ReflectionTestUtils.setField(course, "id", 15);
+
+        // when
+        course.sendToApprove();
+
+        // then
+        assertThat(course)
+                .hasFieldOrPropertyWithValue("approvalStatus", ApprovalStatus.WAITING_FOR_APPROVAL);
+    }
+
 }

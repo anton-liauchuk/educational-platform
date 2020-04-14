@@ -6,6 +6,7 @@ package com.educational.platform.courses.course;
 public enum ApprovalStatus {
 
     NOT_SENT_FOR_APPROVAL,
+    WAITING_FOR_APPROVAL,
     DECLINED,
     APPROVED
 

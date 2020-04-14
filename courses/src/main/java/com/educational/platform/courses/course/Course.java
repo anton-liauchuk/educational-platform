@@ -52,6 +52,14 @@ public class Course {
         approvalStatus = ApprovalStatus.DECLINED;
     }
 
+    public void sendToApprove() {
+        if (approvalStatus == ApprovalStatus.APPROVED) {
+            throw new CourseAlreadyApprovedException(id);
+        }
+
+        approvalStatus = ApprovalStatus.WAITING_FOR_APPROVAL;
+    }
+
     public void publish() {
         if (approvalStatus != ApprovalStatus.APPROVED) {
             throw new CourseCannotBePublishedException(id);
@@ -81,6 +89,4 @@ public class Course {
     public void removeLecture() {
 
     }
-
-
 }
