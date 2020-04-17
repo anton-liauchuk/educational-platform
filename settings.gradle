@@ -5,4 +5,5 @@ include 'common'
 include 'web'
 include 'courses'
 include 'integration-events'
+include 'administration'
 
