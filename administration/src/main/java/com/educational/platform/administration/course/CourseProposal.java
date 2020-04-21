@@ -17,6 +17,7 @@ public class CourseProposal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer originalCourseId;
+    private CourseProposalStatus status;
 
     // for JPA
     private CourseProposal() {
@@ -25,5 +26,17 @@ public class CourseProposal {
 
     public CourseProposal(CreateCourseProposalCommand command) {
         this.originalCourseId = command.getId();
+        this.status = CourseProposalStatus.WAITING_FOR_APPROVAL;
+    }
+
+    public void approve() {
+        if (status == CourseProposalStatus.APPROVED) {
+            throw new CourseProposalAlreadyApprovedException(id);
+        }
+        this.status = CourseProposalStatus.APPROVED;
+    }
+
+    public Integer getOriginalCourseId() {
+        return originalCourseId;
     }
 }

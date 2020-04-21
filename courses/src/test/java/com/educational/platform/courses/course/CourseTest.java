@@ -4,14 +4,11 @@ package com.educational.platform.courses.course;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-@ExtendWith(SpringExtension.class)
 public class CourseTest {
 
     @Test

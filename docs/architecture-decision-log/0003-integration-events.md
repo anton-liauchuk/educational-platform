@@ -1,4 +1,4 @@
-# 2. Integration events.
+# 3. Integration events.
 Date: 2020-03-04
 Log date: 2020-03-04
 
@@ -10,4 +10,5 @@ For implementing event-driven development, the platform should be available for 
 
 ## Decision
 We will start from standard Spring Events classes: ApplicationListener, ApplicationEvent without dependency to external middleware component. We can add custom features to Spring functionality when it's needed.
-todo: For now, all events will be stored in integration-events module. But this solution should reviewed.
+todo: For now, all events will be stored in integration-events module. But this solution should reviewed. Integration events should be published after successful transaction.
+- https://devblogs.microsoft.com/cesardelatorre/domain-events-vs-integration-events-in-domain-driven-design-and-microservices-architectures/
