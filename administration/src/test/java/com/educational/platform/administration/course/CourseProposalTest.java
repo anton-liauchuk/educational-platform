@@ -11,6 +11,20 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class CourseProposalTest {
 
     @Test
+    void create_validCommand_created() {
+        // given
+        final CreateCourseProposalCommand command = new CreateCourseProposalCommand(15);
+
+        // when
+        final CourseProposal courseProposal = new CourseProposal(command);
+
+        // then
+        assertThat(courseProposal)
+                .hasFieldOrPropertyWithValue("originalCourseId", 15)
+                .hasFieldOrPropertyWithValue("status", CourseProposalStatus.WAITING_FOR_APPROVAL);
+    }
+
+    @Test
     void approve_approvedStatus() {
         // given
         final CreateCourseProposalCommand createCourseProposalCommand = new CreateCourseProposalCommand(15);

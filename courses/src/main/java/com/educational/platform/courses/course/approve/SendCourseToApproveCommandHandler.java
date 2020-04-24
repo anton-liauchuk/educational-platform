@@ -38,6 +38,8 @@ public class SendCourseToApproveCommandHandler {
 
         final Course course = dbResult.get();
         course.sendToApprove();
+
+        // todo integration event outside transaction
         eventPublisher.publishEvent(new SendCourseToApproveIntegrationEvent(course, command.getId()));
     }
 }

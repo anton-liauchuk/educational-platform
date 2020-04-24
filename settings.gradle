@@ -6,4 +6,5 @@ include 'web'
 include 'courses'
 include 'integration-events'
 include 'administration'
+include 'course-reviews'
 
