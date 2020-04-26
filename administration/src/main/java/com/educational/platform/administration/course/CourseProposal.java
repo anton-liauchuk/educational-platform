@@ -1,6 +1,6 @@
 package com.educational.platform.administration.course;
 
-import com.educational.platform.administration.course.approve.CreateCourseProposalCommand;
+import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

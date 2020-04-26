@@ -1,5 +1,6 @@
 package com.educational.platform.course.reviews;
 
+import com.educational.platform.course.reviews.create.ReviewCourseCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +17,16 @@ import java.util.Set;
 public class CourseReviewFactory {
 
     private final Validator validator;
+    private final ReviewableCourseRepository reviewableCourseRepository;
+    private final ReviewerRepository reviewerRepository;
 
     /**
      * Creates course review from command.
      *
      * @param reviewCourseCommand review course command
      * @return course review
-     * @throws ConstraintViolationException in the case of validation issues
+     * @throws ConstraintViolationException          in the case of validation issues
+     * @throws RelatedResourceIsNotResolvedException if course or reviewer is not found by relation
      */
     public CourseReview createFrom(ReviewCourseCommand reviewCourseCommand) {
         final Set<ConstraintViolation<ReviewCourseCommand>> violations = validator.validate(reviewCourseCommand);
@@ -30,7 +34,13 @@ public class CourseReviewFactory {
             throw new ConstraintViolationException(violations);
         }
 
-        return new CourseReview(reviewCourseCommand);
+        final ReviewableCourse course = reviewableCourseRepository.findById(reviewCourseCommand.getCourseId())
+                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by id = " + reviewCourseCommand.getCourseId()));
+
+        final Reviewer reviewer = reviewerRepository.findById(reviewCourseCommand.getReviewerId())
+                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Reviewer cannot be found by id = " + reviewCourseCommand.getReviewerId()));
+
+        return new CourseReview(reviewCourseCommand, course, reviewer);
     }
 
 }

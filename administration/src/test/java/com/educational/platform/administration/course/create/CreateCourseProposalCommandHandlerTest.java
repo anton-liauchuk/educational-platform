@@ -1,7 +1,9 @@
-package com.educational.platform.administration.course.approve;
+package com.educational.platform.administration.course.create;
 
 import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalRepository;
+import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
+import com.educational.platform.administration.course.create.CreateCourseProposalCommandHandler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -22,7 +24,7 @@ public class CreateCourseProposalCommandHandlerTest {
     private CreateCourseProposalCommandHandler sut;
 
     @Test
-    void handle_existingCourse_courseSavedWithStatusApproved() {
+    void handle_courseProposalSaved() {
         // given
         final CreateCourseProposalCommand command = new CreateCourseProposalCommand(15);
 

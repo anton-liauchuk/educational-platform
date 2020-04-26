@@ -1,4 +1,4 @@
-package com.educational.platform.course.reviews;
+package com.educational.platform.course.reviews.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,7 @@ public class ReviewCourseCommand {
     private final Integer courseId;
 
     @NotNull
-    private final Integer studentId;
+    private final Integer reviewerId;
 
     @Max(5)
     @PositiveOrZero

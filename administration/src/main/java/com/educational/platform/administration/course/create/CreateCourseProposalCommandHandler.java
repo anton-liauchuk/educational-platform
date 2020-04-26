@@ -1,4 +1,4 @@
-package com.educational.platform.administration.course.approve;
+package com.educational.platform.administration.course.create;
 
 import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalRepository;
@@ -17,7 +17,7 @@ public class CreateCourseProposalCommandHandler {
     private final CourseProposalRepository courseProposalRepository;
 
     /**
-     * Creates course from command.
+     * Creates course proposal from command.
      *
      * @param command command
      */

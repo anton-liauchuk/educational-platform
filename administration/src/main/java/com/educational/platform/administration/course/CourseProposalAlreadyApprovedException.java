@@ -14,6 +14,6 @@ public class CourseProposalAlreadyApprovedException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return "Course Proposal with id = " + id + " cannot be approve, course proposal was already approved";
+        return "Course Proposal with id = " + id + " cannot be approved, course proposal was already approved";
     }
 }

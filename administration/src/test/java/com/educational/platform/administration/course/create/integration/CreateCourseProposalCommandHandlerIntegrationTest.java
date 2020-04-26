@@ -1,9 +1,9 @@
-package com.educational.platform.administration.course.approve.integration;
+package com.educational.platform.administration.course.create.integration;
 
 import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalRepository;
-import com.educational.platform.administration.course.approve.CreateCourseProposalCommand;
-import com.educational.platform.administration.course.approve.CreateCourseProposalCommandHandler;
+import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
+import com.educational.platform.administration.course.create.CreateCourseProposalCommandHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

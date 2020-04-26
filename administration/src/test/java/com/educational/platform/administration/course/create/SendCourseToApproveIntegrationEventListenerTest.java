@@ -1,5 +1,8 @@
-package com.educational.platform.administration.course.approve;
+package com.educational.platform.administration.course.create;
 
+import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
+import com.educational.platform.administration.course.create.CreateCourseProposalCommandHandler;
+import com.educational.platform.administration.course.create.SendCourseToApproveIntegrationEventListener;
 import com.educational.platform.integration.events.SendCourseToApproveIntegrationEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

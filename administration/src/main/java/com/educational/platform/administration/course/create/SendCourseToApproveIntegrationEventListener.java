@@ -1,4 +1,4 @@
-package com.educational.platform.administration.course.approve;
+package com.educational.platform.administration.course.create;
 
 import com.educational.platform.integration.events.SendCourseToApproveIntegrationEvent;
 import lombok.RequiredArgsConstructor;

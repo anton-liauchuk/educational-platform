@@ -5,7 +5,7 @@ import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.course.CourseProposalStatus;
 import com.educational.platform.administration.course.approve.ApproveCourseProposalCommand;
 import com.educational.platform.administration.course.approve.ApproveCourseProposalCommandHandler;
-import com.educational.platform.administration.course.approve.CreateCourseProposalCommand;
+import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

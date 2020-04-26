@@ -1,4 +1,4 @@
-package com.educational.platform.administration.course.approve;
+package com.educational.platform.administration.course.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
