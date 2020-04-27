@@ -2,14 +2,17 @@ package com.educational.platform.course.enrollments;
 
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Represents course enrollment domain model.
  */
 @Entity
 public class CourseEnrollment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @ManyToOne
     private Course course;
