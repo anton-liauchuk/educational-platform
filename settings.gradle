@@ -7,4 +7,5 @@ include 'courses'
 include 'integration-events'
 include 'administration'
 include 'course-reviews'
+include 'course-enrollments'
 

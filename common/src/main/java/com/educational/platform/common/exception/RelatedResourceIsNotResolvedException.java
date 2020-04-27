@@ -1,4 +1,4 @@
-package com.educational.platform.course.reviews;
+package com.educational.platform.common.exception;
 
 /**
  * Represents exception for the cases when related resource is not resolved

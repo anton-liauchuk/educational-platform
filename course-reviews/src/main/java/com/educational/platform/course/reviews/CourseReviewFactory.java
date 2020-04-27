@@ -1,5 +1,6 @@
 package com.educational.platform.course.reviews;
 
+import com.educational.platform.common.exception.RelatedResourceIsNotResolvedException;
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
