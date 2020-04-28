@@ -12,11 +12,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.Example;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -45,48 +45,51 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
 
     private RegisterStudentToCourseCommandHandler sut;
 
-    private Integer courseId;
-    private Integer studentId;
+    private UUID courseUuid;
+    private String studentUsername;
 
     @BeforeEach
     void setUp() {
         sut = new RegisterStudentToCourseCommandHandler(transactionTemplate, courseEnrollmentRepository, courseEnrollmentFactory, eventPublisher);
 
-        final Course course = new Course(new CreateCourseCommand(44));
+        courseUuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final Course course = new Course(new CreateCourseCommand(courseUuid));
         courseRepository.save(course);
-        courseId = (Integer) ReflectionTestUtils.getField(course, "id");
 
-        final Student student = new Student(new CreateStudentCommand(55, "username"));
+        studentUsername = "username";
+        final Student student = new Student(new CreateStudentCommand(studentUsername));
         studentRepository.save(student);
-        studentId = (Integer) ReflectionTestUtils.getField(course, "id");
     }
 
     @Test
     void handle_validCommand_enrollmentSaved() {
         // given
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(courseId)
-                .studentId(studentId)
+                .courseId(courseUuid)
+                .student(studentUsername)
                 .build();
 
         // when
         sut.handle(command);
 
         // then
-        final Optional<CourseEnrollment> saved = courseEnrollmentRepository.findOne(Example.of(courseEnrollmentFactory.createFrom(command)));
+        final Optional<CourseEnrollment> saved = courseEnrollmentRepository.findAll()
+                .stream()
+                .filter(courseEnrollment -> courseEnrollment.getCourseUuid().equals(courseEnrollment.getCourseUuid()))
+                .findAny();
         assertThat(saved).isNotEmpty();
         final CourseEnrollment enrollment = saved.get();
         final Student student = (Student) ReflectionTestUtils.getField(enrollment, "student");
         assertThat(student).hasFieldOrPropertyWithValue("username", "username");
 
         final Course course = (Course) ReflectionTestUtils.getField(enrollment, "course");
-        assertThat(course).hasFieldOrPropertyWithValue("originalCourseId", 44);
+        assertThat(course).hasFieldOrPropertyWithValue("uuid", courseUuid);
 
         final ArgumentCaptor<StudentEnrolledToCourseIntegrationEvent> argument = ArgumentCaptor.forClass(StudentEnrolledToCourseIntegrationEvent.class);
         verify(eventPublisher).publishEvent(argument.capture());
         final StudentEnrolledToCourseIntegrationEvent event = argument.getValue();
         assertThat(event)
-                .hasFieldOrPropertyWithValue("courseId", 44)
+                .hasFieldOrPropertyWithValue("courseId", courseUuid)
                 .hasFieldOrPropertyWithValue("username", "username");
     }
 }

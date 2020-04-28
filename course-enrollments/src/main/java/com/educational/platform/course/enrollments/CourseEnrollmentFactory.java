@@ -35,11 +35,11 @@ public class CourseEnrollmentFactory {
             throw new ConstraintViolationException(violations);
         }
 
-        final Course course = courseRepository.findById(command.getCourseId())
-                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by id = " + command.getCourseId()));
+        final Course course = courseRepository.findByUuid(command.getCourseId())
+                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by uuid = " + command.getCourseId()));
 
-        final Student student = studentRepository.findById(command.getStudentId())
-                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Student cannot be found by id = " + command.getStudentId()));
+        final Student student = studentRepository.findByUsername(command.getStudent())
+                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Student cannot be found by name = " + command.getStudent()));
 
         return new CourseEnrollment(command, course, student);
     }

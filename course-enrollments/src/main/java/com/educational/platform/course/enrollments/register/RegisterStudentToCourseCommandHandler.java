@@ -41,8 +41,8 @@ public class RegisterStudentToCourseCommandHandler {
         // todo enrollment to dto, after that, create event
         eventPublisher.publishEvent(
                 new StudentEnrolledToCourseIntegrationEvent(courseEnrollment,
-                        Objects.requireNonNull(courseEnrollment).getOriginalCourseId(),
-                        Objects.requireNonNull(courseEnrollment).getUsername()));
+                        Objects.requireNonNull(courseEnrollment).getCourseUuid(),
+                        Objects.requireNonNull(courseEnrollment).getStudentUsername()));
     }
 
 }

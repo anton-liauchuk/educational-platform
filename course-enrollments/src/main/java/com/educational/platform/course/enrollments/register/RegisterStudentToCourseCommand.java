@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 /**
  * Represents register student to course command.
@@ -15,9 +16,9 @@ import javax.validation.constraints.NotNull;
 public class RegisterStudentToCourseCommand {
 
     @NotNull
-    private final Integer courseId;
+    private final UUID courseId;
 
     @NotNull
-    private final Integer studentId;
+    private final String student;
 
 }

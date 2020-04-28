@@ -3,6 +3,8 @@ package com.educational.platform.integration.events;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
+import java.util.UUID;
+
 /**
  * Represents student enrolled to course integration event, should be published after enrollment to course by student.
  */
@@ -10,7 +12,7 @@ import org.springframework.context.ApplicationEvent;
 public class StudentEnrolledToCourseIntegrationEvent extends ApplicationEvent {
 
 
-    private final int courseId;
+    private final UUID courseId;
     private final String username;
 
 
@@ -21,7 +23,7 @@ public class StudentEnrolledToCourseIntegrationEvent extends ApplicationEvent {
      * @param courseId course id
      * @param username student username
      */
-    public StudentEnrolledToCourseIntegrationEvent(Object source, int courseId, String username) {
+    public StudentEnrolledToCourseIntegrationEvent(Object source, UUID courseId, String username) {
         super(source);
         this.courseId = courseId;
         this.username = username;

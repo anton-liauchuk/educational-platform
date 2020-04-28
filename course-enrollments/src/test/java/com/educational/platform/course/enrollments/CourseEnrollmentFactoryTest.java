@@ -16,6 +16,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -41,17 +42,18 @@ public class CourseEnrollmentFactoryTest {
     @Test
     void create_validCommand_courseEnrollmentSaved() {
         // given
+        final UUID courseId = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(11)
-                .studentId(22)
+                .courseId(courseId)
+                .student("username")
                 .build();
-        final CreateCourseCommand createCourseCommand = new CreateCourseCommand(88);
+        final CreateCourseCommand createCourseCommand = new CreateCourseCommand(courseId);
         final Course correspondingCourse = new Course(createCourseCommand);
-        when(courseRepository.findById(11)).thenReturn(Optional.of(correspondingCourse));
+        when(courseRepository.findByUuid(courseId)).thenReturn(Optional.of(correspondingCourse));
 
-        final CreateStudentCommand createStudentCommand = new CreateStudentCommand(77, "username");
+        final CreateStudentCommand createStudentCommand = new CreateStudentCommand("username");
         final Student correspondingStudent = new Student(createStudentCommand);
-        when(studentRepository.findById(22)).thenReturn(Optional.of(correspondingStudent));
+        when(studentRepository.findByUsername("username")).thenReturn(Optional.of(correspondingStudent));
 
         // when
         final CourseEnrollment enrollment = sut.createFrom(command);
@@ -61,7 +63,7 @@ public class CourseEnrollmentFactoryTest {
         assertThat(student).hasFieldOrPropertyWithValue("username", "username");
 
         final Course course = (Course) ReflectionTestUtils.getField(enrollment, "course");
-        assertThat(course).hasFieldOrPropertyWithValue("originalCourseId", 88);
+        assertThat(course).hasFieldOrPropertyWithValue("uuid", courseId);
     }
 
     @Test
@@ -69,7 +71,7 @@ public class CourseEnrollmentFactoryTest {
         // given
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
                 .courseId(null)
-                .studentId(12)
+                .student("username")
                 .build();
 
         // when
@@ -83,8 +85,8 @@ public class CourseEnrollmentFactoryTest {
     void createFrom_studentIdIsNull_constraintViolationException() {
         // given
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(11)
-                .studentId(null)
+                .courseId(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+                .student(null)
                 .build();
 
         // when
@@ -97,11 +99,12 @@ public class CourseEnrollmentFactoryTest {
     @Test
     void createFrom_invalidCourseId_relatedResourceIsNotResolvedException() {
         // given
+        final UUID courseId = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(11)
-                .studentId(12)
+                .courseId(courseId)
+                .student("username")
                 .build();
-        when(courseRepository.findById(11)).thenReturn(Optional.empty());
+        when(courseRepository.findByUuid(courseId)).thenReturn(Optional.empty());
 
         // when
         final Executable createAction = () -> sut.createFrom(command);
@@ -113,14 +116,15 @@ public class CourseEnrollmentFactoryTest {
     @Test
     void createFrom_invalidStudentId_relatedResourceIsNotResolvedException() {
         // given
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(11)
-                .studentId(12)
+                .courseId(uuid)
+                .student("username")
                 .build();
-        final CreateCourseCommand createCourseCommand = new CreateCourseCommand(88);
+        final CreateCourseCommand createCourseCommand = new CreateCourseCommand(uuid);
         final Course correspondingCourse = new Course(createCourseCommand);
-        when(courseRepository.findById(11)).thenReturn(Optional.of(correspondingCourse));
-        when(studentRepository.findById(12)).thenReturn(Optional.empty());
+        when(courseRepository.findByUuid(uuid)).thenReturn(Optional.of(correspondingCourse));
+        when(studentRepository.findByUsername("username")).thenReturn(Optional.empty());
 
         // when
         final Executable createAction = () -> sut.createFrom(command);

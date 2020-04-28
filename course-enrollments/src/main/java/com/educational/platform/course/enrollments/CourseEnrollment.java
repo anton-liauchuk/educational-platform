@@ -3,6 +3,7 @@ package com.educational.platform.course.enrollments;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 /**
  * Represents course enrollment domain model.
@@ -13,6 +14,8 @@ public class CourseEnrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    private UUID uuid;
 
     @ManyToOne
     private Course course;
@@ -25,15 +28,16 @@ public class CourseEnrollment {
     }
 
     public CourseEnrollment(RegisterStudentToCourseCommand command, Course course, Student student) {
+        this.uuid = UUID.randomUUID();
         this.course = course;
         this.student = student;
     }
 
-    public Integer getOriginalCourseId() {
-        return course.getOriginalCourseId();
+    public UUID getCourseUuid() {
+        return course.getUuid();
     }
 
-    public String getUsername() {
+    public String getStudentUsername() {
         return student.getUsername();
     }
 

@@ -10,7 +10,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class CreateStudentCommand {
 
-    private final Integer id;
     private final String username;
 
 }

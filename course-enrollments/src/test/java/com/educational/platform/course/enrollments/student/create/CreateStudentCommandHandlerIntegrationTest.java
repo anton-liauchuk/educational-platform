@@ -26,7 +26,7 @@ public class CreateStudentCommandHandlerIntegrationTest {
     @Test
     void handle_validCommand_studentSaved() {
         // given
-        final CreateStudentCommand command = new CreateStudentCommand(15, "username");
+        final CreateStudentCommand command = new CreateStudentCommand("username");
 
         // when
         sut.handle(command);

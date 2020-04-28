@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.UUID;
 
 /**
  * Represents course domain model.
@@ -17,7 +18,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer originalCourseId;
+    private UUID uuid;
 
     // for JPA
     private Course() {
@@ -25,10 +26,10 @@ public class Course {
     }
 
     public Course(CreateCourseCommand createCourseCommand) {
-        this.originalCourseId = createCourseCommand.getId();
+        this.uuid = createCourseCommand.getUuid();
     }
 
-    public Integer getOriginalCourseId() {
-        return originalCourseId;
+    public UUID getUuid() {
+        return uuid;
     }
 }

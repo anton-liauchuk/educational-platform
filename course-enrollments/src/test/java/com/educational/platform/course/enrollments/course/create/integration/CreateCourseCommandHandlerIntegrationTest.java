@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Example;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,7 +29,8 @@ public class CreateCourseCommandHandlerIntegrationTest {
     @Test
     void handle_validCommand_courseSaved() {
         // given
-        final CreateCourseCommand command = new CreateCourseCommand(15);
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final CreateCourseCommand command = new CreateCourseCommand(uuid);
 
         // when
         sut.handle(command);
@@ -37,6 +39,6 @@ public class CreateCourseCommandHandlerIntegrationTest {
         final Optional<Course> saved = repository.findOne(Example.of(new Course(command)));
         assertThat(saved).isNotEmpty();
         final Course course = saved.get();
-        assertThat(course).hasFieldOrPropertyWithValue("originalCourseId", 15);
+        assertThat(course).hasFieldOrPropertyWithValue("uuid", uuid);
     }
 }
