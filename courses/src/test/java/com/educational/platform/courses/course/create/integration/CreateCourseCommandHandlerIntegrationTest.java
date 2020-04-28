@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Example;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -39,7 +40,10 @@ public class CreateCourseCommandHandlerIntegrationTest {
         sut.handle(command);
 
         // then
-        final Optional<Course> saved = repository.findOne(Example.of(courseFactory.createFrom(command)));
+        final Optional<Course> saved = repository.findAll()
+                .stream()
+                .filter(course -> "name".equals(ReflectionTestUtils.getField(course, "name")))
+                .findAny();
         assertThat(saved).isNotEmpty();
         final Course course = saved.get();
         assertThat(course).hasFieldOrProperty("id").isNotNull();

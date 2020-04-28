@@ -28,9 +28,9 @@ public class PublishCourseCommandHandler {
      * @throws CourseCannotBePublishedException if course is not approved
      */
     public void handle(PublishCourseCommand command) {
-        final Optional<Course> dbResult = repository.findById(command.getId());
+        final Optional<Course> dbResult = repository.findByUuid(command.getUuid());
         if (dbResult.isEmpty()) {
-            throw new ResourceNotFoundException(String.format("Course with id: %s not found", command.getId()));
+            throw new ResourceNotFoundException(String.format("Course with uuid: %s not found", command.getUuid()));
         }
 
         final Course course = dbResult.get();

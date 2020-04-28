@@ -5,6 +5,7 @@ import com.educational.platform.courses.teacher.Teacher;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents Course domain model.
@@ -16,6 +17,8 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    private UUID uuid;
 
     private String name;
     private String description;
@@ -36,6 +39,7 @@ public class Course {
     }
 
     Course(CreateCourseCommand command) {
+        this.uuid = UUID.randomUUID();
         this.name = command.getName();
         this.description = command.getDescription();
         this.rating = new CourseRating(0);
@@ -54,7 +58,7 @@ public class Course {
 
     public void sendToApprove() {
         if (approvalStatus == ApprovalStatus.APPROVED) {
-            throw new CourseAlreadyApprovedException(id);
+            throw new CourseAlreadyApprovedException(uuid);
         }
 
         approvalStatus = ApprovalStatus.WAITING_FOR_APPROVAL;
@@ -62,7 +66,7 @@ public class Course {
 
     public void publish() {
         if (approvalStatus != ApprovalStatus.APPROVED) {
-            throw new CourseCannotBePublishedException(id);
+            throw new CourseCannotBePublishedException(uuid);
         }
 
         publishStatus = PublishStatus.PUBLISHED;

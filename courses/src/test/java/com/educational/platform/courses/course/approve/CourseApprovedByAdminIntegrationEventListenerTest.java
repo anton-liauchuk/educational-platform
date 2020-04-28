@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -23,7 +25,8 @@ public class CourseApprovedByAdminIntegrationEventListenerTest {
     @Test
     void handleCourseApprovedByAdminEvent_approveCourseCommandExecuted() {
         // given
-        final CourseApprovedByAdminIntegrationEvent event = new CourseApprovedByAdminIntegrationEvent(new Object(), 15);
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final CourseApprovedByAdminIntegrationEvent event = new CourseApprovedByAdminIntegrationEvent(new Object(), uuid);
 
         // when
         sut.handleCourseApprovedByAdminEvent(event);
@@ -33,7 +36,7 @@ public class CourseApprovedByAdminIntegrationEventListenerTest {
         verify(handler).handle(argument.capture());
         final ApproveCourseCommand approveCourseCommand = argument.getValue();
         assertThat(approveCourseCommand)
-                .hasFieldOrPropertyWithValue("id", 15);
+                .hasFieldOrPropertyWithValue("uuid", uuid);
     }
 
 }

@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,15 +39,14 @@ public class UpdateNumberOfStudentsCommandHandlerIntegrationTest {
         final Course existingCourse = courseFactory.createFrom(createCourseCommand);
         repository.save(existingCourse);
 
-        final Integer id = (Integer) ReflectionTestUtils.getField(existingCourse, "id");
-        final IncreaseNumberOfStudentsCommand command = new IncreaseNumberOfStudentsCommand(id);
+        final UUID uuid = (UUID) ReflectionTestUtils.getField(existingCourse, "uuid");
+        final IncreaseNumberOfStudentsCommand command = new IncreaseNumberOfStudentsCommand(uuid);
 
         // when
         sut.handle(command);
 
         // then
-        assertThat(id).isNotNull();
-        final Optional<Course> saved = repository.findById(id);
+        final Optional<Course> saved = repository.findByUuid(uuid);
         assertThat(saved).isNotEmpty();
         final Course course = saved.get();
         assertThat(course).hasFieldOrPropertyWithValue("numberOfStudents", new NumberOfStudents(1));

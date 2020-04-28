@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -27,7 +29,8 @@ public class StudentEnrolledToCourseIntegrationEventListenerTest {
     @Test
     void handleStudentEnrolledToCourseEvent_updateNumberOfStudentsCommandExecuted() {
         // given
-        final StudentEnrolledToCourseIntegrationEvent event = new StudentEnrolledToCourseIntegrationEvent(new Object(), 15, "username");
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final StudentEnrolledToCourseIntegrationEvent event = new StudentEnrolledToCourseIntegrationEvent(new Object(), uuid, "username");
 
         // when
         sut.handleStudentEnrolledToCourseEvent(event);
@@ -37,7 +40,7 @@ public class StudentEnrolledToCourseIntegrationEventListenerTest {
         verify(handler).handle(argument.capture());
         final IncreaseNumberOfStudentsCommand updateNumberOfStudentsCommand = argument.getValue();
         assertThat(updateNumberOfStudentsCommand)
-                .hasFieldOrPropertyWithValue("id", 15);
+                .hasFieldOrPropertyWithValue("uuid", uuid);
     }
 
 }

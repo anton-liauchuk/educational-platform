@@ -2,7 +2,6 @@ package com.educational.platform.courses.course.approve;
 
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
-import com.educational.platform.courses.course.CourseCannotBePublishedException;
 import com.educational.platform.courses.course.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -27,9 +26,9 @@ public class ApproveCourseCommandHandler {
      * @throws ResourceNotFoundException        if resource not found
      */
     public void handle(ApproveCourseCommand command) {
-        final Optional<Course> dbResult = repository.findById(command.getId());
+        final Optional<Course> dbResult = repository.findByUuid(command.getUuid());
         if (dbResult.isEmpty()) {
-            throw new ResourceNotFoundException(String.format("Course with id: %s not found", command.getId()));
+            throw new ResourceNotFoundException(String.format("Course with uuid: %s not found", command.getUuid()));
         }
 
         final Course course = dbResult.get();

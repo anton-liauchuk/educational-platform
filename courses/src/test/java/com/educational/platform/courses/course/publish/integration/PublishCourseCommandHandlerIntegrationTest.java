@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,15 +43,14 @@ public class PublishCourseCommandHandlerIntegrationTest {
         existingCourse.approve();
         repository.save(existingCourse);
 
-        final Integer id = (Integer) ReflectionTestUtils.getField(existingCourse, "id");
-        final PublishCourseCommand command = new PublishCourseCommand(id);
+        final UUID uuid = (UUID) ReflectionTestUtils.getField(existingCourse, "uuid");
+        final PublishCourseCommand command = new PublishCourseCommand(uuid);
 
         // when
         sut.handle(command);
 
         // then
-        assertThat(id).isNotNull();
-        final Optional<Course> saved = repository.findById(id);
+        final Optional<Course> saved = repository.findByUuid(uuid);
         assertThat(saved).isNotEmpty();
         final Course course = saved.get();
         assertThat(course).hasFieldOrPropertyWithValue("publishStatus", PublishStatus.PUBLISHED);

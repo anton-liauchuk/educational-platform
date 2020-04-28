@@ -31,15 +31,15 @@ public class SendCourseToApproveCommandHandler {
      * @throws ResourceNotFoundException      if resource not found
      */
     public void handle(SendCourseToApproveCommand command) {
-        final Optional<Course> dbResult = repository.findById(command.getId());
+        final Optional<Course> dbResult = repository.findByUuid(command.getUuid());
         if (dbResult.isEmpty()) {
-            throw new ResourceNotFoundException(String.format("Course with id: %s not found", command.getId()));
+            throw new ResourceNotFoundException(String.format("Course with uuid: %s not found", command.getUuid()));
         }
 
         final Course course = dbResult.get();
         course.sendToApprove();
 
         // todo integration event outside transaction
-        eventPublisher.publishEvent(new SendCourseToApproveIntegrationEvent(course, command.getId()));
+        eventPublisher.publishEvent(new SendCourseToApproveIntegrationEvent(course, command.getUuid()));
     }
 }

@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -44,14 +45,15 @@ public class ApproveCourseCommandHandlerTest {
     @Test
     void handle_existingCourse_courseSavedWithStatusApproved() {
         // given
-        final ApproveCourseCommand command = new ApproveCourseCommand(15);
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final ApproveCourseCommand command = new ApproveCourseCommand(uuid);
 
         final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()
                 .name("name")
                 .description("description")
                 .build();
         final Course correspondingCourse = courseFactory.createFrom(createCourseCommand);
-        when(repository.findById(15)).thenReturn(Optional.of(correspondingCourse));
+        when(repository.findByUuid(uuid)).thenReturn(Optional.of(correspondingCourse));
 
         // when
         sut.handle(command);
@@ -70,8 +72,9 @@ public class ApproveCourseCommandHandlerTest {
     @Test
     void handle_invalidId_resourceNotFoundException() {
         // given
-        final ApproveCourseCommand command = new ApproveCourseCommand(15);
-        when(repository.findById(15)).thenReturn(Optional.empty());
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final ApproveCourseCommand command = new ApproveCourseCommand(uuid);
+        when(repository.findByUuid(uuid)).thenReturn(Optional.empty());
 
         // when
         final ThrowableAssert.ThrowingCallable handle = () -> sut.handle(command);

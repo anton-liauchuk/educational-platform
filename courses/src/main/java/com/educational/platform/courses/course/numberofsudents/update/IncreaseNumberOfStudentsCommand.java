@@ -3,6 +3,8 @@ package com.educational.platform.courses.course.numberofsudents.update;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.UUID;
+
 /**
  * Increase number of students command.
  */
@@ -10,6 +12,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class IncreaseNumberOfStudentsCommand {
 
-    private final Integer id;
+    private final UUID uuid;
 
 }

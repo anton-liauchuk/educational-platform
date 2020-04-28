@@ -20,6 +20,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -49,14 +50,15 @@ public class SendCourseToApproveCommandHandlerTest {
     @Test
     void handle_existingCourse_courseSavedWithStatusWaitingForApproval() {
         // given
-        final SendCourseToApproveCommand command = new SendCourseToApproveCommand(15);
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final SendCourseToApproveCommand command = new SendCourseToApproveCommand(uuid);
 
         final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()
                 .name("name")
                 .description("description")
                 .build();
         final Course correspondingCourse = courseFactory.createFrom(createCourseCommand);
-        when(repository.findById(15)).thenReturn(Optional.of(correspondingCourse));
+        when(repository.findByUuid(uuid)).thenReturn(Optional.of(correspondingCourse));
 
         // when
         sut.handle(command);
@@ -65,7 +67,7 @@ public class SendCourseToApproveCommandHandlerTest {
         final ArgumentCaptor<SendCourseToApproveIntegrationEvent> argument = ArgumentCaptor.forClass(SendCourseToApproveIntegrationEvent.class);
         verify(eventPublisher).publishEvent(argument.capture());
         assertThat(argument.getValue())
-                .hasFieldOrPropertyWithValue("courseId", 15);
+                .hasFieldOrPropertyWithValue("courseId", uuid);
         final Course course = (Course) argument.getValue().getSource();
         assertThat(course)
                 .hasFieldOrPropertyWithValue("name", "name")
@@ -76,8 +78,9 @@ public class SendCourseToApproveCommandHandlerTest {
     @Test
     void handle_invalidId_resourceNotFoundException() {
         // given
-        final SendCourseToApproveCommand command = new SendCourseToApproveCommand(15);
-        when(repository.findById(15)).thenReturn(Optional.empty());
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final SendCourseToApproveCommand command = new SendCourseToApproveCommand(uuid);
+        when(repository.findByUuid(uuid)).thenReturn(Optional.empty());
 
         // when
         final ThrowableAssert.ThrowingCallable handle = () -> sut.handle(command);

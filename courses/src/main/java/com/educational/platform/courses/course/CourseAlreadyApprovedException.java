@@ -1,19 +1,21 @@
 package com.educational.platform.courses.course;
 
+import java.util.UUID;
+
 /**
  * Course cannot be sent for approve exception because course is already approved
  */
 public class CourseAlreadyApprovedException extends RuntimeException {
 
-    private final int id;
+    private final UUID uuid;
 
-    public CourseAlreadyApprovedException(int id) {
+    public CourseAlreadyApprovedException(UUID uuid) {
         super();
-        this.id = id;
+        this.uuid = uuid;
     }
 
     @Override
     public String getMessage() {
-        return "Course with id = " + id + " cannot be sent for approval, course was already approved";
+        return "Course with uuid = " + uuid + " cannot be sent for approval, course was already approved";
     }
 }

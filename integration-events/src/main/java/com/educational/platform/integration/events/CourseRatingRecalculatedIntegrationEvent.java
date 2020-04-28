@@ -3,13 +3,15 @@ package com.educational.platform.integration.events;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
+import java.util.UUID;
+
 /**
  * Represents course rating recalculated integration event, should be published after course rating recalculation.
  */
 @Getter
 public class CourseRatingRecalculatedIntegrationEvent extends ApplicationEvent {
 
-    private final int courseId;
+    private final UUID courseId;
     private final double rating;
 
 
@@ -21,7 +23,7 @@ public class CourseRatingRecalculatedIntegrationEvent extends ApplicationEvent {
      * @param courseId course id
      * @param rating   updated rating value
      */
-    public CourseRatingRecalculatedIntegrationEvent(Object source, int courseId, double rating) {
+    public CourseRatingRecalculatedIntegrationEvent(Object source, UUID courseId, double rating) {
         super(source);
         this.courseId = courseId;
         this.rating = rating;

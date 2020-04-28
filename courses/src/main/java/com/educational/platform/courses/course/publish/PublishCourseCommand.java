@@ -3,6 +3,8 @@ package com.educational.platform.courses.course.publish;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.UUID;
+
 /**
  * Publish course command.
  */
@@ -10,6 +12,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class PublishCourseCommand {
 
-    private Integer id;
+    private UUID uuid;
 
 }

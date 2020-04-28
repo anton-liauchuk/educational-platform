@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -24,7 +26,8 @@ public class CourseRatingRecalculatedIntegrationEventListenerTest {
     @Test
     void handleCourseRatingRecalculatedEvent_updateCourseRatingCommandExecuted() {
         // given
-        final CourseRatingRecalculatedIntegrationEvent event = new CourseRatingRecalculatedIntegrationEvent(new Object(), 15, 3.7);
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final CourseRatingRecalculatedIntegrationEvent event = new CourseRatingRecalculatedIntegrationEvent(new Object(), uuid, 3.7);
 
         // when
         sut.handleCourseRatingRecalculatedEvent(event);
@@ -34,7 +37,7 @@ public class CourseRatingRecalculatedIntegrationEventListenerTest {
         verify(handler).handle(argument.capture());
         final UpdateCourseRatingCommand updateCourseRatingCommand = argument.getValue();
         assertThat(updateCourseRatingCommand)
-                .hasFieldOrPropertyWithValue("id", 15)
+                .hasFieldOrPropertyWithValue("uuid", uuid)
                 .hasFieldOrPropertyWithValue("rating", 3.7);
     }
 

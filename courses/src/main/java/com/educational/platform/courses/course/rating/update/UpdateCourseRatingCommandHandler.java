@@ -20,9 +20,9 @@ public class UpdateCourseRatingCommandHandler {
     private final CourseRepository repository;
 
     public void handle(UpdateCourseRatingCommand command) {
-        final Optional<Course> dbResult = repository.findById(command.getId());
+        final Optional<Course> dbResult = repository.findByUuid(command.getUuid());
         if (dbResult.isEmpty()) {
-            throw new ResourceNotFoundException(String.format("Course with id: %s not found", command.getId()));
+            throw new ResourceNotFoundException(String.format("Course with uuid: %s not found", command.getUuid()));
         }
 
         final Course course = dbResult.get();
