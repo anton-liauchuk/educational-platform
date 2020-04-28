@@ -19,6 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -51,13 +52,13 @@ public class ApproveCourseProposalCommandHandlerTest {
     @Test
     void handle_existingCourseProposal_courseProposalSavedWithStatusApproved() {
         // given
-        final ApproveCourseProposalCommand command = new ApproveCourseProposalCommand(11);
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final ApproveCourseProposalCommand command = new ApproveCourseProposalCommand(uuid);
 
-        final CreateCourseProposalCommand createCourseProposalCommand = new CreateCourseProposalCommand(11);
+        final CreateCourseProposalCommand createCourseProposalCommand = new CreateCourseProposalCommand(uuid);
         final CourseProposal correspondingCourseProposal = new CourseProposal(createCourseProposalCommand);
-        ReflectionTestUtils.setField(correspondingCourseProposal, "id", 11);
-        ReflectionTestUtils.setField(correspondingCourseProposal, "originalCourseId", 15);
-        when(repository.findById(11)).thenReturn(Optional.of(correspondingCourseProposal));
+        ReflectionTestUtils.setField(correspondingCourseProposal, "originalCourseId", uuid);
+        when(repository.findByOriginalCourseId(uuid)).thenReturn(Optional.of(correspondingCourseProposal));
 
         // when
         sut.handle(command);
@@ -73,14 +74,15 @@ public class ApproveCourseProposalCommandHandlerTest {
         verify(eventPublisher).publishEvent(eventArgument.capture());
         final CourseApprovedByAdminIntegrationEvent event = eventArgument.getValue();
         assertThat(event)
-                .hasFieldOrPropertyWithValue("courseId", 15);
+                .hasFieldOrPropertyWithValue("courseId", uuid);
     }
 
     @Test
     void handle_invalidId_resourceNotFoundException() {
         // given
-        final ApproveCourseProposalCommand command = new ApproveCourseProposalCommand(15);
-        when(repository.findById(15)).thenReturn(Optional.empty());
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final ApproveCourseProposalCommand command = new ApproveCourseProposalCommand(uuid);
+        when(repository.findByOriginalCourseId(uuid)).thenReturn(Optional.empty());
 
         // when
         final ThrowableAssert.ThrowingCallable handle = () -> sut.handle(command);

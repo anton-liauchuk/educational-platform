@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Example;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,7 +27,8 @@ public class CreateCourseProposalCommandHandlerIntegrationTest {
     @Test
     void handle_validCommand_courseProposalSavedWithStatusWaitingForApproval() {
         // given
-        final CreateCourseProposalCommand command = new CreateCourseProposalCommand(15);
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final CreateCourseProposalCommand command = new CreateCourseProposalCommand(uuid);
 
         // when
         sut.handle(command);
@@ -35,6 +37,6 @@ public class CreateCourseProposalCommandHandlerIntegrationTest {
         final Optional<CourseProposal> saved = repository.findOne(Example.of(new CourseProposal(command)));
         assertThat(saved).isNotEmpty();
         final CourseProposal proposal = saved.get();
-        assertThat(proposal).hasFieldOrPropertyWithValue("originalCourseId", 15);
+        assertThat(proposal).hasFieldOrPropertyWithValue("originalCourseId", uuid);
     }
 }

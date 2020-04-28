@@ -3,13 +3,15 @@ package com.educational.platform.integration.events;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
+import java.util.UUID;
+
 /**
  * Represents send course to approve integration event.
  */
 @Getter
 public class SendCourseToApproveIntegrationEvent extends ApplicationEvent {
 
-    private final int courseId;
+    private final UUID courseId;
 
 
     /**
@@ -19,7 +21,7 @@ public class SendCourseToApproveIntegrationEvent extends ApplicationEvent {
      *                 which the event is associated (never {@code null})
      * @param courseId course id
      */
-    public SendCourseToApproveIntegrationEvent(Object source, int courseId) {
+    public SendCourseToApproveIntegrationEvent(Object source, UUID courseId) {
         super(source);
         this.courseId = courseId;
     }

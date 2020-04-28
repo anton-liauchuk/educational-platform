@@ -3,6 +3,8 @@ package com.educational.platform.administration.course.create;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.UUID;
+
 /**
  * Represents Create Course Proposal Command.
  */
@@ -10,6 +12,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class CreateCourseProposalCommand {
 
-    private final Integer id;
+    private final UUID uuid;
 
 }

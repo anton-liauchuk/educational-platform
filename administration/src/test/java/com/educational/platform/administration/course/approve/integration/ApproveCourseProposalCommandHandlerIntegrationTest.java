@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,19 +28,18 @@ public class ApproveCourseProposalCommandHandlerIntegrationTest {
     @Test
     void handle_existingCourseProposal_courseProposalSavedWithStatusApproved() {
         // given
-        final CreateCourseProposalCommand createCourseProposalCommand = new CreateCourseProposalCommand(11);
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final CreateCourseProposalCommand createCourseProposalCommand = new CreateCourseProposalCommand(uuid);
         final CourseProposal existingCourseProposal = new CourseProposal(createCourseProposalCommand);
         repository.save(existingCourseProposal);
 
-        final Integer id = (Integer) ReflectionTestUtils.getField(existingCourseProposal, "id");
-        final ApproveCourseProposalCommand command = new ApproveCourseProposalCommand(id);
+        final ApproveCourseProposalCommand command = new ApproveCourseProposalCommand(uuid);
 
         // when
         sut.handle(command);
 
         // then
-        assertThat(id).isNotNull();
-        final Optional<CourseProposal> saved = repository.findById(id);
+        final Optional<CourseProposal> saved = repository.findByOriginalCourseId(uuid);
         assertThat(saved).isNotEmpty();
         final CourseProposal courseProposal = saved.get();
         assertThat(courseProposal).hasFieldOrPropertyWithValue("status", CourseProposalStatus.APPROVED);

@@ -3,6 +3,8 @@ package com.educational.platform.integration.events;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
+import java.util.UUID;
+
 /**
  * Represents course approved by admin integration event, should be published after approval the course by admin.
  */
@@ -10,7 +12,7 @@ import org.springframework.context.ApplicationEvent;
 public class CourseApprovedByAdminIntegrationEvent extends ApplicationEvent {
 
 
-    private final int courseId;
+    private final UUID courseId;
 
 
     /**
@@ -20,7 +22,7 @@ public class CourseApprovedByAdminIntegrationEvent extends ApplicationEvent {
      *                 which the event is associated (never {@code null})
      * @param courseId course id
      */
-    public CourseApprovedByAdminIntegrationEvent(Object source, int courseId) {
+    public CourseApprovedByAdminIntegrationEvent(Object source, UUID courseId) {
         super(source);
         this.courseId = courseId;
     }

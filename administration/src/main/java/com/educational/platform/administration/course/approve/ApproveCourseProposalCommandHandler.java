@@ -31,9 +31,9 @@ public class ApproveCourseProposalCommandHandler {
      */
     public void handle(ApproveCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {
-            final Optional<CourseProposal> dbResult = repository.findById(command.getId());
+            final Optional<CourseProposal> dbResult = repository.findByOriginalCourseId(command.getUuid());
             if (dbResult.isEmpty()) {
-                throw new ResourceNotFoundException(String.format("Course Proposal with id: %s not found", command.getId()));
+                throw new ResourceNotFoundException(String.format("Course Proposal with id: %s not found", command.getUuid()));
             }
             final CourseProposal courseProposal = dbResult.get();
 

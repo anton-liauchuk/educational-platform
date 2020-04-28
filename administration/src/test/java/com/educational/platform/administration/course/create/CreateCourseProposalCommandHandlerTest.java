@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
@@ -26,7 +28,8 @@ public class CreateCourseProposalCommandHandlerTest {
     @Test
     void handle_courseProposalSaved() {
         // given
-        final CreateCourseProposalCommand command = new CreateCourseProposalCommand(15);
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final CreateCourseProposalCommand command = new CreateCourseProposalCommand(uuid);
 
         // when
         sut.handle(command);
@@ -36,6 +39,6 @@ public class CreateCourseProposalCommandHandlerTest {
         verify(repository).save(argument.capture());
         final CourseProposal proposal = argument.getValue();
         assertThat(proposal)
-                .hasFieldOrPropertyWithValue("originalCourseId", 15);
+                .hasFieldOrPropertyWithValue("originalCourseId", uuid);
     }
 }

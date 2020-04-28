@@ -3,6 +3,8 @@ package com.educational.platform.administration.course.approve;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.UUID;
+
 /**
  * Approve course proposal command.
  */
@@ -10,6 +12,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class ApproveCourseProposalCommand {
 
-    private Integer id;
+    private UUID uuid;
 
 }
