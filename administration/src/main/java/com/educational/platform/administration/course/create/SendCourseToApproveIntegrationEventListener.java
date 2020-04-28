@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
- * Event listener for {@link SendCourseToApproveIntegrationEvent}, executes the logic for creating course proposal from {@link CreateCourseProposalCommandHandler}.
+ * Event listener for {@link SendCourseToApproveIntegrationEvent}, executes the logic for creating course proposal by {@link CreateCourseProposalCommandHandler}.
  */
 @Component
 @RequiredArgsConstructor

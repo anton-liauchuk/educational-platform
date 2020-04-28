@@ -19,16 +19,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class ApproveCourseProposalCommandHandlerIntegrationTest {
 
-
     @Autowired
     private CourseProposalRepository repository;
 
     @SpyBean
     private ApproveCourseProposalCommandHandler sut;
 
-
     @Test
-    void handle_existingCourseProposal_courseSavedWithStatusApproved() {
+    void handle_existingCourseProposal_courseProposalSavedWithStatusApproved() {
         // given
         final CreateCourseProposalCommand createCourseProposalCommand = new CreateCourseProposalCommand(11);
         final CourseProposal existingCourseProposal = new CourseProposal(createCourseProposalCommand);

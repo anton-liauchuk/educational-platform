@@ -28,4 +28,13 @@ public class CourseEnrollment {
         this.course = course;
         this.student = student;
     }
+
+    public Integer getOriginalCourseId() {
+        return course.getOriginalCourseId();
+    }
+
+    public String getUsername() {
+        return student.getUsername();
+    }
+
 }

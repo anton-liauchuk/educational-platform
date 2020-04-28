@@ -1,8 +1,5 @@
 package com.educational.platform.administration.course.create;
 
-import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
-import com.educational.platform.administration.course.create.CreateCourseProposalCommandHandler;
-import com.educational.platform.administration.course.create.SendCourseToApproveIntegrationEventListener;
 import com.educational.platform.integration.events.SendCourseToApproveIntegrationEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +19,6 @@ public class SendCourseToApproveIntegrationEventListenerTest {
 
     @InjectMocks
     private SendCourseToApproveIntegrationEventListener sut;
-
 
     @Test
     void handleCourseApprovedByAdminEvent_approveCourseCommandExecuted() {

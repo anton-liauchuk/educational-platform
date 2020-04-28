@@ -1,7 +1,7 @@
 package com.educational.platform.administration.course;
 
 /**
- * Course proposal already approved exception because course proposal is already approved
+ * Course proposal already approved exception because course proposal is already approved.
  */
 public class CourseProposalAlreadyApprovedException extends RuntimeException {
 

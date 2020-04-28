@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class CreateCourseCommandHandlerIntegrationTest {
 
-
     @Autowired
     private CourseRepository repository;
 
@@ -27,7 +26,6 @@ public class CreateCourseCommandHandlerIntegrationTest {
 
     @SpyBean
     private CreateCourseCommandHandler sut;
-
 
     @Test
     void handle_validCourse_courseSaved() {

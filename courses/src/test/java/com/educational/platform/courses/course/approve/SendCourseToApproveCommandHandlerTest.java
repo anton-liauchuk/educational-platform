@@ -73,7 +73,6 @@ public class SendCourseToApproveCommandHandlerTest {
                 .hasFieldOrPropertyWithValue("approvalStatus", ApprovalStatus.WAITING_FOR_APPROVAL);
     }
 
-
     @Test
     void handle_invalidId_resourceNotFoundException() {
         // given

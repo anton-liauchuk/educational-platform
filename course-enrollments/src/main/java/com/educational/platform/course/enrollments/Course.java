@@ -27,4 +27,8 @@ public class Course {
     public Course(CreateCourseCommand createCourseCommand) {
         this.originalCourseId = createCourseCommand.getId();
     }
+
+    public Integer getOriginalCourseId() {
+        return originalCourseId;
+    }
 }

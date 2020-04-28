@@ -16,6 +16,7 @@ public class Reviewer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private Integer originalStudentId;
 
     // for JPA

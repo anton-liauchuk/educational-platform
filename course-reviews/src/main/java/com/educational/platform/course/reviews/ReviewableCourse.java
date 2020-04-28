@@ -16,6 +16,7 @@ public class ReviewableCourse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private Integer originalCourseId;
 
     // for JPA

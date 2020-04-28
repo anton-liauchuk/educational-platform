@@ -16,13 +16,18 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer originalStudentId;
+
+    private String username;
 
     // for JPA
     private Student() {
     }
 
     public Student(CreateStudentCommand createStudentCommand) {
-        this.originalStudentId = createStudentCommand.getId();
+        this.username = createStudentCommand.getUsername();
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

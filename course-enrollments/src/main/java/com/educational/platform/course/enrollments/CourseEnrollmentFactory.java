@@ -38,9 +38,9 @@ public class CourseEnrollmentFactory {
         final Course course = courseRepository.findById(command.getCourseId())
                 .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by id = " + command.getCourseId()));
 
-        final Student reviewer = studentRepository.findById(command.getStudentId())
+        final Student student = studentRepository.findById(command.getStudentId())
                 .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Student cannot be found by id = " + command.getStudentId()));
 
-        return new CourseEnrollment(command, course, reviewer);
+        return new CourseEnrollment(command, course, student);
     }
 }

@@ -24,7 +24,7 @@ public class CreateCourseProposalCommandHandlerIntegrationTest {
     private CreateCourseProposalCommandHandler sut;
 
     @Test
-    void handle_existingCourse_courseSavedWithStatusWaitingForApproval() {
+    void handle_validCommand_courseProposalSavedWithStatusWaitingForApproval() {
         // given
         final CreateCourseProposalCommand command = new CreateCourseProposalCommand(15);
 

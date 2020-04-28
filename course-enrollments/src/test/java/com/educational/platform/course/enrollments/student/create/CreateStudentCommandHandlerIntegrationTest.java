@@ -26,7 +26,7 @@ public class CreateStudentCommandHandlerIntegrationTest {
     @Test
     void handle_validCommand_studentSaved() {
         // given
-        final CreateStudentCommand command = new CreateStudentCommand(15);
+        final CreateStudentCommand command = new CreateStudentCommand(15, "username");
 
         // when
         sut.handle(command);
@@ -35,6 +35,6 @@ public class CreateStudentCommandHandlerIntegrationTest {
         final Optional<Student> saved = repository.findOne(Example.of(new Student(command)));
         assertThat(saved).isNotEmpty();
         final Student student = saved.get();
-        assertThat(student).hasFieldOrPropertyWithValue("originalStudentId", 15);
+        assertThat(student).hasFieldOrPropertyWithValue("username", "username");
     }
 }

@@ -49,7 +49,7 @@ public class CourseEnrollmentFactoryTest {
         final Course correspondingCourse = new Course(createCourseCommand);
         when(courseRepository.findById(11)).thenReturn(Optional.of(correspondingCourse));
 
-        final CreateStudentCommand createStudentCommand = new CreateStudentCommand(77);
+        final CreateStudentCommand createStudentCommand = new CreateStudentCommand(77, "username");
         final Student correspondingStudent = new Student(createStudentCommand);
         when(studentRepository.findById(22)).thenReturn(Optional.of(correspondingStudent));
 
@@ -58,7 +58,7 @@ public class CourseEnrollmentFactoryTest {
 
         // then
         final Student student = (Student) ReflectionTestUtils.getField(enrollment, "student");
-        assertThat(student).hasFieldOrPropertyWithValue("originalStudentId", 77);
+        assertThat(student).hasFieldOrPropertyWithValue("username", "username");
 
         final Course course = (Course) ReflectionTestUtils.getField(enrollment, "course");
         assertThat(course).hasFieldOrPropertyWithValue("originalCourseId", 88);

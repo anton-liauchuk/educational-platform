@@ -20,7 +20,6 @@ public class CourseApprovedByAdminIntegrationEventListenerTest {
     @InjectMocks
     private CourseApprovedByAdminIntegrationEventListener sut;
 
-
     @Test
     void handleCourseApprovedByAdminEvent_approveCourseCommandExecuted() {
         // given

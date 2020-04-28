@@ -11,5 +11,6 @@ import lombok.Data;
 public class CreateStudentCommand {
 
     private final Integer id;
+    private final String username;
 
 }
