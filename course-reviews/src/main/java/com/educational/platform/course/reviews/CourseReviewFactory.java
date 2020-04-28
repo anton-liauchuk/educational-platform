@@ -35,11 +35,11 @@ public class CourseReviewFactory {
             throw new ConstraintViolationException(violations);
         }
 
-        final ReviewableCourse course = reviewableCourseRepository.findById(reviewCourseCommand.getCourseId())
-                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by id = " + reviewCourseCommand.getCourseId()));
+        final ReviewableCourse course = reviewableCourseRepository.findByOriginalCourseId(reviewCourseCommand.getCourseId())
+                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by uuid = " + reviewCourseCommand.getCourseId()));
 
-        final Reviewer reviewer = reviewerRepository.findById(reviewCourseCommand.getReviewerId())
-                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Reviewer cannot be found by id = " + reviewCourseCommand.getReviewerId()));
+        final Reviewer reviewer = reviewerRepository.findByUsername(reviewCourseCommand.getReviewer())
+                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Reviewer cannot be found by username = " + reviewCourseCommand.getReviewer()));
 
         return new CourseReview(reviewCourseCommand, course, reviewer);
     }

@@ -17,13 +17,13 @@ public class Reviewer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer originalStudentId;
+    private String username;
 
     // for JPA
     private Reviewer() {
     }
 
     public Reviewer(CreateReviewerCommand createReviewerCommand) {
-        this.originalStudentId = createReviewerCommand.getId();
+        this.username = createReviewerCommand.getUsername();
     }
 }

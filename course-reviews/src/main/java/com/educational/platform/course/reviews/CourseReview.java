@@ -3,6 +3,7 @@ package com.educational.platform.course.reviews;
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 /**
  * Represents Course Review domain model.
@@ -13,6 +14,8 @@ public class CourseReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    private UUID uuid;
 
     @ManyToOne
     private Reviewer reviewer;
@@ -28,6 +31,7 @@ public class CourseReview {
     }
 
     CourseReview(ReviewCourseCommand command, ReviewableCourse course, Reviewer reviewer) {
+        this.uuid = UUID.randomUUID();
         this.course = course;
         this.reviewer = reviewer;
         this.rating = new CourseRating(command.getRating());

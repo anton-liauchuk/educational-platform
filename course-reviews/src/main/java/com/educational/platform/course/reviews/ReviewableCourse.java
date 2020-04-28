@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.UUID;
 
 /**
  * Represents Reviewable Course domain model.
@@ -17,13 +18,13 @@ public class ReviewableCourse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer originalCourseId;
+    private UUID originalCourseId;
 
     // for JPA
     private ReviewableCourse() {
     }
 
     public ReviewableCourse(CreateReviewableCourseCommand createReviewableCourseCommand) {
-        this.originalCourseId = createReviewableCourseCommand.getId();
+        this.originalCourseId = createReviewableCourseCommand.getUuid();
     }
 }

@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.data.domain.Example;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,18 +35,18 @@ public class ReviewCourseCommandHandlerIntegrationTest {
     @SpyBean
     private ReviewCourseCommandHandler sut;
 
-    private Integer courseId;
-    private Integer reviewerId;
+    private UUID courseId;
+    private String reviewerUsername;
 
     @BeforeEach
     void setUp() {
-        final ReviewableCourse reviewableCourse = new ReviewableCourse(new CreateReviewableCourseCommand(44));
+        courseId = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final ReviewableCourse reviewableCourse = new ReviewableCourse(new CreateReviewableCourseCommand(courseId));
         reviewableCourseRepository.save(reviewableCourse);
-        courseId = (Integer) ReflectionTestUtils.getField(reviewableCourse, "id");
 
-        final Reviewer reviewer = new Reviewer(new CreateReviewerCommand(55));
+        reviewerUsername = "username";
+        final Reviewer reviewer = new Reviewer(new CreateReviewerCommand(reviewerUsername));
         reviewerRepository.save(reviewer);
-        reviewerId = (Integer) ReflectionTestUtils.getField(reviewableCourse, "id");
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ReviewCourseCommandHandlerIntegrationTest {
         // given
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(courseId)
-                .reviewerId(reviewerId)
+                .reviewer(reviewerUsername)
                 .rating(4)
                 .comment("comment")
                 .build();
@@ -63,7 +63,10 @@ public class ReviewCourseCommandHandlerIntegrationTest {
         sut.handle(command);
 
         // then
-        final Optional<CourseReview> saved = courseReviewRepository.findOne(Example.of(courseReviewFactory.createFrom(command)));
+        final Optional<CourseReview> saved = courseReviewRepository.findAll()
+                .stream()
+                .filter(courseReview -> new Comment("comment").equals(ReflectionTestUtils.getField(courseReview, "comment")))
+                .findAny();
         assertThat(saved).isNotEmpty();
         final CourseReview review = saved.get();
         assertThat(review)

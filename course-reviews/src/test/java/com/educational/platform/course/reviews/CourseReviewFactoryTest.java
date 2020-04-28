@@ -18,6 +18,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -43,24 +44,25 @@ public class CourseReviewFactoryTest {
     @Test
     void createFrom_validCourseReview_courseReviewCreated() {
         // given
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
-                .courseId(11)
-                .reviewerId(22)
+                .courseId(uuid)
+                .reviewer("username")
                 .rating(4)
                 .comment("comment")
                 .build();
 
-        final CreateReviewableCourseCommand createCourseProposalCommand = new CreateReviewableCourseCommand(15);
+        final CreateReviewableCourseCommand createCourseProposalCommand = new CreateReviewableCourseCommand(uuid);
         final ReviewableCourse correspondingReviewableCourse = new ReviewableCourse(createCourseProposalCommand);
         ReflectionTestUtils.setField(correspondingReviewableCourse, "id", 11);
-        ReflectionTestUtils.setField(correspondingReviewableCourse, "originalCourseId", 15);
-        when(reviewableCourseRepository.findById(11)).thenReturn(Optional.of(correspondingReviewableCourse));
+        ReflectionTestUtils.setField(correspondingReviewableCourse, "originalCourseId", uuid);
+        when(reviewableCourseRepository.findByOriginalCourseId(uuid)).thenReturn(Optional.of(correspondingReviewableCourse));
 
-        final CreateReviewerCommand createReviewerCommand = new CreateReviewerCommand(55);
+        final CreateReviewerCommand createReviewerCommand = new CreateReviewerCommand("username");
         final Reviewer correspondingReviewer = new Reviewer(createReviewerCommand);
         ReflectionTestUtils.setField(correspondingReviewer, "id", 22);
-        ReflectionTestUtils.setField(correspondingReviewer, "originalStudentId", 55);
-        when(reviewerRepository.findById(22)).thenReturn(Optional.of(correspondingReviewer));
+        ReflectionTestUtils.setField(correspondingReviewer, "username", "username");
+        when(reviewerRepository.findByUsername("username")).thenReturn(Optional.of(correspondingReviewer));
 
         // when
         final CourseReview courseReview = sut.createFrom(command);
@@ -78,7 +80,7 @@ public class CourseReviewFactoryTest {
         // given
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(null)
-                .reviewerId(12)
+                .reviewer("username")
                 .rating(4)
                 .comment("comment")
                 .build();
@@ -95,8 +97,8 @@ public class CourseReviewFactoryTest {
     void createFrom_studentIdIsNull_constraintViolationException() {
         // given
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
-                .courseId(11)
-                .reviewerId(null)
+                .courseId(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+                .reviewer(null)
                 .rating(4)
                 .comment("comment")
                 .build();
@@ -113,9 +115,10 @@ public class CourseReviewFactoryTest {
     @ValueSource(doubles = {-1, 6})
     void createFrom_invalidRating_constraintViolationException(double rating) {
         // given
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
-                .courseId(11)
-                .reviewerId(12)
+                .courseId(uuid)
+                .reviewer("username")
                 .rating(rating)
                 .comment("comment")
                 .build();

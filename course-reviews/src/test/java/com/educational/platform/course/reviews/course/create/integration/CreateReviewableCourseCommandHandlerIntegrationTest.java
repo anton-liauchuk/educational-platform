@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Example;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,15 +27,16 @@ public class CreateReviewableCourseCommandHandlerIntegrationTest {
     @Test
     void handle_validCommand_reviewableCourseSaved() {
         // given
-        final CreateReviewableCourseCommand command = new CreateReviewableCourseCommand(15);
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final CreateReviewableCourseCommand command = new CreateReviewableCourseCommand(uuid);
 
         // when
         sut.handle(command);
 
         // then
-        final Optional<ReviewableCourse> saved = repository.findOne(Example.of(new ReviewableCourse(command)));
+        final Optional<ReviewableCourse> saved = repository.findByOriginalCourseId(uuid);
         assertThat(saved).isNotEmpty();
         final ReviewableCourse reviewableCourse = saved.get();
-        assertThat(reviewableCourse).hasFieldOrPropertyWithValue("originalCourseId", 15);
+        assertThat(reviewableCourse).hasFieldOrPropertyWithValue("originalCourseId", uuid);
     }
 }

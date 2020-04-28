@@ -10,6 +10,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class CreateReviewerCommand {
 
-    private final Integer id;
+    private final String username;
 
 }

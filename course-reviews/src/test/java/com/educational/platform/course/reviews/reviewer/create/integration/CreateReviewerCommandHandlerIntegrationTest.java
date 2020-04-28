@@ -26,7 +26,7 @@ public class CreateReviewerCommandHandlerIntegrationTest {
     @Test
     void handle_validCommand_reviewerSaved() {
         // given
-        final CreateReviewerCommand command = new CreateReviewerCommand(15);
+        final CreateReviewerCommand command = new CreateReviewerCommand("username");
 
         // when
         sut.handle(command);
@@ -36,6 +36,6 @@ public class CreateReviewerCommandHandlerIntegrationTest {
         assertThat(saved).isNotEmpty();
         final Reviewer reviewer = saved.get();
         assertThat(reviewer)
-                .hasFieldOrPropertyWithValue("originalStudentId", 15);
+                .hasFieldOrPropertyWithValue("username", "username");
     }
 }
