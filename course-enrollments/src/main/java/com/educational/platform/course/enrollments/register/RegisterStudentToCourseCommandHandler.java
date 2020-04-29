@@ -1,6 +1,7 @@
 package com.educational.platform.course.enrollments.register;
 
 import com.educational.platform.course.enrollments.CourseEnrollment;
+import com.educational.platform.course.enrollments.CourseEnrollmentDTO;
 import com.educational.platform.course.enrollments.CourseEnrollmentFactory;
 import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
 import com.educational.platform.integration.events.StudentEnrolledToCourseIntegrationEvent;
@@ -38,11 +39,12 @@ public class RegisterStudentToCourseCommandHandler {
             return enrollment;
         });
 
-        // todo enrollment to dto, after that, create event
+        final CourseEnrollmentDTO courseEnrollmentDTO = Objects.requireNonNull(courseEnrollment).toDTO();
+
         eventPublisher.publishEvent(
                 new StudentEnrolledToCourseIntegrationEvent(courseEnrollment,
-                        Objects.requireNonNull(courseEnrollment).getCourseUuid(),
-                        Objects.requireNonNull(courseEnrollment).getStudentUsername()));
+                        courseEnrollmentDTO.getCourse(),
+                        courseEnrollmentDTO.getStudent()));
     }
 
 }

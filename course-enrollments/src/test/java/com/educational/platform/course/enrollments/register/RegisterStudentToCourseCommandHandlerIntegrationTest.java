@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -73,23 +74,23 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
         sut.handle(command);
 
         // then
-        final Optional<CourseEnrollment> saved = courseEnrollmentRepository.findAll()
-                .stream()
-                .filter(courseEnrollment -> courseEnrollment.getCourseUuid().equals(command.getCourseId()))
-                .findAny();
-        assertThat(saved).isNotEmpty();
-        final CourseEnrollment enrollment = saved.get();
-        final Student student = (Student) ReflectionTestUtils.getField(enrollment, "student");
-        assertThat(student).hasFieldOrPropertyWithValue("username", "username");
-
-        final Course course = (Course) ReflectionTestUtils.getField(enrollment, "course");
-        assertThat(course).hasFieldOrPropertyWithValue("uuid", courseUuid);
-
         final ArgumentCaptor<StudentEnrolledToCourseIntegrationEvent> argument = ArgumentCaptor.forClass(StudentEnrolledToCourseIntegrationEvent.class);
         verify(eventPublisher).publishEvent(argument.capture());
         final StudentEnrolledToCourseIntegrationEvent event = argument.getValue();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("courseId", courseUuid)
                 .hasFieldOrPropertyWithValue("username", "username");
+
+        final CourseEnrollment enrollmentInEvent = (CourseEnrollment) ReflectionTestUtils.getField(event, "source");
+        final UUID uuid = (UUID) ReflectionTestUtils.getField(enrollmentInEvent, "uuid");
+
+        final Optional<CourseEnrollment> saved = courseEnrollmentRepository.findByUuid(uuid);
+        assertThat(saved).isNotEmpty();
+        final CourseEnrollment savedEnrollment = saved.get();
+        final Student student = (Student) ReflectionTestUtils.getField(savedEnrollment, "student");
+        assertThat(student).hasFieldOrPropertyWithValue("username", "username");
+
+        final Course course = (Course) ReflectionTestUtils.getField(savedEnrollment, "course");
+        assertThat(course).hasFieldOrPropertyWithValue("uuid", courseUuid);
     }
 }

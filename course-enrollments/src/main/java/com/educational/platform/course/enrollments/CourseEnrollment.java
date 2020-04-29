@@ -33,12 +33,11 @@ public class CourseEnrollment {
         this.student = student;
     }
 
-    public UUID getCourseUuid() {
-        return course.getUuid();
+    public CourseEnrollmentDTO toDTO() {
+        return CourseEnrollmentDTO.builder()
+                .uuid(uuid)
+                .course(course.getUuid())
+                .student(student.getUsername())
+                .build();
     }
-
-    public String getStudentUsername() {
-        return student.getUsername();
-    }
-
 }
