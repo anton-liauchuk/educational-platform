@@ -17,6 +17,6 @@ public interface CourseProposalRepository extends JpaRepository<CourseProposal, 
      * @return the course proposal with the given uuid or {@literal Optional#empty()} if none found.
      * @throws IllegalArgumentException if {@literal uuid} is {@literal null}.
      */
-    Optional<CourseProposal> findByOriginalCourseId(UUID uuid);
+    Optional<CourseProposal> findByUuid(UUID uuid);
 
 }

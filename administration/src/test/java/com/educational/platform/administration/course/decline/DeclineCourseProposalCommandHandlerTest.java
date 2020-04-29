@@ -1,11 +1,11 @@
-package com.educational.platform.administration.course.approve;
+package com.educational.platform.administration.course.decline;
 
 import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.course.CourseProposalStatus;
 import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
 import com.educational.platform.common.exception.ResourceNotFoundException;
-import com.educational.platform.integration.events.CourseApprovedByAdminIntegrationEvent;
+import com.educational.platform.integration.events.CourseDeclinedByAdminIntegrationEvent;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ApproveCourseProposalCommandHandlerTest {
+public class DeclineCourseProposalCommandHandlerTest {
 
     @Mock
     private CourseProposalRepository repository;
@@ -41,19 +41,19 @@ public class ApproveCourseProposalCommandHandlerTest {
     @Mock
     private ApplicationEventPublisher eventPublisher;
 
-    private ApproveCourseProposalCommandHandler sut;
+    private DeclineCourseProposalCommandHandler sut;
 
     @BeforeEach
     void setUp() {
         transactionTemplate = new TransactionTemplate(transactionManager);
-        sut = new ApproveCourseProposalCommandHandler(transactionTemplate, repository, eventPublisher);
+        sut = new DeclineCourseProposalCommandHandler(transactionTemplate, repository, eventPublisher);
     }
 
     @Test
-    void handle_existingCourseProposal_courseProposalSavedWithStatusApproved() {
+    void handle_existingCourseProposal_courseProposalSavedWithStatusDeclined() {
         // given
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final ApproveCourseProposalCommand command = new ApproveCourseProposalCommand(uuid);
+        final DeclineCourseProposalCommand command = new DeclineCourseProposalCommand(uuid);
 
         final CreateCourseProposalCommand createCourseProposalCommand = new CreateCourseProposalCommand(uuid);
         final CourseProposal correspondingCourseProposal = new CourseProposal(createCourseProposalCommand);
@@ -68,11 +68,11 @@ public class ApproveCourseProposalCommandHandlerTest {
         verify(repository).save(argument.capture());
         final CourseProposal proposal = argument.getValue();
         assertThat(proposal)
-                .hasFieldOrPropertyWithValue("status", CourseProposalStatus.APPROVED);
+                .hasFieldOrPropertyWithValue("status", CourseProposalStatus.DECLINED);
 
-        final ArgumentCaptor<CourseApprovedByAdminIntegrationEvent> eventArgument = ArgumentCaptor.forClass(CourseApprovedByAdminIntegrationEvent.class);
+        final ArgumentCaptor<CourseDeclinedByAdminIntegrationEvent> eventArgument = ArgumentCaptor.forClass(CourseDeclinedByAdminIntegrationEvent.class);
         verify(eventPublisher).publishEvent(eventArgument.capture());
-        final CourseApprovedByAdminIntegrationEvent event = eventArgument.getValue();
+        final CourseDeclinedByAdminIntegrationEvent event = eventArgument.getValue();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("courseId", uuid);
     }
@@ -81,7 +81,7 @@ public class ApproveCourseProposalCommandHandlerTest {
     void handle_invalidId_resourceNotFoundException() {
         // given
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final ApproveCourseProposalCommand command = new ApproveCourseProposalCommand(uuid);
+        final DeclineCourseProposalCommand command = new DeclineCourseProposalCommand(uuid);
         when(repository.findByUuid(uuid)).thenReturn(Optional.empty());
 
         // when

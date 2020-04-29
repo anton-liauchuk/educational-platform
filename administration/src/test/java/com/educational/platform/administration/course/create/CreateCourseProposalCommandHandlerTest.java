@@ -39,6 +39,6 @@ public class CreateCourseProposalCommandHandlerTest {
         verify(repository).save(argument.capture());
         final CourseProposal proposal = argument.getValue();
         assertThat(proposal)
-                .hasFieldOrPropertyWithValue("originalCourseId", uuid);
+                .hasFieldOrPropertyWithValue("uuid", uuid);
     }
 }

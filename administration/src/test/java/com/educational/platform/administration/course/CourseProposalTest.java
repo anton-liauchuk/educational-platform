@@ -23,7 +23,7 @@ public class CourseProposalTest {
 
         // then
         assertThat(courseProposal)
-                .hasFieldOrPropertyWithValue("originalCourseId", uuid)
+                .hasFieldOrPropertyWithValue("uuid", uuid)
                 .hasFieldOrPropertyWithValue("status", CourseProposalStatus.WAITING_FOR_APPROVAL);
     }
 
@@ -56,6 +56,37 @@ public class CourseProposalTest {
 
         // then
         assertThatExceptionOfType(CourseProposalAlreadyApprovedException.class).isThrownBy(sendToApprove);
+    }
+
+    @Test
+    void decline_declinedStatus() {
+        // given
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final CreateCourseProposalCommand createCourseProposalCommand = new CreateCourseProposalCommand(uuid);
+        final CourseProposal proposal = new CourseProposal(createCourseProposalCommand);
+
+        // when
+        proposal.decline();
+
+        // then
+        assertThat(proposal)
+                .hasFieldOrPropertyWithValue("status", CourseProposalStatus.DECLINED);
+    }
+
+    @Test
+    void decline_courseProposalAlreadyDeclined_courseProposalAlreadyDeclinedException() {
+        // given
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final CreateCourseProposalCommand createCourseProposalCommand = new CreateCourseProposalCommand(uuid);
+        final CourseProposal proposal = new CourseProposal(createCourseProposalCommand);
+        ReflectionTestUtils.setField(proposal, "id", 11);
+        ReflectionTestUtils.setField(proposal, "status", CourseProposalStatus.DECLINED);
+
+        // when
+        final ThrowableAssert.ThrowingCallable sendToDecline = proposal::decline;
+
+        // then
+        assertThatExceptionOfType(CourseProposalAlreadyDeclinedException.class).isThrownBy(sendToDecline);
     }
 
 }

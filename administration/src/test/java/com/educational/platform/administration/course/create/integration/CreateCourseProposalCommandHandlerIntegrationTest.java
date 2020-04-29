@@ -37,6 +37,6 @@ public class CreateCourseProposalCommandHandlerIntegrationTest {
         final Optional<CourseProposal> saved = repository.findOne(Example.of(new CourseProposal(command)));
         assertThat(saved).isNotEmpty();
         final CourseProposal proposal = saved.get();
-        assertThat(proposal).hasFieldOrPropertyWithValue("originalCourseId", uuid);
+        assertThat(proposal).hasFieldOrPropertyWithValue("uuid", uuid);
     }
 }

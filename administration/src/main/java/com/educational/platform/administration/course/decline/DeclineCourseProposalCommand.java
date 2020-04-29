@@ -1,4 +1,4 @@
-package com.educational.platform.administration.course.approve;
+package com.educational.platform.administration.course.decline;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,11 +6,11 @@ import lombok.Data;
 import java.util.UUID;
 
 /**
- * Approve course proposal command.
+ * Decline course proposal command.
  */
 @Data
 @AllArgsConstructor
-public class ApproveCourseProposalCommand {
+public class DeclineCourseProposalCommand {
 
     private final UUID uuid;
 

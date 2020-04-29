@@ -75,7 +75,7 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
         // then
         final Optional<CourseEnrollment> saved = courseEnrollmentRepository.findAll()
                 .stream()
-                .filter(courseEnrollment -> courseEnrollment.getCourseUuid().equals(courseEnrollment.getCourseUuid()))
+                .filter(courseEnrollment -> courseEnrollment.getCourseUuid().equals(command.getCourseId()))
                 .findAny();
         assertThat(saved).isNotEmpty();
         final CourseEnrollment enrollment = saved.get();

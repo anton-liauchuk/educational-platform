@@ -1,10 +1,10 @@
-package com.educational.platform.administration.course.approve;
+package com.educational.platform.administration.course.decline;
 
 import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.common.exception.ResourceNotFoundException;
-import com.educational.platform.integration.events.CourseApprovedByAdminIntegrationEvent;
+import com.educational.platform.integration.events.CourseDeclinedByAdminIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -14,23 +14,23 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Command handler for {@link ApproveCourseProposalCommand} approves a course proposal.
+ * Command handler for {@link DeclineCourseProposalCommand} declines a course proposal.
  */
 @RequiredArgsConstructor
 @Component
-public class ApproveCourseProposalCommandHandler {
+public class DeclineCourseProposalCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;
     private final ApplicationEventPublisher eventPublisher;
 
     /**
-     * Handles approve course proposal command. Approves and save approved course proposal
+     * Handles decline course proposal command. Declines and save declined course proposal
      *
      * @param command command
      * @throws ResourceNotFoundException if resource not found
      */
-    public void handle(ApproveCourseProposalCommand command) {
+    public void handle(DeclineCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {
             final Optional<CourseProposal> dbResult = repository.findByUuid(command.getUuid());
             if (dbResult.isEmpty()) {
@@ -38,13 +38,14 @@ public class ApproveCourseProposalCommandHandler {
             }
             final CourseProposal courseProposal = dbResult.get();
 
-            courseProposal.approve();
+            courseProposal.decline();
             repository.save(courseProposal);
 
             return courseProposal;
         });
 
         final CourseProposalDTO dto = Objects.requireNonNull(proposal).toDTO();
-        eventPublisher.publishEvent(new CourseApprovedByAdminIntegrationEvent(dto, dto.getUuid()));
+        eventPublisher.publishEvent(new CourseDeclinedByAdminIntegrationEvent(dto, dto.getUuid()));
     }
+
 }

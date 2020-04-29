@@ -17,7 +17,8 @@ public class CourseProposal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private UUID originalCourseId;
+
+    private UUID uuid;
     private CourseProposalStatus status;
 
     // for JPA
@@ -26,18 +27,27 @@ public class CourseProposal {
     }
 
     public CourseProposal(CreateCourseProposalCommand command) {
-        this.originalCourseId = command.getUuid();
+        this.uuid = command.getUuid();
         this.status = CourseProposalStatus.WAITING_FOR_APPROVAL;
     }
 
     public void approve() {
         if (status == CourseProposalStatus.APPROVED) {
-            throw new CourseProposalAlreadyApprovedException(originalCourseId);
+            throw new CourseProposalAlreadyApprovedException(uuid);
         }
         this.status = CourseProposalStatus.APPROVED;
     }
 
-    public UUID getOriginalCourseId() {
-        return originalCourseId;
+    public void decline() {
+        if (status == CourseProposalStatus.DECLINED) {
+            throw new CourseProposalAlreadyDeclinedException(uuid);
+        }
+        this.status = CourseProposalStatus.DECLINED;
+    }
+
+    public CourseProposalDTO toDTO() {
+        return CourseProposalDTO.builder()
+                .uuid(uuid)
+                .build();
     }
 }
