@@ -6,7 +6,6 @@ package com.educational.platform.administration.course;
 public enum CourseProposalStatus {
 
     WAITING_FOR_APPROVAL,
-    RESENT_FOR_APPROVAL,
     DECLINED,
     APPROVED
 

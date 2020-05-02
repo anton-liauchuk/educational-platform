@@ -23,6 +23,8 @@ public class CourseEnrollment {
     @ManyToOne
     private Student student;
 
+    private CompletionStatus completionStatus;
+
     // for JPA
     private CourseEnrollment() {
     }
@@ -31,6 +33,11 @@ public class CourseEnrollment {
         this.uuid = UUID.randomUUID();
         this.course = course;
         this.student = student;
+        this.completionStatus = CompletionStatus.IN_PROGRESS;
+    }
+
+    public void complete() {
+        this.completionStatus = CompletionStatus.COMPLETED;
     }
 
     public CourseEnrollmentDTO toDTO() {
@@ -38,6 +45,7 @@ public class CourseEnrollment {
                 .uuid(uuid)
                 .course(course.getUuid())
                 .student(student.getUsername())
+                .completionStatus(completionStatus.toDTO())
                 .build();
     }
 }

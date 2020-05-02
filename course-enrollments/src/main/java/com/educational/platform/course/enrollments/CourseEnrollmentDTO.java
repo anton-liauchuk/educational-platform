@@ -17,5 +17,6 @@ public class CourseEnrollmentDTO {
     private final UUID uuid;
     private final UUID course;
     private final String student;
+    private final CompletionStatusDTO completionStatus;
 
 }

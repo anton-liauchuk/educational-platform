@@ -59,6 +59,8 @@ public class CourseEnrollmentFactoryTest {
         final CourseEnrollment enrollment = sut.createFrom(command);
 
         // then
+        assertThat(enrollment).hasFieldOrPropertyWithValue("completionStatus", CompletionStatus.IN_PROGRESS);
+
         final Student student = (Student) ReflectionTestUtils.getField(enrollment, "student");
         assertThat(student).hasFieldOrPropertyWithValue("username", "username");
 
