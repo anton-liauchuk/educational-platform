@@ -29,7 +29,7 @@ public class Course {
         this.uuid = createCourseCommand.getUuid();
     }
 
-    public UUID getUuid() {
+    public UUID toReference() {
         return uuid;
     }
 }

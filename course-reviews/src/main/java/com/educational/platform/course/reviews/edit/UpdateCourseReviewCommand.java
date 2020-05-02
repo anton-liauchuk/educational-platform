@@ -1,4 +1,4 @@
-package com.educational.platform.course.reviews.create;
+package com.educational.platform.course.reviews.edit;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,18 +10,15 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.UUID;
 
 /**
- * Review Course Command.
+ * Update Course Review Command.
  */
 @Builder
 @Data
 @AllArgsConstructor
-public class ReviewCourseCommand {
+public class UpdateCourseReviewCommand {
 
     @NotNull
-    private final UUID courseId;
-
-    @NotNull
-    private final String reviewer;
+    private final UUID uuid;
 
     @Max(5)
     @PositiveOrZero

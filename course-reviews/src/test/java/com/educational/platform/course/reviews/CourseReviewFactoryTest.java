@@ -48,7 +48,7 @@ public class CourseReviewFactoryTest {
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(uuid)
                 .reviewer("username")
-                .rating(4)
+                .rating(4.0)
                 .comment("comment")
                 .build();
 
@@ -70,7 +70,7 @@ public class CourseReviewFactoryTest {
         // then
         // todo recheck course and reviewer references
         assertThat(courseReview)
-                .hasFieldOrPropertyWithValue("rating", new CourseRating(4))
+                .hasFieldOrPropertyWithValue("rating", new CourseRating(4.0))
                 .hasFieldOrPropertyWithValue("comment", new Comment("comment"));
     }
 
@@ -81,7 +81,7 @@ public class CourseReviewFactoryTest {
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(null)
                 .reviewer("username")
-                .rating(4)
+                .rating(4.0)
                 .comment("comment")
                 .build();
 
@@ -99,7 +99,7 @@ public class CourseReviewFactoryTest {
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .reviewer(null)
-                .rating(4)
+                .rating(4.0)
                 .comment("comment")
                 .build();
 
@@ -120,6 +120,24 @@ public class CourseReviewFactoryTest {
                 .courseId(uuid)
                 .reviewer("username")
                 .rating(rating)
+                .comment("comment")
+                .build();
+
+        // when
+        final Executable createAction = () -> sut.createFrom(command);
+
+        // then
+        assertThrows(ConstraintViolationException.class, createAction);
+    }
+
+    @Test
+    void createFrom_emptyRating_constraintViolationException() {
+        // given
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final ReviewCourseCommand command = ReviewCourseCommand.builder()
+                .courseId(uuid)
+                .reviewer("username")
+                .rating(null)
                 .comment("comment")
                 .build();
 

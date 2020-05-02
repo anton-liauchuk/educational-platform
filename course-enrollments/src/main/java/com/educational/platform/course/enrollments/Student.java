@@ -27,7 +27,7 @@ public class Student {
         this.username = createStudentCommand.getUsername();
     }
 
-    public String getUsername() {
+    public String toReference() {
         return username;
     }
 }

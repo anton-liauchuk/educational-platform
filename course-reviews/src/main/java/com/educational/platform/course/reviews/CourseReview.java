@@ -1,6 +1,7 @@
 package com.educational.platform.course.reviews;
 
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
+import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommand;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -34,6 +35,11 @@ public class CourseReview {
         this.uuid = UUID.randomUUID();
         this.course = course;
         this.reviewer = reviewer;
+        this.rating = new CourseRating(command.getRating());
+        this.comment = new Comment(command.getComment());
+    }
+
+    public void update(UpdateCourseReviewCommand command) {
         this.rating = new CourseRating(command.getRating());
         this.comment = new Comment(command.getComment());
     }

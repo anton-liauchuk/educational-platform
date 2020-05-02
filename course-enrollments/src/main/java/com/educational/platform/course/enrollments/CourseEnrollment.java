@@ -43,8 +43,8 @@ public class CourseEnrollment {
     public CourseEnrollmentDTO toDTO() {
         return CourseEnrollmentDTO.builder()
                 .uuid(uuid)
-                .course(course.getUuid())
-                .student(student.getUsername())
+                .course(course.toReference())
+                .student(student.toReference())
                 .completionStatus(completionStatus.toDTO())
                 .build();
     }
