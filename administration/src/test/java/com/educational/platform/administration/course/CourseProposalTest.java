@@ -89,4 +89,20 @@ public class CourseProposalTest {
         assertThatExceptionOfType(CourseProposalAlreadyDeclinedException.class).isThrownBy(sendToDecline);
     }
 
+    @Test
+    void toDTO_correspondingDTOCreated() {
+        // given
+        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
+        final CreateCourseProposalCommand createCourseProposalCommand = new CreateCourseProposalCommand(uuid);
+        final CourseProposal proposal = new CourseProposal(createCourseProposalCommand);
+
+        // when
+        final CourseProposalDTO dto = proposal.toDTO();
+
+        // then
+        assertThat(dto)
+                .hasFieldOrPropertyWithValue("uuid", uuid)
+                .hasFieldOrPropertyWithValue("status", CourseProposalStatusDTO.WAITING_FOR_APPROVAL);
+    }
+
 }

@@ -48,6 +48,7 @@ public class CourseProposal {
     public CourseProposalDTO toDTO() {
         return CourseProposalDTO.builder()
                 .uuid(uuid)
+                .status(status.toDTO())
                 .build();
     }
 }
