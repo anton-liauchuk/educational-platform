@@ -1,4 +1,4 @@
-# 2. Communications between bounded contexts.
+# 1. Communications between bounded contexts.
 Date: 2020-02-29
 Log date: 2020-02-29
 
