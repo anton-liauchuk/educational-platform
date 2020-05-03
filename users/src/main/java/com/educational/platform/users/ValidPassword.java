@@ -1,4 +1,4 @@
-package com.educational.platform.users.model.validator;
+package com.educational.platform.users;
 
 
 import javax.validation.Constraint;

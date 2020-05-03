@@ -1,4 +1,4 @@
-package com.educational.platform.users.model.validator;
+package com.educational.platform.users;
 
 
 import org.passay.*;
@@ -16,6 +16,12 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext context) {
+
+        // null values are valid
+        if (password == null) {
+            return true;
+        }
+
         final PasswordValidator validator = new PasswordValidator(Arrays.asList(
                 new LengthRule(8, 30),
                 new WhitespaceRule()));

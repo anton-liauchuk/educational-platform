@@ -11,6 +11,7 @@ public class UserCreatedIntegrationEvent extends ApplicationEvent {
 
 
     private final String username;
+    private final String email;
 
 
     /**
@@ -19,9 +20,11 @@ public class UserCreatedIntegrationEvent extends ApplicationEvent {
      * @param source   the object on which the event initially occurred or with
      *                 which the event is associated (never {@code null})
      * @param username username
+     * @param email    email
      */
-    public UserCreatedIntegrationEvent(Object source, String username) {
+    public UserCreatedIntegrationEvent(Object source, String username, String email) {
         super(source);
         this.username = username;
+        this.email = email;
     }
 }

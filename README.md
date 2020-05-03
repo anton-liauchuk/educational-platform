@@ -21,7 +21,11 @@ A `User` can be created after registration. `User` has the list of `Permission`.
 
 | Feature | Status |
 | ------- | ------ |
-| Modular monolith |  |
+| Modular monolith with base functionality |  |
+| Authentication/Security rules in application |  |
 | API |  |
+| Architecture tests |  |
+| Integration events as public sub-module for each module |  |
+| Extend functionality in modules |  |
 | UI application |  |
 | Microservices |  |
