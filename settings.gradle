@@ -8,4 +8,8 @@ include 'integration-events'
 include 'administration'
 include 'course-reviews'
 include 'course-enrollments'
+include 'courses:application'
+findProject(':courses:application')?.name = 'courses-application'
+include 'courses:web'
+findProject(':courses:web')?.name = 'courses-web'
 

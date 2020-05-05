@@ -1,0 +1,22 @@
+dependencies {
+    implementation project(':common')
+    implementation project(':integration-events')
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.3.0'
+    testImplementation 'org.assertj:assertj-core:3.15.0'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.10'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
+}
+
+test {
+    useJUnitPlatform()
+}
