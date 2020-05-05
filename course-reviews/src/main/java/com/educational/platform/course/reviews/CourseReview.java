@@ -1,5 +1,6 @@
 package com.educational.platform.course.reviews;
 
+import com.educational.platform.common.domain.AggregateRoot;
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
 import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommand;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
  * Represents Course Review domain model.
  */
 @Entity
-public class CourseReview {
+public class CourseReview implements AggregateRoot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

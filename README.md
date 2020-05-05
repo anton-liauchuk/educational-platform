@@ -16,8 +16,8 @@ Modular Monolith Java application with DDD. In the plans, this application shoul
 ## 2. Plan
 | Feature | Status |
 | ------- | ------ |
-| Reach documentation |  |
-| DDD building blocks module |  |
+| Reach documentation | COMPLETED |
+| DDD building blocks | COMPLETED |
 | Modular monolith with base functionality |  |
 | Authentication/Security rules in application |  |
 | API |  |

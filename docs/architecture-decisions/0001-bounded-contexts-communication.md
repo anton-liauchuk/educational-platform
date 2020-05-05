@@ -8,7 +8,6 @@ Accepted
 ## Context
 Some data should be available for several bounded contexts. The solution should be defined for retrieving the data from other bounded contexts.
 
-todo
 ## Possible solutions
 ### 1. Direct method call
 

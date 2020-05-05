@@ -1,6 +1,7 @@
 package com.educational.platform.administration.course;
 
 import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
+import com.educational.platform.common.domain.AggregateRoot;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import java.util.UUID;
  * Represents Course Proposal domain model.
  */
 @Entity
-public class CourseProposal {
+public class CourseProposal implements AggregateRoot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package com.educational.platform.users;
 
+import com.educational.platform.common.domain.AggregateRoot;
 import com.educational.platform.users.registration.UserRegistrationCommand;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -12,7 +13,7 @@ import javax.persistence.Id;
  * Represents User domain model.
  */
 @Entity
-public class User {
+public class User implements AggregateRoot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

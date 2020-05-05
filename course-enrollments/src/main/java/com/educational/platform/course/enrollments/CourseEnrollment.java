@@ -1,5 +1,6 @@
 package com.educational.platform.course.enrollments;
 
+import com.educational.platform.common.domain.AggregateRoot;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.UUID;
  * Represents course enrollment domain model.
  */
 @Entity
-public class CourseEnrollment {
+public class CourseEnrollment implements AggregateRoot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

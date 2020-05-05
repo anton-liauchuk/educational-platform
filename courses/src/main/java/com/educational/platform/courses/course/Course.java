@@ -1,5 +1,6 @@
 package com.educational.platform.courses.course;
 
+import com.educational.platform.common.domain.AggregateRoot;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.teacher.Teacher;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
  */
 // todo mark as aggregate root
 @Entity
-public class Course {
+public class Course implements AggregateRoot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
