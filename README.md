@@ -55,19 +55,29 @@ Always valid approach is used. So domain model will be changed from one valid st
 ### 3.4. CQRS
 CQRS solution is used. It will give us flexibility in optimizing model for read and write operations. The simple version of CQRS is implemented in this application.
 
-### 3.5. The identifiers for communication between modules.
+### 3.5. The identifiers for communication between modules
 Natural keys or uuids should be used. Primary keys are forbidden for communications between modules or with external systems.
 
-### 3.6. Architecture Decisions
+### 3.6. API First
+API First is one of engineering and architecture principles. In a nutshell API First requires two aspects:
+- define APIs first, before coding its implementation, using a standard specification language;
+- get early review feedback from peers and client developers;
+
+By defining APIs outside the code, we want to facilitate early review feedback and also a development discipline that focus service interface design on…​
+- profound understanding of the domain and required functionality
+- generalized business entities / resources, i.e. avoidance of use case specific APIs
+- clear separation of WHAT vs. HOW concerns, i.e. abstraction from implementation aspects — APIs should be stable even if we replace complete service implementation including its underlying technology stack
+
+### 3.7. Architecture Decisions
 All decisions inside this project [docs/architecture-decisions](docs/architecture-decisions).
 
-### 3.7. Bounded context map
+### 3.8. Bounded context map
 ![](docs/bounded_context_map.png)
 
-### 3.8. Integration event inside application
+### 3.9. Integration event inside application
 ![](docs/integration_events.png)
 
-### 3.9. Technology stack
+### 3.10. Technology stack
 - Spring
 - Java
 - Lombok
