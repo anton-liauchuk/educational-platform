@@ -68,16 +68,19 @@ By defining APIs outside the code, we want to facilitate early review feedback a
 - generalized business entities / resources, i.e. avoidance of use case specific APIs
 - clear separation of WHAT vs. HOW concerns, i.e. abstraction from implementation aspects — APIs should be stable even if we replace complete service implementation including its underlying technology stack
 
-### 3.7. Architecture Decisions
+### 3.7. Rich Domain Model
+Rich domain model solution is used. This API from domain model will be easy to use. Domain model will encapsulate internal structure.
+
+### 3.8. Architecture Decisions
 All decisions inside this project [docs/architecture-decisions](docs/architecture-decisions).
 
-### 3.8. Bounded context map
+### 3.9. Bounded context map
 ![](docs/bounded_context_map.png)
 
-### 3.9. Integration event inside application
+### 3.10. Integration event inside application
 ![](docs/integration_events.png)
 
-### 3.10. Technology stack
+### 3.11. Technology stack
 - Spring
 - Java
 - Lombok
