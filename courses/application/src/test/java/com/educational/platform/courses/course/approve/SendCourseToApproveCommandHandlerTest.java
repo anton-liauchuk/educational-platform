@@ -6,7 +6,7 @@ import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
-import com.educational.platform.integration.events.SendCourseToApproveIntegrationEvent;
+import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

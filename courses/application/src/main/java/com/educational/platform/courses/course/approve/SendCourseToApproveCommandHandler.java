@@ -4,7 +4,7 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseAlreadyApprovedException;
 import com.educational.platform.courses.course.CourseRepository;
-import com.educational.platform.integration.events.SendCourseToApproveIntegrationEvent;
+import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

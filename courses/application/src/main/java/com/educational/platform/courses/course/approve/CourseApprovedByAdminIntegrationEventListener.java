@@ -1,6 +1,6 @@
 package com.educational.platform.courses.course.approve;
 
-import com.educational.platform.integration.events.CourseApprovedByAdminIntegrationEvent;
+import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;

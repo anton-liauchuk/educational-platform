@@ -1,6 +1,6 @@
 package com.educational.platform.courses.course.rating.update;
 
-import com.educational.platform.integration.events.CourseRatingRecalculatedIntegrationEvent;
+import com.educational.platform.course.reviews.integration.event.CourseRatingRecalculatedIntegrationEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

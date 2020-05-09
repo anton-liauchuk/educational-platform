@@ -1,6 +1,6 @@
 package com.educational.platform.courses.course.rating.update;
 
-import com.educational.platform.integration.events.CourseRatingRecalculatedIntegrationEvent;
+import com.educational.platform.course.reviews.integration.event.CourseRatingRecalculatedIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;

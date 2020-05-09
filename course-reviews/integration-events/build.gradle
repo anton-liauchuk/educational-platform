@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(':common')
+    implementation 'org.springframework:spring-context'
+
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+}

@@ -1,6 +1,6 @@
 package com.educational.platform.courses.teacher.create;
 
-import com.educational.platform.integration.events.UserCreatedIntegrationEvent;
+import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;

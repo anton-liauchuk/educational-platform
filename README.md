@@ -22,7 +22,7 @@ Modular Monolith Java application with DDD. In the plans, this application shoul
 | Authentication/Security rules in application |  |
 | API | IN PROGRESS |
 | Architecture tests |  |
-| Integration events as public sub-module for each module |  |
+| Integration events as public sub-module for each module | COMPLETED |
 | Extend functionality in modules |  |
 | UI application |  |
 | Microservices |  |

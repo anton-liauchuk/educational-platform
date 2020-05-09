@@ -1,6 +1,6 @@
 package com.educational.platform.courses.course.numberofsudents.update;
 
-import com.educational.platform.integration.events.StudentEnrolledToCourseIntegrationEvent;
+import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
