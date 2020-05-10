@@ -1,0 +1,125 @@
+openapi: 3.0.2
+info:
+  title: Course Reviews
+  description: "Course Reviews API"
+  contact:
+    email: anton93lev@gmail.com
+  version: 0.0.1-SNAPSHOT
+tags:
+  - name: Course Reviews
+    description: Course Reviews API
+paths:
+  /courses/uuid/reviews:
+    post:
+      tags:
+        - Course Reviews
+      summary: Add course review to course
+      description: Add course review to course
+      operationId: courseReview
+      requestBody:
+        description: Add Course review request
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/ReviewCourseRequest'
+        required: true
+      responses:
+        '201':
+          description: New Course Review added.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseReview'
+        '400':
+          description: Validation issues in payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '500':
+          description: Unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+components:
+  schemas:
+    ReviewCourseRequest:
+      description: Review Course model
+      type: object
+      properties:
+        name:
+          type: string
+          description: Course name
+          example: Java 11 for beginners
+          required: true
+        description:
+          type: string
+          description: Course description
+          example: Course created for Java developers
+          required: true
+    CourseReview:
+      description: Course model
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440001
+          description: UUID of the company.
+          required: true
+        name:
+          type: string
+          description: Course name
+          example: Java 11 for beginners
+          required: true
+        description:
+          type: string
+          description: Course description
+          example: Course created for Java developers
+          required: true
+    RestApiError:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: ErrorCode
+          description: Error code.
+        details:
+          type: array
+          description: An array of details about specific errors that led to this reported error.
+          items:
+            $ref: '#/components/schemas/RestApiError'
+        innererror:
+          $ref: '#/components/schemas/InnerError'
+        message:
+          type: string
+          example: Validation issues
+          description: A human-readable representation of the error.
+        target:
+          type: string
+          example: field
+          description: The target of the error.
+      title: RestApiError
+      description: REST API Error.
+    RestApiErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/RestApiError'
+      title: RestApiErrorResponse
+      description: REST API Error Response. Full description about error response is represented in https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses
+    InnerError:
+      type: object
+      properties:
+        code:
+          type: string
+          example: ErrorCode
+          description: Error code.
+        innererror:
+          $ref: '#/components/schemas/InnerError'
+      title: InnerError
+      description: An object containing more specific information than the current object about the error.
