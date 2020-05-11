@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  title: Courses
+  title: Administration Course Proposals API
   description: "Administration Course Proposals API"
   contact:
     email: anton93lev@gmail.com
@@ -9,29 +9,69 @@ tags:
   - name: Administration Course Proposals API
     description: Administration Course Proposals API
 paths:
-  /administration/courses-proposals/uuid/approval:
-    post:
+  '/administration/course-proposals/{uuid}/approval-status':
+    put:
       tags:
         - Administration Course Proposals API
       summary: Approve Course Proposal
       description: Approve Course Proposal
       operationId: approveCourseProposal
-      requestBody:
-        description: Course creation request
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/CourseCreateRequest'
-        required: true
+      parameters:
+        - name: uuid
+          in: path
+          description: Course Proposal UUID.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          x-example: 123e4567-e89b-12d3-a456-426655440001
       responses:
-        '200':
-          description: New Course created.
+        '204':
+          description: Course Proposal approved.
+        '400':
+          description: Course Proposal was already approved.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Course'
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '404':
+          description: Course Proposal not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '500':
+          description: Unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+    delete:
+      tags:
+        - Administration Course Proposals API
+      summary: Decline Course Proposal
+      description: Decline Course Proposal
+      operationId: declineCourseProposal
+      parameters:
+        - name: uuid
+          in: path
+          description: Course Proposal UUID.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          x-example: 123e4567-e89b-12d3-a456-426655440001
+      responses:
+        '204':
+          description: Course Proposal declined.
         '400':
-          description: Validation issues in payload.
+          description: Course Proposal was already approved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '404':
+          description: Course Proposal not found.
           content:
             application/json:
               schema:
@@ -44,40 +84,6 @@ paths:
                 $ref: '#/components/schemas/RestApiErrorResponse'
 components:
   schemas:
-    CourseCreateRequest:
-      description: Course creation model
-      type: object
-      properties:
-        name:
-          type: string
-          description: Course name
-          example: Java 11 for beginners
-          required: true
-        description:
-          type: string
-          description: Course description
-          example: Course created for Java developers
-          required: true
-    Course:
-      description: Course model
-      type: object
-      properties:
-        uuid:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426655440001
-          description: UUID of the company.
-          required: true
-        name:
-          type: string
-          description: Course name
-          example: Java 11 for beginners
-          required: true
-        description:
-          type: string
-          description: Course description
-          example: Course created for Java developers
-          required: true
     RestApiError:
       type: object
       required:

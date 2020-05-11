@@ -1,6 +1,6 @@
 dependencies {
     implementation project(':common')
-    implementation project(':courses:courses-application')
+    implementation project(':administration:administration-application')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
