@@ -1,6 +1,7 @@
 package com.educational.platform.administration.course.approve;
 
 import com.educational.platform.administration.course.CourseProposal;
+import com.educational.platform.administration.course.CourseProposalAlreadyApprovedException;
 import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
@@ -28,7 +29,8 @@ public class ApproveCourseProposalCommandHandler {
      * Handles approve course proposal command. Approves and save approved course proposal
      *
      * @param command command
-     * @throws ResourceNotFoundException if resource not found
+     * @throws ResourceNotFoundException              if resource not found
+     * @throws CourseProposalAlreadyApprovedException course proposal already approved
      */
     public void handle(ApproveCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {

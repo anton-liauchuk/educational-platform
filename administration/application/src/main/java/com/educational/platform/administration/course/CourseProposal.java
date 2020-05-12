@@ -3,10 +3,7 @@ package com.educational.platform.administration.course;
 import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
 import com.educational.platform.common.domain.AggregateRoot;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 /**
@@ -20,6 +17,8 @@ public class CourseProposal implements AggregateRoot {
     private Integer id;
 
     private UUID uuid;
+
+    @Enumerated(EnumType.STRING)
     private CourseProposalStatus status;
 
     // for JPA
