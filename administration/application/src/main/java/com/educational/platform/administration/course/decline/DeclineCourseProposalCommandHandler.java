@@ -1,6 +1,7 @@
 package com.educational.platform.administration.course.decline;
 
 import com.educational.platform.administration.course.CourseProposal;
+import com.educational.platform.administration.course.CourseProposalAlreadyDeclinedException;
 import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseDeclinedByAdminIntegrationEvent;
@@ -28,7 +29,8 @@ public class DeclineCourseProposalCommandHandler {
      * Handles decline course proposal command. Declines and save declined course proposal
      *
      * @param command command
-     * @throws ResourceNotFoundException if resource not found
+     * @throws ResourceNotFoundException              if resource not found
+     * @throws CourseProposalAlreadyDeclinedException course proposal already declined
      */
     public void handle(DeclineCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {

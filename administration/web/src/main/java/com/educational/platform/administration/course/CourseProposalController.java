@@ -4,8 +4,10 @@ import com.educational.platform.administration.course.approve.ApproveCoursePropo
 import com.educational.platform.administration.course.approve.ApproveCourseProposalCommandHandler;
 import com.educational.platform.administration.course.decline.DeclineCourseProposalCommand;
 import com.educational.platform.administration.course.decline.DeclineCourseProposalCommandHandler;
+import com.educational.platform.web.handler.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -35,4 +37,9 @@ public class CourseProposalController {
         declineHandler.handle(new DeclineCourseProposalCommand(uuid));
     }
 
+    @ExceptionHandler({CourseProposalAlreadyDeclinedException.class, CourseProposalAlreadyApprovedException.class})
+    public ResponseEntity<ErrorResponse> onConflictException(Exception e) {
+        final ErrorResponse response = new ErrorResponse(e.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
 }
