@@ -25,6 +25,13 @@ paths:
             type: string
             format: uuid
           example: 123e4567-e89b-12d3-a456-426655440001
+      requestBody:
+        description: Student username. It's temp solution before implementing user module.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/CourseEnrollmentRequest'
+        required: true
       responses:
         '201':
           description: Enrolled to course.
@@ -32,6 +39,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CourseEnrollment'
+        '404':
+          description: Course not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
         '500':
           description: Unexpected server error.
           content:
@@ -40,6 +53,15 @@ paths:
                 $ref: '#/components/schemas/RestApiErrorResponse'
 components:
   schemas:
+    CourseEnrollmentRequest:
+      description: Course enrollment request
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Student username.
+          example: 123e4567-e89b-12d3-a456-426655440001
     CourseEnrollment:
       description: Course enrollment
       type: object
@@ -47,7 +69,7 @@ components:
         uuid:
           type: string
           format: uuid
-          description: Course Proposal UUID.
+          description: Course UUID.
           example: 123e4567-e89b-12d3-a456-426655440001
     RestApiError:
       type: object

@@ -18,7 +18,7 @@ include 'administration:web'
 findProject(':administration:web')?.name = 'administration-web'
 
 include 'course-enrollments:application'
-findProject(':course-enrollments:application')?.name = 'course-enrollments'
+findProject(':course-enrollments:application')?.name = 'course-enrollments-application'
 include 'course-enrollments:integration-events'
 findProject(':course-enrollments:integration-events')?.name = 'course-enrollments-integration-events'
 include 'course-enrollments:web'

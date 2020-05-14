@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Command handler for {@link RegisterStudentToCourseCommand} registers student to course.
@@ -31,7 +32,7 @@ public class RegisterStudentToCourseCommandHandler {
      *
      * @param command command
      */
-    public void handle(RegisterStudentToCourseCommand command) {
+    public UUID handle(RegisterStudentToCourseCommand command) {
         final CourseEnrollment courseEnrollment = transactionTemplate.execute(transactionStatus -> {
             final CourseEnrollment enrollment = courseEnrollmentFactory.createFrom(command);
             courseEnrollmentRepository.save(enrollment);
@@ -45,6 +46,8 @@ public class RegisterStudentToCourseCommandHandler {
                 new StudentEnrolledToCourseIntegrationEvent(courseEnrollment,
                         courseEnrollmentDTO.getCourse(),
                         courseEnrollmentDTO.getStudent()));
+
+        return courseEnrollmentDTO.getUuid();
     }
 
 }
