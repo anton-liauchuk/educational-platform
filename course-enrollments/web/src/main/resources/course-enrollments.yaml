@@ -13,15 +13,15 @@ paths:
     post:
       tags:
         - Course Enrollments
-      summary: Create course
-      description: Create course functionality
-      operationId: createCourse
+      summary: Enroll to course
+      description: Enroll to course
+      operationId: enrollToCourse
       requestBody:
-        description: Course creation request
+        description: Enroll To Course request
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/CourseCreateRequest'
+              $ref: '#/components/schemas/EnrollToCourseRequest'
         required: true
       responses:
         '201':
@@ -44,31 +44,11 @@ paths:
                 $ref: '#/components/schemas/RestApiErrorResponse'
 components:
   schemas:
-    CourseCreateRequest:
-      description: Course creation model
+    EnrollToCourseRequest:
+      description: Enroll to course request
       type: object
       properties:
-        name:
-          type: string
-          description: Course name
-          example: Java 11 for beginners
-          required: true
-        description:
-          type: string
-          description: Course description
-          example: Course created for Java developers
-          required: true
-    Course:
-      description: Course model
-      type: object
-      properties:
-        uuid:
-          type: string
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-426655440001
-          description: UUID of the company.
-          required: true
-        name:
+        student:
           type: string
           description: Course name
           example: Java 11 for beginners
