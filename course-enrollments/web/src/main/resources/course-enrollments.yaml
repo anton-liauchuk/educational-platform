@@ -9,33 +9,29 @@ tags:
   - name: Course Enrollments
     description: Course Enrollments API
 paths:
-  /courses/uuid/course-enrollments:
+  /courses/{uuid}/course-enrollments:
     post:
       tags:
         - Course Enrollments
       summary: Enroll to course
       description: Enroll to course
       operationId: enrollToCourse
-      requestBody:
-        description: Enroll To Course request
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/EnrollToCourseRequest'
-        required: true
+      parameters:
+        - name: uuid
+          in: path
+          description: Course UUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440001
       responses:
         '201':
-          description: New Course created.
+          description: Enrolled to course.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Course'
-        '400':
-          description: Validation issues in payload.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RestApiErrorResponse'
+                $ref: '#/components/schemas/CourseEnrollment'
         '500':
           description: Unexpected server error.
           content:
@@ -44,20 +40,15 @@ paths:
                 $ref: '#/components/schemas/RestApiErrorResponse'
 components:
   schemas:
-    EnrollToCourseRequest:
-      description: Enroll to course request
+    CourseEnrollment:
+      description: Course enrollment
       type: object
       properties:
-        student:
+        uuid:
           type: string
-          description: Course name
-          example: Java 11 for beginners
-          required: true
-        description:
-          type: string
-          description: Course description
-          example: Course created for Java developers
-          required: true
+          format: uuid
+          description: Course Proposal UUID.
+          example: 123e4567-e89b-12d3-a456-426655440001
     RestApiError:
       type: object
       required:
