@@ -1,5 +1,6 @@
 package com.educational.platform.web.handler;
 
+import com.educational.platform.common.exception.RelatedResourceIsNotResolvedException;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.common.exception.UnprocessableEntityException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -9,13 +10,15 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> onResourceNotFoundException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorResponse> onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         var errors = e.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -23,6 +26,22 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(errors));
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> onConstraintViolationException(ConstraintViolationException e) {
+        var errors = e.getConstraintViolations()
+                .stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(errors));
+    }
+
+    @ExceptionHandler(RelatedResourceIsNotResolvedException.class)
+    public ResponseEntity<ErrorResponse> onRelatedResourceIsNotResolvedException(RelatedResourceIsNotResolvedException e) {
+        var response = new ErrorResponse(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
