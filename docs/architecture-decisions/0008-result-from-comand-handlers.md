@@ -1,4 +1,4 @@
-# 7. API First.
+# 8. Results from command handlers.
 Date: 2020-05-14
 Log date: 2020-05-14
 

@@ -74,13 +74,16 @@ Rich domain model solution is used. This API from domain model will be easy to u
 ### 3.8. Architecture Decisions
 All decisions inside this project [docs/architecture-decisions](docs/architecture-decisions).
 
-### 3.9. Bounded context map
+### 3.9. Results from command handlers
+The idea from CQRS - do not return anything from command processing. But in some cases, we need to get generated identifiers of new created resources. So as trade-off, command handlers can return generated identifiers after processing if it's needed.
+
+### 3.10. Bounded context map
 ![](docs/bounded_context_map.png)
 
-### 3.10. Integration event inside application
+### 3.11. Integration event inside application
 ![](docs/integration_events.png)
 
-### 3.11. Technology stack
+### 3.12. Technology stack
 - Spring
 - Java
 - Lombok
