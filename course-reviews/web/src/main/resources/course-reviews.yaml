@@ -9,13 +9,22 @@ tags:
   - name: Course Reviews
     description: Course Reviews API
 paths:
-  /courses/uuid/reviews:
+  /courses/{uuid}/reviews:
     post:
       tags:
         - Course Reviews
       summary: Add course review to course
       description: Add course review to course
       operationId: courseReview
+      parameters:
+        - name: uuid
+          in: path
+          description: Course UUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440001
       requestBody:
         description: Add Course review request
         content:
@@ -42,42 +51,104 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestApiErrorResponse'
+  /courses/{courseUuid}/reviews/{reviewUuid}:
+    put:
+      tags:
+        - Course Reviews
+      summary: Edit course review
+      description: Edit course review
+      operationId: courseReview
+      parameters:
+        - name: courseUuid
+          in: path
+          description: Course UUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440001
+        - name: reviewUuid
+          in: path
+          description: Review UUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440001
+      requestBody:
+        description: Add Course review request
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/ReviewCourseRequest'
+        required: true
+      responses:
+        '200':
+          description: Course Review updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseReview'
+        '400':
+          description: Validation issues in payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '500':
+          description: Unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
 components:
   schemas:
     ReviewCourseRequest:
       description: Review Course model
       type: object
+      required:
+        - reviewer
+        - rating
       properties:
-        name:
+        reviewer:
           type: string
-          description: Course name
-          example: Java 11 for beginners
-          required: true
-        description:
+          description: Reviewer username
+          example: username
+        rating:
+          type: double
+          description: Rating
+          example: 3.0
+        comment:
           type: string
-          description: Course description
-          example: Course created for Java developers
-          required: true
+          description: Comment
+          example: Good course, very useful!
     CourseReview:
-      description: Course model
+      description: Course review model
       type: object
+      required:
+        - uuid
+        - reviewer
+        - rating
       properties:
         uuid:
           type: string
+          description: Course Review UUID
           format: uuid
           example: 123e4567-e89b-12d3-a456-426655440001
-          description: UUID of the company.
-          required: true
-        name:
+        reviewer:
           type: string
-          description: Course name
-          example: Java 11 for beginners
+          description: Reviewer username
+          example: username
           required: true
-        description:
+        rating:
+          type: double
+          description: Rating
+          example: 3.0
+          required: true
+        comment:
           type: string
-          description: Course description
-          example: Course created for Java developers
-          required: true
+          description: Comment
+          example: Good course, very useful!
     RestApiError:
       type: object
       required:
