@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class CourseEnrollmentRequest {
 
+    // todo get student from current user
     @NotNull
     private String student;
 

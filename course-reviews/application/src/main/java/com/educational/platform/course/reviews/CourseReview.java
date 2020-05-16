@@ -44,4 +44,8 @@ public class CourseReview implements AggregateRoot {
         this.rating = new CourseRating(command.getRating());
         this.comment = new Comment(command.getComment());
     }
+
+    public UUID toIdentifier() {
+        return this.uuid;
+    }
 }

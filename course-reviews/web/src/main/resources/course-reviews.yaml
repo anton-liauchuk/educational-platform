@@ -38,7 +38,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CourseReview'
+                $ref: '#/components/schemas/CourseReviewCreatedResponse'
         '400':
           description: Validation issues in payload.
           content:
@@ -88,7 +88,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CourseReview'
+                $ref: '#/components/schemas/CourseReviewCreatedResponse'
         '400':
           description: Validation issues in payload.
           content:
@@ -122,33 +122,17 @@ components:
           type: string
           description: Comment
           example: Good course, very useful!
-    CourseReview:
-      description: Course review model
+    CourseReviewCreatedResponse:
+      description: Course review created response model
       type: object
       required:
         - uuid
-        - reviewer
-        - rating
       properties:
         uuid:
           type: string
           description: Course Review UUID
           format: uuid
           example: 123e4567-e89b-12d3-a456-426655440001
-        reviewer:
-          type: string
-          description: Reviewer username
-          example: username
-          required: true
-        rating:
-          type: double
-          description: Rating
-          example: 3.0
-          required: true
-        comment:
-          type: string
-          description: Comment
-          example: Good course, very useful!
     RestApiError:
       type: object
       required:
