@@ -45,19 +45,31 @@ public class CourseReviewApiTest {
     }
 
     @Test
-    void update_validRequest_ok() {
+    void update_validRequest_noContent() {
+        final UUID reviewUuid = UUID.fromString(
+                given()
+                        .contentType(ContentType.JSON)
+                        .body("{\n" +
+                                "  \"reviewer\": \"username\",\n" +
+                                "  \"rating\": 3.2\n" +
+                                "}")
+
+                        .when()
+                        .post("/courses/{uuid}/course-reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+                        .path("uuid"));
+
         given()
                 .contentType(ContentType.JSON)
                 .body("{\n" +
-                        "  \"reviewer\": \"username\",\n" +
-                        "  \"rating\": 3.2\n" +
+                        "  \"comment\": \"comment2\",\n" +
+                        "  \"rating\": 3.5\n" +
                         "}")
 
                 .when()
-                .post("/courses/{uuid}/course-reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+                .put("/courses/{courseUuid}/course-reviews/{reviewUuid}", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"), reviewUuid)
 
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 
 }
