@@ -8,20 +8,15 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.UUID;
 
 /**
- * Represents review course request.
+ * Represents update course review request.
  */
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewCourseRequest {
-
-    // todo get student from current user
-    @NotNull
-    private String reviewer;
+public class UpdateCourseReviewRequest {
 
     @Max(5)
     @PositiveOrZero

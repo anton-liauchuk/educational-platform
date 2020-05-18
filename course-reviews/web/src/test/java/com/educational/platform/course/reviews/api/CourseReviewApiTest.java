@@ -29,7 +29,7 @@ public class CourseReviewApiTest {
     }
 
     @Test
-    void register_validCourse_createdWithUUID() {
+    void review_validRequest_created() {
         given()
                 .contentType(ContentType.JSON)
                 .body("{\n" +
@@ -42,6 +42,22 @@ public class CourseReviewApiTest {
 
                 .then()
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    void update_validRequest_ok() {
+        given()
+                .contentType(ContentType.JSON)
+                .body("{\n" +
+                        "  \"reviewer\": \"username\",\n" +
+                        "  \"rating\": 3.2\n" +
+                        "}")
+
+                .when()
+                .post("/courses/{uuid}/course-reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+
+                .then()
+                .statusCode(HttpStatus.OK.value());
     }
 
 }

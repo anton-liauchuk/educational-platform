@@ -28,6 +28,8 @@ public class UpdateCourseReviewCommandHandler {
      * Updates course review by values from command.
      *
      * @param command command
+     * @throws ResourceNotFoundException    course review not found
+     * @throws ConstraintViolationException validation issues
      */
     public void handle(UpdateCourseReviewCommand command) {
         final Optional<CourseReview> dbResult = courseReviewRepository.findByUuid(command.getUuid());

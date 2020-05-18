@@ -80,17 +80,19 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/ReviewCourseRequest'
+              $ref: '#/components/schemas/UpdateCourseReviewRequest'
         required: true
       responses:
         '200':
           description: Course Review updated.
+        '400':
+          description: Validation issues in payload.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CourseReviewCreatedResponse'
-        '400':
-          description: Validation issues in payload.
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '404':
+          description: Course Review not found.
           content:
             application/json:
               schema:
@@ -114,6 +116,20 @@ components:
           type: string
           description: Reviewer username
           example: username
+        rating:
+          type: double
+          description: Rating
+          example: 3.0
+        comment:
+          type: string
+          description: Comment
+          example: Good course, very useful!
+    UpdateCourseReviewRequest:
+      description: Update Course Review model
+      type: object
+      required:
+        - rating
+      properties:
         rating:
           type: double
           description: Rating
