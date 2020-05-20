@@ -42,6 +42,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestApiErrorResponse'
+  /courses/{courseUuid}/publish-status:
+    put:
+      tags:
+        - Course Publish status
+      summary: Publish Course
+      description: Publish Course
+      operationId: publishCourse
+      parameters:
+        - name: courseUuid
+          in: path
+          description: Course UUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440001
+      responses:
+        '204':
+          description: Course published.
+        '404':
+          description: Course not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '409':
+          description: Course not approved, course should be approved before publishing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '500':
+          description: Unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+
 components:
   schemas:
     CreateCourseRequest:

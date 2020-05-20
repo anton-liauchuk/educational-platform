@@ -83,7 +83,7 @@ paths:
               $ref: '#/components/schemas/UpdateCourseReviewRequest'
         required: true
       responses:
-        '200':
+        '204':
           description: Course Review updated.
         '400':
           description: Validation issues in payload.
