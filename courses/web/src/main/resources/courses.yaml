@@ -21,7 +21,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/CourseCreateRequest'
+              $ref: '#/components/schemas/CreateCourseRequest'
         required: true
       responses:
         '201':
@@ -29,7 +29,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Course'
+                $ref: '#/components/schemas/CreatedCourseResponse'
         '400':
           description: Validation issues in payload.
           content:
@@ -44,40 +44,34 @@ paths:
                 $ref: '#/components/schemas/RestApiErrorResponse'
 components:
   schemas:
-    CourseCreateRequest:
+    CreateCourseRequest:
       description: Course creation model
       type: object
+      required:
+        - name
+        - description
       properties:
         name:
           type: string
+          minLength: 1
           description: Course name
           example: Java 11 for beginners
-          required: true
         description:
           type: string
+          minLength: 1
           description: Course description
           example: Course created for Java developers
-          required: true
-    Course:
+    CreatedCourseResponse:
       description: Course model
       type: object
+      required:
+        - uuid
       properties:
         uuid:
           type: string
           format: uuid
           example: 123e4567-e89b-12d3-a456-426655440001
           description: UUID of the company.
-          required: true
-        name:
-          type: string
-          description: Course name
-          example: Java 11 for beginners
-          required: true
-        description:
-          type: string
-          description: Course description
-          example: Course created for Java developers
-          required: true
     RestApiError:
       type: object
       required:

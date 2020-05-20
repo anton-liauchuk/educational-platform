@@ -94,4 +94,8 @@ public class Course implements AggregateRoot {
     public void removeLecture() {
 
     }
+
+    public UUID toIdentity() {
+        return uuid;
+    }
 }

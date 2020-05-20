@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
+import java.util.UUID;
 
 /**
  * Command handler for {@link CreateCourseCommand} creates a course.
@@ -26,9 +27,11 @@ public class CreateCourseCommandHandler {
      * @param command command
      * @throws ConstraintViolationException in the case of validation issues
      */
-    public void handle(CreateCourseCommand command) {
+    public UUID handle(CreateCourseCommand command) {
         final Course course = courseFactory.createFrom(command);
         courseRepository.save(course);
+
+        return course.toIdentity();
     }
 
 }
