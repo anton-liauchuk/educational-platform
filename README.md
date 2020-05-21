@@ -18,9 +18,9 @@ Modular Monolith Java application with DDD. In the plans, this application shoul
 | ------- | ------ |
 | Reach documentation | COMPLETED |
 | DDD building blocks | COMPLETED |
-| Modular monolith with base functionality |  |
-| Authentication/Security rules in application |  |
-| API | IN PROGRESS |
+| Modular monolith with base functionality | COMPLETED |
+| Authentication/Security rules in application | IN PROGRESS |
+| API | COMPLETED |
 | Architecture tests |  |
 | Integration events as public sub-module for each module | COMPLETED |
 | Extend functionality in modules |  |
