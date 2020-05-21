@@ -1,8 +1,12 @@
 package com.educational.platform.courses.integration;
 
+import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.CourseController;
+import com.educational.platform.courses.course.CourseCannotBePublishedException;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.create.CreateCourseCommandHandler;
+import com.educational.platform.courses.course.publish.PublishCourseCommand;
+import com.educational.platform.courses.course.publish.PublishCourseCommandHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,10 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.validation.ConstraintViolationException;
 import java.util.HashSet;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -29,6 +35,9 @@ public class CourseControllerIntegrationTest {
 
     @MockBean
     private CreateCourseCommandHandler createCourseCommandHandler;
+
+    @MockBean
+    private PublishCourseCommandHandler publishCourseCommandHandler;
 
     @Test
     void create_validRequest_created() throws Exception {
@@ -80,5 +89,30 @@ public class CourseControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void publish_alreadyApprovedCourse_noContent() throws Exception {
+        this.mockMvc.perform(put("/courses/{uuid}/publish-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void publish_resourceNotFoundException_notFound() throws Exception {
+        doThrow(ResourceNotFoundException.class).when(publishCourseCommandHandler).handle(any(PublishCourseCommand.class));
+
+        this.mockMvc.perform(put("/courses/{uuid}/publish-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void publish_courseCannotBePublishedException_conflict() throws Exception {
+        doThrow(CourseCannotBePublishedException.class).when(publishCourseCommandHandler).handle(any(PublishCourseCommand.class));
+
+        this.mockMvc.perform(put("/courses/{uuid}/publish-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict());
     }
 }

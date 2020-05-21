@@ -16,6 +16,7 @@ import static io.restassured.RestAssured.given;
 /**
  * Represents API tests for course functionality.
  */
+@Sql(scripts = "classpath:insert_data.sql")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CourseApiTest {
 
@@ -41,5 +42,17 @@ public class CourseApiTest {
 
                 .then()
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    void publish_alreadyApprovedCourse_noContent() {
+        given()
+                .contentType(ContentType.JSON)
+
+                .when()
+                .put("/courses/{uuid}/publish-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 }

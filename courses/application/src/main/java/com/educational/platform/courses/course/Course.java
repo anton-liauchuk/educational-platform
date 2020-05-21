@@ -23,8 +23,13 @@ public class Course implements AggregateRoot {
 
     private String name;
     private String description;
+
+    @Enumerated(EnumType.STRING)
     private PublishStatus publishStatus;
+
+    @Enumerated(EnumType.STRING)
     private ApprovalStatus approvalStatus;
+
     private CourseRating rating;
     private NumberOfStudents numberOfStudents;
 
