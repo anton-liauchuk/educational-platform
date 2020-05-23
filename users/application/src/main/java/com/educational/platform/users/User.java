@@ -2,12 +2,14 @@ package com.educational.platform.users;
 
 import com.educational.platform.common.domain.AggregateRoot;
 import com.educational.platform.users.registration.UserRegistrationCommand;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Collections;
 
 /**
  * Represents User domain model.
@@ -40,6 +42,18 @@ public class User implements AggregateRoot {
                 .username(username)
                 .email(email)
                 .role(role.toDTO())
+                .build();
+    }
+
+    public UserDetails toUserDetails() {
+        return org.springframework.security.core.userdetails.User
+                .withUsername(username)
+                .password(password)
+                .authorities(Collections.singletonList(role))
+                .accountExpired(false)
+                .accountLocked(false)
+                .credentialsExpired(false)
+                .disabled(false)
                 .build();
     }
 }
