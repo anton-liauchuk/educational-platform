@@ -1,10 +1,12 @@
 package com.educational.platform.users.registration;
 
 import com.educational.platform.common.exception.UnprocessableEntityException;
+import com.educational.platform.users.Role;
 import com.educational.platform.users.User;
 import com.educational.platform.users.UserDTO;
 import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
+import com.educational.platform.users.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +16,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,6 +29,7 @@ public class UserRegistrationCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository repository;
     private final ApplicationEventPublisher eventPublisher;
     private final Validator validator;
@@ -34,10 +38,11 @@ public class UserRegistrationCommandHandler {
      * Handles user registration command. Creates and saves user from provided registration.
      *
      * @param command command
+     * @return token
      * @throws ConstraintViolationException validation errors
      * @throws UnprocessableEntityException if username is already in use
      */
-    public void handle(UserRegistrationCommand command) {
+    public String handle(UserRegistrationCommand command) {
         final User user = transactionTemplate.execute(transactionStatus -> {
             final Set<ConstraintViolation<UserRegistrationCommand>> violations = validator.validate(command);
             if (!violations.isEmpty()) {
@@ -55,5 +60,7 @@ public class UserRegistrationCommandHandler {
 
         final UserDTO dto = Objects.requireNonNull(user).toDTO();
         eventPublisher.publishEvent(new UserCreatedIntegrationEvent(dto, dto.getUsername(), dto.getEmail()));
+
+        return jwtTokenProvider.createToken(dto.getUsername(), Collections.singletonList(Role.from(dto.getRole())));
     }
 }

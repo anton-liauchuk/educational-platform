@@ -4,6 +4,7 @@ import com.educational.platform.common.exception.UnprocessableEntityException;
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 import com.educational.platform.users.registration.UserRegistrationCommand;
 import com.educational.platform.users.registration.UserRegistrationCommandHandler;
+import com.educational.platform.users.security.JwtTokenProvider;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,13 +44,16 @@ public class UserRegistrationCommandHandlerTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    private JwtTokenProvider jwtTokenProvider;
+
     private UserRegistrationCommandHandler sut;
 
     @BeforeEach
     void setUp() {
         transactionTemplate = new TransactionTemplate(transactionManager);
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        sut = new UserRegistrationCommandHandler(transactionTemplate, passwordEncoder, repository, eventPublisher, validator);
+        sut = new UserRegistrationCommandHandler(transactionTemplate, passwordEncoder, jwtTokenProvider, repository, eventPublisher, validator);
     }
 
     @Test
