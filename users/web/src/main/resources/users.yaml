@@ -1,0 +1,140 @@
+openapi: 3.0.2
+info:
+  title: Users
+  description: "Users API"
+  contact:
+    email: anton93lev@gmail.com
+  version: 0.0.1-SNAPSHOT
+paths:
+  /users/sign-in:
+    post:
+      tags:
+        - Sign In
+      summary: Sign In
+      description: Sign In
+      operationId: signIn
+      requestBody:
+        description: Sign In Request
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SignInRequest'
+        required: true
+      responses:
+        '200':
+          description: User signed in.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInResponse'
+        '422':
+          description: Invalid username/password.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '500':
+          description: Unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+  /users/sign-up:
+    post:
+      tags:
+        - Sign Up
+      summary: Sign Up
+      description: Sign Up
+      operationId: signUp
+      responses:
+        '200':
+          description: User signed up.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInResponse'
+        '409':
+          description: Username is in use.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '500':
+          description: Unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+
+components:
+  schemas:
+    SignInRequest:
+      description: Sign In Request.
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          minLength: 1
+          description: Username
+          example: user-name
+        password:
+          type: string
+          minLength: 1
+          description: Password
+          example: strongPassword
+    SignInResponse:
+      description: sign in/sign up response.
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+    RestApiError:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: ErrorCode
+          description: Error code.
+        details:
+          type: array
+          description: An array of details about specific errors that led to this reported error.
+          items:
+            $ref: '#/components/schemas/RestApiError'
+        innererror:
+          $ref: '#/components/schemas/InnerError'
+        message:
+          type: string
+          example: Validation issues
+          description: A human-readable representation of the error.
+        target:
+          type: string
+          example: field
+          description: The target of the error.
+      title: RestApiError
+      description: REST API Error.
+    RestApiErrorResponse:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/RestApiError'
+      title: RestApiErrorResponse
+      description: REST API Error Response. Full description about error response is represented in https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses
+    InnerError:
+      type: object
+      properties:
+        code:
+          type: string
+          example: ErrorCode
+          description: Error code.
+        innererror:
+          $ref: '#/components/schemas/InnerError'
+      title: InnerError
+      description: An object containing more specific information than the current object about the error.
