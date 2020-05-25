@@ -1,7 +1,5 @@
-package com.educational.platform.courses.security;
+package com.educational.platform.users.security;
 
-import com.educational.platform.users.security.JwtTokenProvider;
-import com.educational.platform.users.security.JwtTokenValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;

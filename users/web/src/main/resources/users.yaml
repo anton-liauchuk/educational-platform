@@ -46,6 +46,12 @@ paths:
       summary: Sign Up
       description: Sign Up
       operationId: signUp
+      requestBody:
+        description: Sign Up Request
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
       responses:
         '200':
           description: User signed up.
@@ -85,6 +91,28 @@ components:
           minLength: 1
           description: Password
           example: strongPassword
+    SignUpRequest:
+      description: Sign Up Request.
+      type: object
+      required:
+       - username
+       - password
+      properties:
+        username:
+          type: string
+          minLength: 1
+          description: Username
+          example: user-name
+        password:
+          type: string
+          minLength: 1
+          description: Password
+          example: strongPassword
+        email:
+          type: string
+          minLength: 1
+          description: Email
+          example: email@gmail.come
     SignInResponse:
       description: sign in/sign up response.
       type: object

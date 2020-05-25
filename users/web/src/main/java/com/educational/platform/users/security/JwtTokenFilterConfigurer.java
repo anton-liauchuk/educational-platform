@@ -1,6 +1,5 @@
-package com.educational.platform.courses.security;
+package com.educational.platform.users.security;
 
-import com.educational.platform.users.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
