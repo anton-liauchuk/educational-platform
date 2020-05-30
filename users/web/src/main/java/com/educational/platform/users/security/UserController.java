@@ -2,6 +2,8 @@ package com.educational.platform.users.security;
 
 import javax.validation.Valid;
 
+import com.educational.platform.users.login.SignInCommand;
+import com.educational.platform.users.login.SignInCommandHandler;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserRegistrationCommandHandler registrationCommandHandler;
+	private final SignInCommandHandler signInCommandHandler;
 
 	@PostMapping("/sign-up")
 	public String signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
@@ -32,5 +35,16 @@ public class UserController {
 				.build();
 
 		return registrationCommandHandler.handle(command);
+	}
+
+	@PostMapping("/sign-in")
+	public String signIn(@Valid @RequestBody SignInRequest signInRequest) {
+		SignInCommand command = SignInCommand
+				.builder()
+				.username(signInRequest.getUsername())
+				.password(signInRequest.getPassword())
+				.build();
+
+		return signInCommandHandler.handle(command);
 	}
 }

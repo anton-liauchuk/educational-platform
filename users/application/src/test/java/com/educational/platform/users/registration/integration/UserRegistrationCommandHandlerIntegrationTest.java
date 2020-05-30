@@ -1,9 +1,11 @@
-package com.educational.platform.users.registration;
+package com.educational.platform.users.registration.integration;
 
 import com.educational.platform.users.Role;
 import com.educational.platform.users.RoleDTO;
 import com.educational.platform.users.User;
 import com.educational.platform.users.UserRepository;
+import com.educational.platform.users.registration.UserRegistrationCommand;
+import com.educational.platform.users.registration.UserRegistrationCommandHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

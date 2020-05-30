@@ -1,6 +1,10 @@
-package com.educational.platform.users;
+package com.educational.platform.users.registration;
 
 import com.educational.platform.common.exception.UnprocessableEntityException;
+import com.educational.platform.users.Role;
+import com.educational.platform.users.RoleDTO;
+import com.educational.platform.users.User;
+import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 import com.educational.platform.users.registration.UserRegistrationCommand;
 import com.educational.platform.users.registration.UserRegistrationCommandHandler;

@@ -1,5 +1,6 @@
 package com.educational.platform.users;
 
+import com.educational.platform.users.login.SignInCommandHandler;
 import com.educational.platform.users.registration.UserRegistrationCommandHandler;
 import com.educational.platform.users.security.UserController;
 import com.educational.platform.users.security.WebSecurityConfig;
@@ -28,6 +29,9 @@ public class UserControllerIntegrationTest {
 
     @MockBean
     private UserRegistrationCommandHandler registrationCommandHandler;
+
+    @MockBean
+    private SignInCommandHandler signInCommandHandler;
 
     @Test
     void signUp_validRequest_signedUp() throws Exception {
@@ -80,6 +84,39 @@ public class UserControllerIntegrationTest {
                 .perform(post("/users/sign-up")
                         .content("{\n" + "    \"username\": \"username\",\n" + "    \"email\": \"mail@gmail.com\",\n"
                                 + "    \"password\": \"password\"\n" + "}")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void signIn_validRequest_signedIn() throws Exception {
+        this.mockMvc
+                .perform(post("/users/sign-in")
+                        .content("{\n" + "    \"username\": \"username\",\n"
+                                + "    \"password\": \"password\"\n" + "}")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void signIn_emptyUsername_badRequest() throws Exception {
+        this.mockMvc
+                .perform(post("/users/sign-in")
+                        .content("{\n" +
+                                "    \"password\": \"password\"\n" + "}")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void signIn_emptyPassword_badRequest() throws Exception {
+        this.mockMvc
+                .perform(post("/users/sign-in")
+                        .content("{\n" + "    \"username\": \"username\"\n"
+                                + "}")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
