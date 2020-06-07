@@ -17,7 +17,7 @@ import static io.restassured.RestAssured.given;
  * Represents API tests for course functionality.
  */
 @Sql(scripts = "classpath:insert_data.sql")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "com.educational.platform.security.enabled=false")
 public class CourseApiTest {
 
     @LocalServerPort

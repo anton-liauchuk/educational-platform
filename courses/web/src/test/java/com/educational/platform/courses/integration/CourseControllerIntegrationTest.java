@@ -9,6 +9,7 @@ import com.educational.platform.courses.course.publish.PublishCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommandHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -27,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Represents course controller integration tests.
  */
-@WebMvcTest(CourseController.class)
+@WebMvcTest(controllers = CourseController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 public class CourseControllerIntegrationTest {
 
     @Autowired
