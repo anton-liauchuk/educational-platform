@@ -38,3 +38,5 @@ findProject(':users:integration-events')?.name = 'users-integration-events'
 include 'users:web'
 findProject(':users:web')?.name = 'users-web'
 
+include 'security:config'
+findProject(':security:config')?.name = 'security-config'

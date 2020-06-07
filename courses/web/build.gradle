@@ -1,6 +1,7 @@
 dependencies {
     implementation project(':common')
     implementation project(':web')
+    implementation project(':security:security-config')
     implementation project(':courses:courses-application')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -10,6 +11,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation 'org.mockito:mockito-junit-jupiter:3.3.0'
     testImplementation 'org.assertj:assertj-core:3.15.0'
