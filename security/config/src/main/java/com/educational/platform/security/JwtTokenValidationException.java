@@ -1,4 +1,4 @@
-package com.educational.platform.users.security;
+package com.educational.platform.security;
 
 /**
  * Represents jwt token validation exception
