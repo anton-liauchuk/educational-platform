@@ -1,5 +1,6 @@
 package com.educational.platform.users.security;
 
+import com.educational.platform.security.JwtTokenValidationException;
 import com.educational.platform.users.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
