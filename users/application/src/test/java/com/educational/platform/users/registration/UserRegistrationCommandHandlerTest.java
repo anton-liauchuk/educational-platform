@@ -6,8 +6,6 @@ import com.educational.platform.users.RoleDTO;
 import com.educational.platform.users.User;
 import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
-import com.educational.platform.users.registration.UserRegistrationCommand;
-import com.educational.platform.users.registration.UserRegistrationCommandHandler;
 import com.educational.platform.users.security.JwtTokenProvider;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;

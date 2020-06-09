@@ -1,5 +1,6 @@
 dependencies {
     implementation project(':common')
+    implementation project(':security:security-config')
     implementation project(':web')
     implementation project(':users:users-application')
 
