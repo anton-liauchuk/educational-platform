@@ -19,6 +19,11 @@ public class Teacher {
 
     private String username;
 
+    // for JPA
+    private Teacher() {
+
+    }
+
     public Teacher(CreateTeacherCommand command) {
         this.username = command.getUsername();
     }

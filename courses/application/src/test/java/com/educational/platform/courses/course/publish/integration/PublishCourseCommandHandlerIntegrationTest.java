@@ -7,6 +7,10 @@ import com.educational.platform.courses.course.PublishStatus;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommandHandler;
+import com.educational.platform.courses.teacher.Teacher;
+import com.educational.platform.courses.teacher.TeacherRepository;
+import com.educational.platform.courses.teacher.create.CreateTeacherCommand;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,11 +32,21 @@ public class PublishCourseCommandHandlerIntegrationTest {
     @Autowired
     private CourseFactory courseFactory;
 
+    @Autowired
+    private TeacherRepository teacherRepository;
+
     @SpyBean
     private PublishCourseCommandHandler sut;
 
+    @BeforeEach
+    void setUp() {
+        var createTeacherCommand = new CreateTeacherCommand("username");
+        var teacher = new Teacher(createTeacherCommand);
+        teacherRepository.save(teacher);
+    }
+
     @Test
-    @WithMockUser(username = "username", authorities = { "TEACHER" })
+    @WithMockUser(username = "username", roles = { "TEACHER" })
     void handle_existingCourse_courseSavedWithStatusPublished() {
         // given
         final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()
