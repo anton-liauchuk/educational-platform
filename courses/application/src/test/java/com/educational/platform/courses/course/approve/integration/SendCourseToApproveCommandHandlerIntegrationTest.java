@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
@@ -31,6 +32,7 @@ public class SendCourseToApproveCommandHandlerIntegrationTest {
     private SendCourseToApproveCommandHandler sut;
 
     @Test
+    @WithMockUser(username = "username", authorities = { "TEACHER" })
     void handle_existingCourse_courseSavedWithStatusWaitingForApproval() {
         // given
         final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()

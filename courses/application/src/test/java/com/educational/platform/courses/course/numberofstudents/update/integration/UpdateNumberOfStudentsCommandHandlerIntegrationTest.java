@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
@@ -18,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class UpdateNumberOfStudentsCommandHandlerIntegrationTest {
 
-
     @Autowired
     private CourseRepository repository;
 
@@ -28,8 +28,8 @@ public class UpdateNumberOfStudentsCommandHandlerIntegrationTest {
     @SpyBean
     private IncreaseNumberOfStudentsCommandHandler sut;
 
-
     @Test
+    @WithMockUser(username = "username", authorities = { "TEACHER" })
     void handle_existingCourse_courseSavedWithUpdatedNumberOfStudents() {
         // given
         final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()

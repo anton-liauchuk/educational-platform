@@ -2,6 +2,8 @@ package com.educational.platform.courses.course;
 
 
 import com.educational.platform.courses.course.create.CreateCourseCommand;
+import com.educational.platform.courses.teacher.Teacher;
+import com.educational.platform.courses.teacher.create.CreateTeacherCommand;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -18,7 +20,9 @@ public class CourseTest {
                 .name("name")
                 .description("description")
                 .build();
-        final Course course = new Course(createCourseCommand);
+        var createTeacherCommand = new CreateTeacherCommand("username");
+        var teacher = new Teacher(createTeacherCommand);
+        final Course course = new Course(createCourseCommand, teacher);
 
         // when
         course.approve();
@@ -35,7 +39,9 @@ public class CourseTest {
                 .name("name")
                 .description("description")
                 .build();
-        final Course course = new Course(createCourseCommand);
+        var createTeacherCommand = new CreateTeacherCommand("username");
+        var teacher = new Teacher(createTeacherCommand);
+        final Course course = new Course(createCourseCommand, teacher);
 
         // when
         course.decline();
@@ -52,7 +58,9 @@ public class CourseTest {
                 .name("name")
                 .description("description")
                 .build();
-        final Course course = new Course(createCourseCommand);
+        var createTeacherCommand = new CreateTeacherCommand("username");
+        var teacher = new Teacher(createTeacherCommand);
+        final Course course = new Course(createCourseCommand, teacher);
         course.approve();
 
         // when
@@ -70,7 +78,9 @@ public class CourseTest {
                 .name("name")
                 .description("description")
                 .build();
-        final Course course = new Course(createCourseCommand);
+        var createTeacherCommand = new CreateTeacherCommand("username");
+        var teacher = new Teacher(createTeacherCommand);
+        final Course course = new Course(createCourseCommand, teacher);
         ReflectionTestUtils.setField(course, "id", 15);
 
         // when
@@ -87,9 +97,11 @@ public class CourseTest {
                 .name("name")
                 .description("description")
                 .build();
+        var createTeacherCommand = new CreateTeacherCommand("username");
+        var teacher = new Teacher(createTeacherCommand);
 
         // when
-        final Course course = new Course(command);
+        final Course course = new Course(command, teacher);
 
         // then
         assertThat(course)
@@ -106,7 +118,9 @@ public class CourseTest {
                 .name("name")
                 .description("description")
                 .build();
-        final Course course = new Course(command);
+        var createTeacherCommand = new CreateTeacherCommand("username");
+        var teacher = new Teacher(createTeacherCommand);
+        final Course course = new Course(command, teacher);
         ReflectionTestUtils.setField(course, "id", 15);
         ReflectionTestUtils.setField(course, "approvalStatus", ApprovalStatus.APPROVED);
 
@@ -124,7 +138,9 @@ public class CourseTest {
                 .name("name")
                 .description("description")
                 .build();
-        final Course course = new Course(command);
+        var createTeacherCommand = new CreateTeacherCommand("username");
+        var teacher = new Teacher(createTeacherCommand);
+        final Course course = new Course(command, teacher);
         ReflectionTestUtils.setField(course, "id", 15);
 
         // when

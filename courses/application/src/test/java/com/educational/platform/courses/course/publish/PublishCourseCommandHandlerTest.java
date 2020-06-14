@@ -1,10 +1,7 @@
 package com.educational.platform.courses.course.publish;
 
 import com.educational.platform.common.exception.ResourceNotFoundException;
-import com.educational.platform.courses.course.Course;
-import com.educational.platform.courses.course.CourseFactory;
-import com.educational.platform.courses.course.CourseRepository;
-import com.educational.platform.courses.course.PublishStatus;
+import com.educational.platform.courses.course.*;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +28,9 @@ public class PublishCourseCommandHandlerTest {
     private CourseFactory courseFactory;
 
     @Mock
+    private CurrentUserAsTeacher currentUserAsTeacher;
+
+    @Mock
     private CourseRepository repository;
 
     @InjectMocks
@@ -39,7 +39,7 @@ public class PublishCourseCommandHandlerTest {
     @BeforeEach
     void setUp() {
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        courseFactory = new CourseFactory(validator);
+        courseFactory = new CourseFactory(validator, currentUserAsTeacher);
     }
 
     @Test

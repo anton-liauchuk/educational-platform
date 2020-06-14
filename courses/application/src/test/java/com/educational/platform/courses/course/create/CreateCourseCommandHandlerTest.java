@@ -3,6 +3,7 @@ package com.educational.platform.courses.course.create;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
+import com.educational.platform.courses.course.CurrentUserAsTeacher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,9 @@ import static org.mockito.Mockito.verify;
 public class CreateCourseCommandHandlerTest {
 
     @Mock
+    private CurrentUserAsTeacher currentUserAsTeacher;
+
+    @Mock
     private CourseRepository repository;
 
     private CreateCourseCommandHandler sut;
@@ -27,7 +31,7 @@ public class CreateCourseCommandHandlerTest {
     @BeforeEach
     void setUp() {
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        final CourseFactory courseFactory = new CourseFactory(validator);
+        final CourseFactory courseFactory = new CourseFactory(validator, currentUserAsTeacher);
         sut = new CreateCourseCommandHandler(repository, courseFactory);
     }
 

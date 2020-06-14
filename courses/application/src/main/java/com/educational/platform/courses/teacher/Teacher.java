@@ -10,7 +10,6 @@ import javax.persistence.Id;
 /**
  * Represents Teacher model.
  */
-// todo relation to user from user module
 @Entity
 public class Teacher {
 
@@ -22,5 +21,9 @@ public class Teacher {
 
     public Teacher(CreateTeacherCommand command) {
         this.username = command.getUsername();
+    }
+
+    public String toIdentity() {
+        return username;
     }
 }

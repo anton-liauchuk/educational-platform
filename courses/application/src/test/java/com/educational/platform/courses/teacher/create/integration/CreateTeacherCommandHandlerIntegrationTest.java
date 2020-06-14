@@ -17,14 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 public class CreateTeacherCommandHandlerIntegrationTest {
 
-
     @Autowired
     private TeacherRepository repository;
 
-
     @SpyBean
     private CreateTeacherCommandHandler sut;
-
 
     @Test
     void handle_validTeacher_saveExecuted() {

@@ -17,6 +17,7 @@ import java.util.Set;
 public class CourseFactory {
 
     private final Validator validator;
+    private final CurrentUserAsTeacher currentUserAsTeacher;
 
     /**
      * Creates course from command.
@@ -31,7 +32,8 @@ public class CourseFactory {
             throw new ConstraintViolationException(violations);
         }
 
-        return new Course(courseCommand);
+        var teacher = currentUserAsTeacher.userAsTeacher();
+        return new Course(courseCommand, teacher);
     }
 
 }

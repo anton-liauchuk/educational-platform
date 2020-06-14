@@ -11,7 +11,6 @@ import java.util.UUID;
 /**
  * Represents Course domain model.
  */
-// todo mark as aggregate root
 @Entity
 public class Course implements AggregateRoot {
 
@@ -44,7 +43,7 @@ public class Course implements AggregateRoot {
 
     }
 
-    Course(CreateCourseCommand command) {
+    Course(CreateCourseCommand command, Teacher teacher) {
         this.uuid = UUID.randomUUID();
         this.name = command.getName();
         this.description = command.getDescription();
@@ -52,6 +51,7 @@ public class Course implements AggregateRoot {
         this.numberOfStudents = new NumberOfStudents(0);
         this.publishStatus = PublishStatus.DRAFT;
         this.approvalStatus = ApprovalStatus.NOT_SENT_FOR_APPROVAL;
+        this.teacher = teacher;
     }
 
     public void approve() {
@@ -88,6 +88,10 @@ public class Course implements AggregateRoot {
 
     public void increaseNumberOfStudents() {
         numberOfStudents = new NumberOfStudents(numberOfStudents.getNumber() + 1);
+    }
+
+    public boolean isTeacher(String username) {
+        return username.equals(teacher.toIdentity());
     }
 
     // todo implement

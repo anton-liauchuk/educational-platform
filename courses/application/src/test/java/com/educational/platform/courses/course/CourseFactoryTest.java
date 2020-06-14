@@ -4,7 +4,10 @@ package com.educational.platform.courses.course;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
@@ -13,14 +16,18 @@ import javax.validation.Validator;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@ExtendWith(MockitoExtension.class)
 public class CourseFactoryTest {
+
+    @Mock
+    private CurrentUserAsTeacher currentUserAsTeacher;
 
     private CourseFactory sut;
 
     @BeforeEach
     void setUp() {
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        sut = new CourseFactory(validator);
+        sut = new CourseFactory(validator, currentUserAsTeacher);
     }
 
     @Test

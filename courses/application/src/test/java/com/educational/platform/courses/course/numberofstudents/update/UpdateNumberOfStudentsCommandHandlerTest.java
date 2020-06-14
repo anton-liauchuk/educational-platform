@@ -1,10 +1,7 @@
 package com.educational.platform.courses.course.numberofstudents.update;
 
 import com.educational.platform.common.exception.ResourceNotFoundException;
-import com.educational.platform.courses.course.Course;
-import com.educational.platform.courses.course.CourseFactory;
-import com.educational.platform.courses.course.CourseRepository;
-import com.educational.platform.courses.course.NumberOfStudents;
+import com.educational.platform.courses.course.*;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.numberofsudents.update.IncreaseNumberOfStudentsCommand;
 import com.educational.platform.courses.course.numberofsudents.update.IncreaseNumberOfStudentsCommandHandler;
@@ -33,6 +30,9 @@ public class UpdateNumberOfStudentsCommandHandlerTest {
     private CourseFactory courseFactory;
 
     @Mock
+    private CurrentUserAsTeacher currentUserAsTeacher;
+
+    @Mock
     private CourseRepository repository;
 
     @InjectMocks
@@ -41,7 +41,7 @@ public class UpdateNumberOfStudentsCommandHandlerTest {
     @BeforeEach
     void setUp() {
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        courseFactory = new CourseFactory(validator);
+        courseFactory = new CourseFactory(validator, currentUserAsTeacher);
     }
 
     @Test

@@ -1,6 +1,5 @@
 package com.educational.platform.courses.course.create.security;
 
-import com.educational.platform.CourseTestConfiguration;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;

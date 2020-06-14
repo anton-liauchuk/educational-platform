@@ -28,6 +28,7 @@ public class CreateCourseCommandHandler {
      * @param command command
      * @throws ConstraintViolationException in the case of validation issues
      */
+    // todo move to factory
     @PreAuthorize("hasRole('TEACHER')")
     public UUID handle(CreateCourseCommand command) {
         final Course course = courseFactory.createFrom(command);

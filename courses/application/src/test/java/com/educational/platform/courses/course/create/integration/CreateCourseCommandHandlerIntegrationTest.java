@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class CreateCourseCommandHandlerIntegrationTest {
     private CreateCourseCommandHandler sut;
 
     @Test
+    @WithMockUser(roles = "TEACHER")
     void handle_validCourse_courseSaved() {
         // given
         final CreateCourseCommand command = CreateCourseCommand.builder()
