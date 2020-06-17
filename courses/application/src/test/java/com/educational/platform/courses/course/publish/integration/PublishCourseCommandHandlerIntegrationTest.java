@@ -38,6 +38,7 @@ public class PublishCourseCommandHandlerIntegrationTest {
     @SpyBean
     private PublishCourseCommandHandler sut;
 
+    // todo recheck duplicate teachers
     @BeforeEach
     void setUp() {
         var createTeacherCommand = new CreateTeacherCommand("username");
