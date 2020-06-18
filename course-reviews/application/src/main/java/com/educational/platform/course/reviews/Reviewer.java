@@ -26,4 +26,8 @@ public class Reviewer {
     public Reviewer(CreateReviewerCommand createReviewerCommand) {
         this.username = createReviewerCommand.getUsername();
     }
+
+    public String toIdentity() {
+        return username;
+    }
 }

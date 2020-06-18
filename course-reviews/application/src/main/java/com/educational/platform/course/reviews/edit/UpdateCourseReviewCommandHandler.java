@@ -4,6 +4,8 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +33,8 @@ public class UpdateCourseReviewCommandHandler {
      * @throws ResourceNotFoundException    course review not found
      * @throws ConstraintViolationException validation issues
      */
-    public void handle(UpdateCourseReviewCommand command) {
+    @PreAuthorize("hasRole('STUDENT') and @courseReviewChecker.hasAccess(authentication, #c.uuid)")
+    public void handle(@P("c") UpdateCourseReviewCommand command) {
         final Optional<CourseReview> dbResult = courseReviewRepository.findByUuid(command.getUuid());
         if (dbResult.isEmpty()) {
             throw new ResourceNotFoundException(String.format("Course Review with uuid: %s not found", command.getUuid()));

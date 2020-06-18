@@ -45,6 +45,10 @@ public class CourseReview implements AggregateRoot {
         this.comment = new Comment(command.getComment());
     }
 
+    public boolean isReviewer(String username) {
+        return username.equals(reviewer.toIdentity());
+    }
+
     public UUID toIdentifier() {
         return this.uuid;
     }

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.UUID;
@@ -44,7 +45,7 @@ public class UpdateCourseReviewCommandHandlerIntegrationTest {
         final ReviewableCourse reviewableCourse = new ReviewableCourse(new CreateReviewableCourseCommand(courseId));
         reviewableCourseRepository.save(reviewableCourse);
 
-        final String reviewerUsername = "username";
+        final String reviewerUsername = "reviewer";
         final Reviewer reviewer = new Reviewer(new CreateReviewerCommand(reviewerUsername));
         reviewerRepository.save(reviewer);
 
@@ -61,6 +62,7 @@ public class UpdateCourseReviewCommandHandlerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username = "reviewer", roles = "STUDENT")
     void handle_validEditCourseReviewCommand_updatedReviewSaved() {
         // given
         final UpdateCourseReviewCommand command = UpdateCourseReviewCommand.builder()
