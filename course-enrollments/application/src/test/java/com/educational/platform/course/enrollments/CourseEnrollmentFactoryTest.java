@@ -29,14 +29,14 @@ public class CourseEnrollmentFactoryTest {
     private CourseRepository courseRepository;
 
     @Mock
-    private StudentRepository studentRepository;
+    private CurrentUserAsStudent currentUserAsStudent;
 
     private CourseEnrollmentFactory sut;
 
     @BeforeEach
     void setUp() {
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        sut = new CourseEnrollmentFactory(validator, courseRepository, studentRepository);
+        sut = new CourseEnrollmentFactory(validator, courseRepository, currentUserAsStudent);
     }
 
     @Test
@@ -45,7 +45,6 @@ public class CourseEnrollmentFactoryTest {
         final UUID courseId = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
                 .courseId(courseId)
-                .student("username")
                 .build();
         final CreateCourseCommand createCourseCommand = new CreateCourseCommand(courseId);
         final Course correspondingCourse = new Course(createCourseCommand);
@@ -53,7 +52,7 @@ public class CourseEnrollmentFactoryTest {
 
         final CreateStudentCommand createStudentCommand = new CreateStudentCommand("username");
         final Student correspondingStudent = new Student(createStudentCommand);
-        when(studentRepository.findByUsername("username")).thenReturn(Optional.of(correspondingStudent));
+        when(currentUserAsStudent.userAsStudent()).thenReturn(correspondingStudent);
 
         // when
         final CourseEnrollment enrollment = sut.createFrom(command);
@@ -73,22 +72,6 @@ public class CourseEnrollmentFactoryTest {
         // given
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
                 .courseId(null)
-                .student("username")
-                .build();
-
-        // when
-        final Executable createAction = () -> sut.createFrom(command);
-
-        // then
-        assertThrows(ConstraintViolationException.class, createAction);
-    }
-
-    @Test
-    void createFrom_studentIdIsNull_constraintViolationException() {
-        // given
-        final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
-                .student(null)
                 .build();
 
         // when
@@ -104,29 +87,8 @@ public class CourseEnrollmentFactoryTest {
         final UUID courseId = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
                 .courseId(courseId)
-                .student("username")
                 .build();
         when(courseRepository.findByUuid(courseId)).thenReturn(Optional.empty());
-
-        // when
-        final Executable createAction = () -> sut.createFrom(command);
-
-        // then
-        assertThrows(RelatedResourceIsNotResolvedException.class, createAction);
-    }
-
-    @Test
-    void createFrom_invalidStudentId_relatedResourceIsNotResolvedException() {
-        // given
-        final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(uuid)
-                .student("username")
-                .build();
-        final CreateCourseCommand createCourseCommand = new CreateCourseCommand(uuid);
-        final Course correspondingCourse = new Course(createCourseCommand);
-        when(courseRepository.findByUuid(uuid)).thenReturn(Optional.of(correspondingCourse));
-        when(studentRepository.findByUsername("username")).thenReturn(Optional.empty());
 
         // when
         final Executable createAction = () -> sut.createFrom(command);

@@ -18,7 +18,6 @@ public class CourseEnrollmentTest {
         // given
         final RegisterStudentToCourseCommand registerStudentToCourseCommand = RegisterStudentToCourseCommand.builder()
                 .courseId(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
-                .student("username")
                 .build();
         final CreateCourseCommand createCourseCommand = new CreateCourseCommand(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"));
         final CreateStudentCommand createStudentCommand = new CreateStudentCommand("username");
@@ -39,7 +38,6 @@ public class CourseEnrollmentTest {
         final String username = "username";
         final RegisterStudentToCourseCommand registerStudentToCourseCommand = RegisterStudentToCourseCommand.builder()
                 .courseId(courseId)
-                .student(username)
                 .build();
         final CreateCourseCommand createCourseCommand = new CreateCourseCommand(courseId);
         final CreateStudentCommand createStudentCommand = new CreateStudentCommand(username);

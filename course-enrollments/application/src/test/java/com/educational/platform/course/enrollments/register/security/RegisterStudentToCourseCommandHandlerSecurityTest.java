@@ -36,7 +36,6 @@ public class RegisterStudentToCourseCommandHandlerSecurityTest {
         // given
         var command = RegisterStudentToCourseCommand.builder()
                 .courseId(courseUuid)
-                .student(studentUsername)
                 .build();
 
         // when
@@ -53,7 +52,6 @@ public class RegisterStudentToCourseCommandHandlerSecurityTest {
         // given
         var command = RegisterStudentToCourseCommand.builder()
                 .courseId(courseUuid)
-                .student(studentUsername)
                 .build();
 
         // when

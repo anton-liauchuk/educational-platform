@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -62,11 +63,11 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username = "username", roles = "STUDENT")
     void handle_validCommand_enrollmentSaved() {
         // given
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
                 .courseId(courseUuid)
-                .student(studentUsername)
                 .build();
 
         // when

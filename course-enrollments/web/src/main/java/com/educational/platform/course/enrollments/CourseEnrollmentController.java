@@ -24,7 +24,6 @@ public class CourseEnrollmentController {
     public UUID enroll(@PathVariable UUID uuid, @RequestBody CourseEnrollmentRequest request) {
         final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
                 .courseId(uuid)
-                .student(request.getStudent())
                 .build();
 
         return handler.handle(command);

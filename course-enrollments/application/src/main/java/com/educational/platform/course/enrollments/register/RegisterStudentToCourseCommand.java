@@ -18,7 +18,4 @@ public class RegisterStudentToCourseCommand {
     @NotNull
     private final UUID courseId;
 
-    @NotNull
-    private final String student;
-
 }

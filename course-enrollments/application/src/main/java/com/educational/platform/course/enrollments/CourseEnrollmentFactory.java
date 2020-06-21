@@ -19,7 +19,7 @@ public class CourseEnrollmentFactory {
 
     private final Validator validator;
     private final CourseRepository courseRepository;
-    private final StudentRepository studentRepository;
+    private final CurrentUserAsStudent currentUserAsStudent;
 
     /**
      * Creates course enrollment from command.
@@ -38,8 +38,7 @@ public class CourseEnrollmentFactory {
         final Course course = courseRepository.findByUuid(command.getCourseId())
                 .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by uuid = " + command.getCourseId()));
 
-        final Student student = studentRepository.findByUsername(command.getStudent())
-                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Student cannot be found by name = " + command.getStudent()));
+        final Student student = currentUserAsStudent.userAsStudent();
 
         return new CourseEnrollment(command, course, student);
     }
