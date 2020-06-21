@@ -8,6 +8,7 @@ import com.educational.platform.administration.integration.event.CourseApprovedB
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -32,6 +33,7 @@ public class ApproveCourseProposalCommandHandler {
      * @throws ResourceNotFoundException              if resource not found
      * @throws CourseProposalAlreadyApprovedException course proposal already approved
      */
+    @PreAuthorize("hasRole('ADMIN')")
     public void handle(ApproveCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {
             final Optional<CourseProposal> dbResult = repository.findByUuid(command.getUuid());

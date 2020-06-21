@@ -1,4 +1,4 @@
-package com.educational.platform.administration.course;
+package com.educational.platform;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

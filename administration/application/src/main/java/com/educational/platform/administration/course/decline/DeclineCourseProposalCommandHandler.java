@@ -8,6 +8,7 @@ import com.educational.platform.administration.integration.event.CourseDeclinedB
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -32,6 +33,7 @@ public class DeclineCourseProposalCommandHandler {
      * @throws ResourceNotFoundException              if resource not found
      * @throws CourseProposalAlreadyDeclinedException course proposal already declined
      */
+    @PreAuthorize("hasRole('ADMIN')")
     public void handle(DeclineCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {
             final Optional<CourseProposal> dbResult = repository.findByUuid(command.getUuid());
