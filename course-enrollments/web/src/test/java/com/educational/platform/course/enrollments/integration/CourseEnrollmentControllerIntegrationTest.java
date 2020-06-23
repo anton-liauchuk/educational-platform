@@ -6,6 +6,7 @@ import com.educational.platform.course.enrollments.register.RegisterStudentToCou
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommandHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Represents course enrollment controller integration tests.
  */
-@WebMvcTest(CourseEnrollmentController.class)
+@WebMvcTest(controllers = CourseEnrollmentController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 public class CourseEnrollmentControllerIntegrationTest {
 
     @Autowired
