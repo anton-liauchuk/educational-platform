@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -26,6 +27,7 @@ public class ApproveCourseProposalCommandHandlerIntegrationTest {
     private ApproveCourseProposalCommandHandler sut;
 
     @Test
+    @WithMockUser(username = "admin", roles = "ADMIN")
     void handle_existingCourseProposal_courseProposalSavedWithStatusApproved() {
         // given
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
