@@ -10,6 +10,7 @@ import com.educational.platform.administration.course.decline.DeclineCoursePropo
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Represents course proposal controller integration tests.
  */
-@WebMvcTest(CourseProposalController.class)
+@WebMvcTest(controllers = CourseProposalController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 public class CourseProposalControllerIntegrationTest {
 
     @Autowired

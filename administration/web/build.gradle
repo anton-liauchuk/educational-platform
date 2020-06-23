@@ -1,6 +1,7 @@
 dependencies {
     implementation project(':common')
     implementation project(':web')
+    implementation project(':security:security-config')
     implementation project(':administration:administration-application')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'

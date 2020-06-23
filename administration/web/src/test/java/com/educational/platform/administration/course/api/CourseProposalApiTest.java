@@ -17,7 +17,7 @@ import static io.restassured.RestAssured.given;
  * Represents API tests for administration of course proposal functionality.
  */
 @Sql(scripts = "classpath:insert_data.sql")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "com.educational.platform.security.enabled=false")
 public class CourseProposalApiTest {
 
     @LocalServerPort
@@ -46,7 +46,7 @@ public class CourseProposalApiTest {
                 .contentType(ContentType.JSON)
 
                 .when()
-                .delete("/administration/course-proposals/{uuid}/approval-status", UUID.fromString("123e4567-e89b-12d3-a456-000000000000"))
+                .delete("/administration/course-proposals/{uuid}/approval-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
 
                 .then()
                 .statusCode(HttpStatus.NO_CONTENT.value());

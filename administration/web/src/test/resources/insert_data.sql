@@ -1,1 +1,3 @@
+DELETE FROM course_proposal;
+
 INSERT INTO course_proposal (uuid, status) VALUES ('123E4567E89B12D3A456426655440001', 'WAITING_FOR_APPROVAL');
