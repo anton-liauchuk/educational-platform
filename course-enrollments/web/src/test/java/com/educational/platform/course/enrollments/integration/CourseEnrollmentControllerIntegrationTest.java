@@ -4,12 +4,16 @@ import com.educational.platform.common.exception.RelatedResourceIsNotResolvedExc
 import com.educational.platform.course.enrollments.CourseEnrollmentController;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommandHandler;
+import com.educational.platform.users.security.WebSecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.validation.ConstraintViolationException;
@@ -24,7 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Represents course enrollment controller integration tests.
  */
-@WebMvcTest(controllers = CourseEnrollmentController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@WebMvcTest(controllers = CourseEnrollmentController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class}, excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = WebSecurityConfig.class)})
 public class CourseEnrollmentControllerIntegrationTest {
 
     @Autowired
@@ -34,6 +39,7 @@ public class CourseEnrollmentControllerIntegrationTest {
     private RegisterStudentToCourseCommandHandler handler;
 
     @Test
+    @WithMockUser(username = "student", roles = "STUDENT")
     void enroll_validRequest_created() throws Exception {
         this.mockMvc.perform(post("/courses/{uuid}/course-enrollments", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{\n" +
@@ -45,6 +51,7 @@ public class CourseEnrollmentControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username = "student", roles = "STUDENT")
     void enroll_relatedResourceIsNotResolvedException_badRequest() throws Exception {
         doThrow(RelatedResourceIsNotResolvedException.class).when(handler).handle(any(RegisterStudentToCourseCommand.class));
 
@@ -58,6 +65,7 @@ public class CourseEnrollmentControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username = "student", roles = "STUDENT")
     void enroll_constraintViolationException_badRequest() throws Exception {
         final ConstraintViolationException exception = mock(ConstraintViolationException.class);
         doReturn(new HashSet<>()).when(exception).getConstraintViolations();

@@ -40,3 +40,5 @@ findProject(':users:web')?.name = 'users-web'
 
 include 'security:config'
 findProject(':security:config')?.name = 'security-config'
+include 'security:test'
+findProject(':security:test')?.name = 'security-test'

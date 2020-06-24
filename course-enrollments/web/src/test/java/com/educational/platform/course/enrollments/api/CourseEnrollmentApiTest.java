@@ -1,9 +1,11 @@
 package com.educational.platform.course.enrollments.api;
 
+import com.educational.platform.security.SignUpHelper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,9 @@ import static io.restassured.RestAssured.given;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CourseEnrollmentApiTest {
 
+    @Autowired
+    SignUpHelper signUpHelper;
+
     @LocalServerPort
     private int port;
 
@@ -30,8 +35,11 @@ public class CourseEnrollmentApiTest {
 
     @Test
     void register_validCourse_createdWithUUID() {
+        var token = signUpHelper.signUpStudent();
+
         given()
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
                 .body("{\n" +
                         "  \"student\": \"username\"\n" +
                         "}")
