@@ -3,7 +3,25 @@ plugins {
 }
 
 dependencies {
-    // todo review other possible solutions
-    implementation project(':users')
+    implementation project(':users:users-application')
+    implementation project(':users:users-web')
+    implementation project(':users:users-integration-events')
+
+    implementation project(':administration')
+    implementation project(':course-enrollments')
+    implementation project(':course-reviews')
+    implementation project(':courses')
+    implementation project(':security')
+    implementation project(':web')
+    implementation project(':common')
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.3.0'
+    testImplementation 'com.tngtech.archunit:archunit-junit5:0.14.1'
+}
+
+test {
+    useJUnitPlatform()
 }
