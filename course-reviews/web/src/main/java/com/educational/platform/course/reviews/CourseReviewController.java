@@ -30,7 +30,6 @@ public class CourseReviewController {
     public CourseReviewCreatedResponse review(@PathVariable UUID uuid, @RequestBody @Valid ReviewCourseRequest request) {
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(uuid)
-                .reviewer(request.getReviewer())
                 .rating(request.getRating())
                 .comment(request.getComment())
                 .build();

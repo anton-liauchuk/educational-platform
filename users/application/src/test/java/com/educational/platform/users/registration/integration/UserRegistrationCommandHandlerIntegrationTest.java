@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -22,6 +23,9 @@ public class UserRegistrationCommandHandlerIntegrationTest {
 
     @Autowired
     private UserRepository repository;
+
+    @MockBean
+    private AuthenticationManager authenticationManager;
 
     @MockBean
     private PasswordEncoder passwordEncoder;

@@ -1,5 +1,6 @@
 package com.educational.platform.courses.api;
 
+import com.educational.platform.security.SignUpHelper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +18,7 @@ import static io.restassured.RestAssured.given;
  * Represents API tests for course functionality.
  */
 @Sql(scripts = "classpath:insert_data.sql")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "com.educational.platform.security.enabled=false")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CourseApiTest {
 
     @LocalServerPort
@@ -30,8 +31,11 @@ public class CourseApiTest {
 
     @Test
     void create_validRequest_created() {
+        var token = SignUpHelper.signUpTeacher();
+
         given()
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
                 .body("{\n" +
                         "  \"name\": \"name\",\n" +
                         "  \"description\": \"description\"\n" +
@@ -46,8 +50,11 @@ public class CourseApiTest {
 
     @Test
     void publish_alreadyApprovedCourse_noContent() {
+        var token = SignUpHelper.signUpTeacher();
+
         given()
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
 
                 .when()
                 .put("/courses/{uuid}/publish-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))

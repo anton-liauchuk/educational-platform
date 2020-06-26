@@ -18,8 +18,8 @@ import java.util.Set;
 public class CourseReviewFactory {
 
     private final Validator validator;
+    private final CurrentUserAsReviewer currentUserAsReviewer;
     private final ReviewableCourseRepository reviewableCourseRepository;
-    private final ReviewerRepository reviewerRepository;
 
     /**
      * Creates course review from command.
@@ -35,11 +35,10 @@ public class CourseReviewFactory {
             throw new ConstraintViolationException(violations);
         }
 
-        final ReviewableCourse course = reviewableCourseRepository.findByOriginalCourseId(reviewCourseCommand.getCourseId())
+        var course = reviewableCourseRepository.findByOriginalCourseId(reviewCourseCommand.getCourseId())
                 .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by uuid = " + reviewCourseCommand.getCourseId()));
 
-        final Reviewer reviewer = reviewerRepository.findByUsername(reviewCourseCommand.getReviewer())
-                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Reviewer cannot be found by username = " + reviewCourseCommand.getReviewer()));
+        var reviewer = currentUserAsReviewer.userAsReviewer();
 
         return new CourseReview(reviewCourseCommand, course, reviewer);
     }

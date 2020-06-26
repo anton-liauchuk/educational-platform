@@ -7,10 +7,14 @@ import com.educational.platform.course.reviews.create.ReviewCourseCommand;
 import com.educational.platform.course.reviews.create.ReviewCourseCommandHandler;
 import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommand;
 import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommandHandler;
+import com.educational.platform.users.security.WebSecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,7 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Represents course review controller integration tests.
  */
-@WebMvcTest(CourseReviewController.class)
+@WebMvcTest(controllers = CourseReviewController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class}, excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = WebSecurityConfig.class)})
 public class CourseReviewControllerIntegrationTest {
 
     @Autowired
@@ -49,18 +54,6 @@ public class CourseReviewControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
-    }
-
-    @Test
-    void review_emptyReviewer_badRequest() throws Exception {
-        this.mockMvc.perform(post("/courses/{uuid}/course-reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
-                .content("{\n" +
-                        "  " +
-                        "\"rating\": 3.2\n" +
-                        "}")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
     }
 
     @Test

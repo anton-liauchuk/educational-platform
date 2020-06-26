@@ -13,10 +13,10 @@ public interface ReviewerRepository extends JpaRepository<Reviewer, Integer> {
      * Retrieves a reviewer by its username.
      *
      * @param username must not be {@literal null}.
-     * @return the reviewer with the given username or {@literal Optional#empty()} if none found.
+     * @return the reviewer with the given username.
      * @throws IllegalArgumentException if {@literal username} is {@literal null}.
      */
-    Optional<Reviewer> findByUsername(String username);
+    Reviewer findByUsername(String username);
 
 
 }

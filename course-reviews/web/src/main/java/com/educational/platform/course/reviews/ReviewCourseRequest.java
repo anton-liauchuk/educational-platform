@@ -19,10 +19,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ReviewCourseRequest {
 
-    // todo get student from current user
-    @NotNull
-    private String reviewer;
-
     @Max(5)
     @PositiveOrZero
     @NotNull

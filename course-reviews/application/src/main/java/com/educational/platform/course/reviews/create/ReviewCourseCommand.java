@@ -20,9 +20,6 @@ public class ReviewCourseCommand {
     @NotNull
     private final UUID courseId;
 
-    @NotNull
-    private final String reviewer;
-
     @Max(5)
     @PositiveOrZero
     @NotNull

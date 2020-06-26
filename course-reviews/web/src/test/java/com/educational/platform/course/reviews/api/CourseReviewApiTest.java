@@ -1,7 +1,10 @@
 package com.educational.platform.course.reviews.api;
 
+import com.educational.platform.security.SignUpHelper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.parsing.Parser;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,13 +28,17 @@ public class CourseReviewApiTest {
 
     @BeforeEach
     void setup() {
+        RestAssured.defaultParser = Parser.JSON;
         RestAssured.port = port;
     }
 
     @Test
     void review_validRequest_created() {
+        var token = SignUpHelper.signUpStudent();
+
         given()
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
                 .body("{\n" +
                         "  \"reviewer\": \"username\",\n" +
                         "  \"rating\": 3.2\n" +
@@ -46,11 +53,13 @@ public class CourseReviewApiTest {
 
     @Test
     void update_validRequest_noContent() {
+        var token = SignUpHelper.signUpStudent();
+
         final UUID reviewUuid = UUID.fromString(
                 given()
                         .contentType(ContentType.JSON)
+                        .header("Authorization", "Bearer " + token)
                         .body("{\n" +
-                                "  \"reviewer\": \"username\",\n" +
                                 "  \"rating\": 3.2\n" +
                                 "}")
 
@@ -60,6 +69,7 @@ public class CourseReviewApiTest {
 
         given()
                 .contentType(ContentType.JSON)
+                .header("Authorization", "Bearer " + token)
                 .body("{\n" +
                         "  \"comment\": \"comment2\",\n" +
                         "  \"rating\": 3.5\n" +

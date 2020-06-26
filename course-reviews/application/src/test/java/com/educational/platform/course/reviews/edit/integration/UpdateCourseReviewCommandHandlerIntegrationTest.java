@@ -51,7 +51,6 @@ public class UpdateCourseReviewCommandHandlerIntegrationTest {
 
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(courseId)
-                .reviewer(reviewerUsername)
                 .rating(4.0)
                 .comment("comment")
                 .build();

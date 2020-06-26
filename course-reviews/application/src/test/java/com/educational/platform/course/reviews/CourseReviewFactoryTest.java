@@ -1,6 +1,5 @@
 package com.educational.platform.course.reviews;
 
-
 import com.educational.platform.course.reviews.course.create.CreateReviewableCourseCommand;
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
 import com.educational.platform.course.reviews.reviewer.create.CreateReviewerCommand;
@@ -31,14 +30,14 @@ public class CourseReviewFactoryTest {
     private ReviewableCourseRepository reviewableCourseRepository;
 
     @Mock
-    private ReviewerRepository reviewerRepository;
+    private CurrentUserAsReviewer currentUserAsReviewer;
 
     private CourseReviewFactory sut;
 
     @BeforeEach
     void setUp() {
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        sut = new CourseReviewFactory(validator, reviewableCourseRepository, reviewerRepository);
+        sut = new CourseReviewFactory(validator, currentUserAsReviewer, reviewableCourseRepository);
     }
 
     @Test
@@ -47,7 +46,6 @@ public class CourseReviewFactoryTest {
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(uuid)
-                .reviewer("username")
                 .rating(4.0)
                 .comment("comment")
                 .build();
@@ -62,7 +60,7 @@ public class CourseReviewFactoryTest {
         final Reviewer correspondingReviewer = new Reviewer(createReviewerCommand);
         ReflectionTestUtils.setField(correspondingReviewer, "id", 22);
         ReflectionTestUtils.setField(correspondingReviewer, "username", "username");
-        when(reviewerRepository.findByUsername("username")).thenReturn(Optional.of(correspondingReviewer));
+        when(currentUserAsReviewer.userAsReviewer()).thenReturn(correspondingReviewer);
 
         // when
         final CourseReview courseReview = sut.createFrom(command);
@@ -80,25 +78,6 @@ public class CourseReviewFactoryTest {
         // given
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(null)
-                .reviewer("username")
-                .rating(4.0)
-                .comment("comment")
-                .build();
-
-        // when
-        final Executable createAction = () -> sut.createFrom(command);
-
-        // then
-        assertThrows(ConstraintViolationException.class, createAction);
-    }
-
-
-    @Test
-    void createFrom_studentIdIsNull_constraintViolationException() {
-        // given
-        final ReviewCourseCommand command = ReviewCourseCommand.builder()
-                .courseId(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
-                .reviewer(null)
                 .rating(4.0)
                 .comment("comment")
                 .build();
@@ -118,7 +97,6 @@ public class CourseReviewFactoryTest {
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(uuid)
-                .reviewer("username")
                 .rating(rating)
                 .comment("comment")
                 .build();
@@ -136,7 +114,6 @@ public class CourseReviewFactoryTest {
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final ReviewCourseCommand command = ReviewCourseCommand.builder()
                 .courseId(uuid)
-                .reviewer("username")
                 .rating(null)
                 .comment("comment")
                 .build();

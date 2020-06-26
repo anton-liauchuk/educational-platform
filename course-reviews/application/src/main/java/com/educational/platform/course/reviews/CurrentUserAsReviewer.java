@@ -1,4 +1,4 @@
-package com.educational.platform.course.enrollments;
+package com.educational.platform.course.reviews;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -6,24 +6,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 /**
- * Represents the logic for retrieving the student entity from database for current authenticated user.
+ * Represents the logic for retrieving the reviewer entity from database for current authenticated user.
  */
 @RequiredArgsConstructor
 @Component
-public class CurrentUserAsStudent {
+public class CurrentUserAsReviewer {
 
-    private final StudentRepository studentRepository;
+    private final ReviewerRepository reviewerRepository;
 
     /**
-     * Represents current user as student.
+     * Represents current user as reviewer.
      *
      * @return teacher.
      */
-    public Student userAsStudent() {
+    public Reviewer userAsReviewer() {
         var principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         var username = principal.getUsername();
 
-        return studentRepository.findByUsername(username);
+        return reviewerRepository.findByUsername(username);
     }
 
 }

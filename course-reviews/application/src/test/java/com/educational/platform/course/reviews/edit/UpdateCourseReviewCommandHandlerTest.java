@@ -35,7 +35,7 @@ public class UpdateCourseReviewCommandHandlerTest {
     private ReviewableCourseRepository reviewableCourseRepository;
 
     @Mock
-    private ReviewerRepository reviewerRepository;
+    private CurrentUserAsReviewer currentUserAsReviewer;
 
     private CourseReviewFactory courseReviewFactory;
     private UpdateCourseReviewCommandHandler sut;
@@ -43,7 +43,7 @@ public class UpdateCourseReviewCommandHandlerTest {
     @BeforeEach
     void setUp() {
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        courseReviewFactory = new CourseReviewFactory(validator, reviewableCourseRepository, reviewerRepository);
+        courseReviewFactory = new CourseReviewFactory(validator, currentUserAsReviewer, reviewableCourseRepository);
         sut = new UpdateCourseReviewCommandHandler(validator, courseReviewRepository);
     }
 
@@ -114,11 +114,10 @@ public class UpdateCourseReviewCommandHandlerTest {
 
         final String reviewerUsername = "username";
         final Reviewer reviewer = new Reviewer(new CreateReviewerCommand(reviewerUsername));
-        when(reviewerRepository.findByUsername(reviewerUsername)).thenReturn(Optional.of(reviewer));
+        when(currentUserAsReviewer.userAsReviewer()).thenReturn(reviewer);
 
         final ReviewCourseCommand reviewCourseCommand = ReviewCourseCommand.builder()
                 .courseId(courseId)
-                .reviewer(reviewerUsername)
                 .rating(4.0)
                 .comment("comment")
                 .build();
