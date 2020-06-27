@@ -1,6 +1,5 @@
 # 2. Integration events.
 Date: 2020-03-04
-Log date: 2020-03-04
 
 ## Status
 Accepted

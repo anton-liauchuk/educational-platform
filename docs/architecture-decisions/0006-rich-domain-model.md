@@ -1,6 +1,5 @@
 # 5. Identifier between modules.
 Date: 2020-05-05
-Log date: 2020-05-05
 
 ## Status
 Accepted

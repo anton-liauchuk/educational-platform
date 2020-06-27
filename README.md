@@ -77,13 +77,16 @@ All decisions inside this project [docs/architecture-decisions](docs/architectur
 ### 3.9. Results from command handlers
 The idea from CQRS - do not return anything from command processing. But in some cases, we need to get generated identifiers of new created resources. So as trade-off, command handlers can return generated identifiers after processing if it's needed.
 
-### 3.10. Bounded context map
+### 3.10. Architecture tests
+We need to have the mechanism for supporting common architecture principles in all application. Architecture tests with Archunit are used for these goals.
+
+### 3.11. Bounded context map
 ![](docs/bounded_context_map.png)
 
-### 3.11. Integration event inside application
+### 3.12. Integration event inside application
 ![](docs/integration_events.png)
 
-### 3.12. Technology stack
+### 3.13. Technology stack
 - Spring
 - Java
 - Lombok
