@@ -5,6 +5,7 @@ import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewFactory;
 import com.educational.platform.course.reviews.CourseReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class ReviewCourseCommandHandler {
      * @throws ConstraintViolationException          in the case of validation issues
      * @throws RelatedResourceIsNotResolvedException if course or reviewer is not found by relation
      */
+    @NonNull
     public UUID handle(ReviewCourseCommand command) {
         final CourseReview courseReview = courseReviewFactory.createFrom(command);
         courseReviewRepository.save(courseReview);

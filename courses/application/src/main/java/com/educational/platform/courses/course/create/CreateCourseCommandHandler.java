@@ -4,6 +4,7 @@ import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,7 @@ public class CreateCourseCommandHandler {
      * @throws ConstraintViolationException in the case of validation issues
      */
     // todo move to factory
+    @NonNull
     @PreAuthorize("hasRole('TEACHER')")
     public UUID handle(CreateCourseCommand command) {
         final Course course = courseFactory.createFrom(command);

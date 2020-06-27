@@ -7,6 +7,7 @@ import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ public class RegisterStudentToCourseCommandHandler {
      *
      * @param command command
      */
+    @NonNull
     @PreAuthorize("hasRole('STUDENT')")
     public UUID handle(RegisterStudentToCourseCommand command) {
         final CourseEnrollment courseEnrollment = transactionTemplate.execute(transactionStatus -> {

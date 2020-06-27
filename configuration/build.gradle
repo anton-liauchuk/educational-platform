@@ -7,11 +7,23 @@ dependencies {
     implementation project(':users:users-web')
     implementation project(':users:users-integration-events')
 
-    implementation project(':administration')
-    implementation project(':course-enrollments')
-    implementation project(':course-reviews')
-    implementation project(':courses')
-    implementation project(':security')
+    implementation project(':administration:administration-application')
+    implementation project(':administration:administration-web')
+    implementation project(':administration:administration-integration-events')
+
+    implementation project(':course-enrollments:course-enrollments-application')
+    implementation project(':course-enrollments:course-enrollments-web')
+    implementation project(':course-enrollments:course-enrollments-integration-events')
+
+    implementation project(':course-reviews:course-reviews-application')
+    implementation project(':course-reviews:course-reviews-web')
+    implementation project(':course-reviews:course-reviews-integration-events')
+
+    implementation project(':courses:courses-application')
+    implementation project(':courses:courses-web')
+    implementation project(':courses:courses-integration-events')
+
+    implementation project(':security:security-config')
     implementation project(':web')
     implementation project(':common')
 

@@ -5,6 +5,7 @@ import com.educational.platform.users.Role;
 import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -36,6 +37,7 @@ public class SignInCommandHandler {
      * @throws ConstraintViolationException validation errors
      * @throws UnprocessableEntityException invalid username/password
      */
+    @NonNull
     public String handle(SignInCommand command) {
         try {
             final Set<ConstraintViolation<SignInCommand>> violations = validator.validate(command);

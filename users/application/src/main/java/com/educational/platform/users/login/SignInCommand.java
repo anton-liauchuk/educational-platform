@@ -15,9 +15,9 @@ import javax.validation.constraints.NotBlank;
 public class SignInCommand {
 
     @NotBlank
-    private String username;
+    private final String username;
 
     @NotBlank
-    private String password;
+    private final String password;
 
 }
