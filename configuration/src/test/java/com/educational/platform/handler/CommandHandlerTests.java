@@ -23,6 +23,7 @@ public class CommandHandlerTests {
                 }
             })
             .and().areDeclaredInClassesThat().haveSimpleNameEndingWith("CommandHandler")
-            .should().beAnnotatedWith(NonNull.class).orShould().beAnnotatedWith(Nullable.class);
+            .should().beAnnotatedWith(NonNull.class).orShould().beAnnotatedWith(Nullable.class)
+            .because("Command handlers should provide detailed documentation of API, it's why nullability annotations are needed.");
 
 }
