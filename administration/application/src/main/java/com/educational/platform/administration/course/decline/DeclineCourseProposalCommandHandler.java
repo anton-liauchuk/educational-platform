@@ -5,6 +5,7 @@ import com.educational.platform.administration.course.CourseProposalAlreadyDecli
 import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseDeclinedByAdminIntegrationEvent;
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -20,7 +21,7 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Component
-public class DeclineCourseProposalCommandHandler {
+public class DeclineCourseProposalCommandHandler implements CommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;

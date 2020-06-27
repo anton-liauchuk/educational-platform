@@ -1,5 +1,6 @@
 package com.educational.platform.course.enrollments.student.create;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.course.enrollments.Student;
 import com.educational.platform.course.enrollments.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class CreateStudentCommandHandler {
+public class CreateStudentCommandHandler implements CommandHandler {
 
     private final StudentRepository studentRepository;
 

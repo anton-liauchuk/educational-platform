@@ -1,5 +1,6 @@
 package com.educational.platform.courses.course.create;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class CreateCourseCommandHandler {
+public class CreateCourseCommandHandler implements CommandHandler {
 
     private final CourseRepository courseRepository;
     private final CourseFactory courseFactory;

@@ -1,5 +1,6 @@
 package com.educational.platform.courses.course.publish;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseCannotBePublishedException;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class PublishCourseCommandHandler {
+public class PublishCourseCommandHandler implements CommandHandler {
 
     private final CourseRepository repository;
 

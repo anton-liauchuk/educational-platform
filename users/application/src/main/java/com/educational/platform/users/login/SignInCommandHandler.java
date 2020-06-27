@@ -1,5 +1,6 @@
 package com.educational.platform.users.login;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.UnprocessableEntityException;
 import com.educational.platform.users.Role;
 import com.educational.platform.users.UserRepository;
@@ -22,7 +23,7 @@ import java.util.Set;
  */
 @RequiredArgsConstructor
 @Component
-public class SignInCommandHandler {
+public class SignInCommandHandler implements CommandHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository repository;

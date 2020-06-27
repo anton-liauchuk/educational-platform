@@ -1,5 +1,6 @@
 package com.educational.platform.users.registration;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.UnprocessableEntityException;
 import com.educational.platform.users.Role;
 import com.educational.platform.users.User;
@@ -26,7 +27,7 @@ import java.util.Set;
  */
 @RequiredArgsConstructor
 @Component
-public class UserRegistrationCommandHandler {
+public class UserRegistrationCommandHandler implements CommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final PasswordEncoder passwordEncoder;

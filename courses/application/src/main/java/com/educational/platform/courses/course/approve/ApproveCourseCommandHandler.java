@@ -1,5 +1,6 @@
 package com.educational.platform.courses.course.approve;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseRepository;
@@ -15,7 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class ApproveCourseCommandHandler {
+public class ApproveCourseCommandHandler implements CommandHandler {
 
     private final CourseRepository repository;
 

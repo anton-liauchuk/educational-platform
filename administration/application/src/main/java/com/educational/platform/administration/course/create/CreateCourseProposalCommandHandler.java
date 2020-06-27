@@ -2,6 +2,7 @@ package com.educational.platform.administration.course.create;
 
 import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalRepository;
+import com.educational.platform.common.domain.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class CreateCourseProposalCommandHandler {
+public class CreateCourseProposalCommandHandler implements CommandHandler {
 
     private final CourseProposalRepository courseProposalRepository;
 

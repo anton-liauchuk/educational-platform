@@ -1,5 +1,6 @@
 package com.educational.platform.courses.course.approve;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseAlreadyApprovedException;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class SendCourseToApproveCommandHandler {
+public class SendCourseToApproveCommandHandler implements CommandHandler {
 
     private final CourseRepository repository;
     private final ApplicationEventPublisher eventPublisher;

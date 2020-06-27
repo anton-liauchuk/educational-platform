@@ -1,5 +1,6 @@
 package com.educational.platform.courses.teacher.create;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.courses.teacher.Teacher;
 import com.educational.platform.courses.teacher.TeacherRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class CreateTeacherCommandHandler {
+public class CreateTeacherCommandHandler implements CommandHandler {
 
     private final TeacherRepository teacherRepository;
 

@@ -1,5 +1,6 @@
 package com.educational.platform.course.reviews.create;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.RelatedResourceIsNotResolvedException;
 import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewFactory;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class ReviewCourseCommandHandler {
+public class ReviewCourseCommandHandler implements CommandHandler {
 
     private final CourseReviewRepository courseReviewRepository;
     private final CourseReviewFactory courseReviewFactory;

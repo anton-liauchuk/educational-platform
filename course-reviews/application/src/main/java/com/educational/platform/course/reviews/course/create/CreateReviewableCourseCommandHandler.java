@@ -1,5 +1,6 @@
 package com.educational.platform.course.reviews.course.create;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.course.reviews.ReviewableCourse;
 import com.educational.platform.course.reviews.ReviewableCourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class CreateReviewableCourseCommandHandler {
+public class CreateReviewableCourseCommandHandler implements CommandHandler {
 
     private final ReviewableCourseRepository reviewableCourseRepository;
 

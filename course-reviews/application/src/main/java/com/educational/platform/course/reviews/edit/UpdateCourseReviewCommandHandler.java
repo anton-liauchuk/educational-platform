@@ -1,5 +1,6 @@
 package com.educational.platform.course.reviews.edit;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewRepository;
@@ -21,7 +22,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class UpdateCourseReviewCommandHandler {
+public class UpdateCourseReviewCommandHandler implements CommandHandler {
 
     private final Validator validator;
     private final CourseReviewRepository courseReviewRepository;

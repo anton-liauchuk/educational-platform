@@ -1,5 +1,6 @@
 package com.educational.platform.course.enrollments.register;
 
+import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.course.enrollments.CourseEnrollment;
 import com.educational.platform.course.enrollments.CourseEnrollmentDTO;
 import com.educational.platform.course.enrollments.CourseEnrollmentFactory;
@@ -22,7 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class RegisterStudentToCourseCommandHandler {
+public class RegisterStudentToCourseCommandHandler implements CommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseEnrollmentRepository courseEnrollmentRepository;
