@@ -9,11 +9,10 @@ import com.tngtech.archunit.lang.ArchRule;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
 
 @AnalyzeClasses(packages = "com.educational.platform")
-public class CommandHandlerTests {
+public class CommandHandlerTest {
 
     @ArchTest
     public static final ArchRule commandHandlers_shouldHave_nullabilityAnnotations = methods()
@@ -33,5 +32,11 @@ public class CommandHandlerTests {
             .that().implement(CommandHandler.class)
             .should().haveSimpleNameEndingWith("CommandHandler")
             .because("Command handlers should have common naming convention.");
+
+    @ArchTest
+    public static final ArchRule commands_shouldBe_immutable = fields()
+            .that().areDeclaredInClassesThat().haveSimpleNameEndingWith("Command")
+            .should().beFinal()
+            .because("Commands should be immutable.");
 
 }

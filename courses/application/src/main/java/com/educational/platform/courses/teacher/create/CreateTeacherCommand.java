@@ -10,6 +10,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class CreateTeacherCommand {
 
-    private String username;
+    private final String username;
 
 }

@@ -20,18 +20,18 @@ import javax.validation.constraints.Size;
 public class UserRegistrationCommand {
 
     @NotNull
-    private RoleDTO role;
+    private final RoleDTO role;
 
     @Size(min = 4, max = 255)
     @NotBlank
-    private String username;
+    private final String username;
 
     @Email
     @NotBlank
-    private String email;
+    private final String email;
 
     @ValidPassword
     @NotBlank
-    private String password;
+    private final String password;
 
 }

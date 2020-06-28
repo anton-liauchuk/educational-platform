@@ -12,6 +12,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PublishCourseCommand {
 
-    private UUID uuid;
+    private final UUID uuid;
 
 }

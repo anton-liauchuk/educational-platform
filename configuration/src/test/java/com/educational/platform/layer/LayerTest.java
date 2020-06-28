@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 @AnalyzeClasses(packages = "com.educational.platform")
-public class LayerTests {
+public class LayerTest {
 
     @ArchTest
     public static final ArchRule controllers_mustNotAccess_repositories = noClasses()

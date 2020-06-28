@@ -15,9 +15,9 @@ import javax.validation.constraints.NotBlank;
 public class CreateCourseCommand {
 
     @NotBlank
-    private String name;
+    private final String name;
 
     @NotBlank
-    private String description;
+    private final String description;
 
 }
