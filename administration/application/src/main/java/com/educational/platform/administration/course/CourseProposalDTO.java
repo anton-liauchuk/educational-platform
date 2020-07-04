@@ -15,6 +15,6 @@ import java.util.UUID;
 public class CourseProposalDTO {
 
     private final UUID uuid;
-    private CourseProposalStatusDTO status;
+    private final CourseProposalStatusDTO status;
 
 }

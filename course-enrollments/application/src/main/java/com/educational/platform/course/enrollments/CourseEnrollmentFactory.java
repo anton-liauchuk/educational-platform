@@ -40,6 +40,6 @@ public class CourseEnrollmentFactory {
 
         final Student student = currentUserAsStudent.userAsStudent();
 
-        return new CourseEnrollment(command, course, student);
+        return new CourseEnrollment(course, student);
     }
 }

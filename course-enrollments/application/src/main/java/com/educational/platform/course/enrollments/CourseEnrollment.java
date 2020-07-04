@@ -30,7 +30,7 @@ public class CourseEnrollment implements AggregateRoot {
     private CourseEnrollment() {
     }
 
-    public CourseEnrollment(RegisterStudentToCourseCommand command, Course course, Student student) {
+    public CourseEnrollment(Course course, Student student) {
         this.uuid = UUID.randomUUID();
         this.course = course;
         this.student = student;

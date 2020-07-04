@@ -21,7 +21,7 @@ public class CourseEnrollmentTest {
                 .build();
         final CreateCourseCommand createCourseCommand = new CreateCourseCommand(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"));
         final CreateStudentCommand createStudentCommand = new CreateStudentCommand("username");
-        final CourseEnrollment enrollment = new CourseEnrollment(registerStudentToCourseCommand, new Course(createCourseCommand), new Student(createStudentCommand));
+        final CourseEnrollment enrollment = new CourseEnrollment(new Course(createCourseCommand), new Student(createStudentCommand));
 
         // when
         enrollment.complete();
@@ -41,7 +41,7 @@ public class CourseEnrollmentTest {
                 .build();
         final CreateCourseCommand createCourseCommand = new CreateCourseCommand(courseId);
         final CreateStudentCommand createStudentCommand = new CreateStudentCommand(username);
-        final CourseEnrollment enrollment = new CourseEnrollment(registerStudentToCourseCommand, new Course(createCourseCommand), new Student(createStudentCommand));
+        final CourseEnrollment enrollment = new CourseEnrollment(new Course(createCourseCommand), new Student(createStudentCommand));
         final UUID enrollmentId = (UUID) ReflectionTestUtils.getField(enrollment, "uuid");
 
         // when
