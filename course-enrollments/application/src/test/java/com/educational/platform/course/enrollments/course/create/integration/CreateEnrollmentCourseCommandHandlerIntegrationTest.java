@@ -1,9 +1,9 @@
 package com.educational.platform.course.enrollments.course.create.integration;
 
-import com.educational.platform.course.enrollments.Course;
-import com.educational.platform.course.enrollments.CourseRepository;
+import com.educational.platform.course.enrollments.EnrollCourse;
+import com.educational.platform.course.enrollments.EnrollCourseRepository;
 import com.educational.platform.course.enrollments.course.create.CreateCourseCommand;
-import com.educational.platform.course.enrollments.course.create.CreateCourseCommandHandler;
+import com.educational.platform.course.enrollments.course.create.CreateEnrollmentCourseCommandHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -18,13 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureTestDatabase
 @SpringBootTest
-public class CreateCourseCommandHandlerIntegrationTest {
+public class CreateEnrollmentCourseCommandHandlerIntegrationTest {
 
     @Autowired
-    private CourseRepository repository;
+    private EnrollCourseRepository repository;
 
     @SpyBean
-    private CreateCourseCommandHandler sut;
+    private CreateEnrollmentCourseCommandHandler sut;
 
     @Test
     void handle_validCommand_courseSaved() {
@@ -36,9 +36,9 @@ public class CreateCourseCommandHandlerIntegrationTest {
         sut.handle(command);
 
         // then
-        final Optional<Course> saved = repository.findOne(Example.of(new Course(command)));
+        final Optional<EnrollCourse> saved = repository.findOne(Example.of(new EnrollCourse(command)));
         assertThat(saved).isNotEmpty();
-        final Course course = saved.get();
+        final EnrollCourse course = saved.get();
         assertThat(course).hasFieldOrPropertyWithValue("uuid", uuid);
     }
 }

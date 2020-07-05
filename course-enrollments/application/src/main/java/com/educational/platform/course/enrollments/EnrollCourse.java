@@ -11,8 +11,8 @@ import java.util.UUID;
 /**
  * Represents course domain model.
  */
-@Entity
-public class Course {
+@Entity(name = "enroll_course")
+public class EnrollCourse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +21,11 @@ public class Course {
     private UUID uuid;
 
     // for JPA
-    private Course() {
+    private EnrollCourse() {
 
     }
 
-    public Course(CreateCourseCommand createCourseCommand) {
+    public EnrollCourse(CreateCourseCommand createCourseCommand) {
         this.uuid = createCourseCommand.getUuid();
     }
 

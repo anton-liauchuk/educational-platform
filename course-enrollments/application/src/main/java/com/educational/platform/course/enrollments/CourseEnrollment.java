@@ -1,7 +1,6 @@
 package com.educational.platform.course.enrollments;
 
 import com.educational.platform.common.domain.AggregateRoot;
-import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -19,7 +18,7 @@ public class CourseEnrollment implements AggregateRoot {
     private UUID uuid;
 
     @ManyToOne
-    private Course course;
+    private EnrollCourse course;
 
     @ManyToOne
     private Student student;
@@ -30,7 +29,7 @@ public class CourseEnrollment implements AggregateRoot {
     private CourseEnrollment() {
     }
 
-    public CourseEnrollment(Course course, Student student) {
+    public CourseEnrollment(EnrollCourse course, Student student) {
         this.uuid = UUID.randomUUID();
         this.course = course;
         this.student = student;

@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * Represents course repository.
  */
-public interface CourseRepository extends JpaRepository<Course, Integer> {
+public interface EnrollCourseRepository extends JpaRepository<EnrollCourse, Integer> {
 
     /**
      * Retrieves a course by its uuid.
@@ -17,6 +17,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
      * @return the course with the given uuid or {@literal Optional#empty()} if none found.
      * @throws IllegalArgumentException if {@literal uuid} is {@literal null}.
      */
-    Optional<Course> findByUuid(UUID uuid);
+    Optional<EnrollCourse> findByUuid(UUID uuid);
 
 }

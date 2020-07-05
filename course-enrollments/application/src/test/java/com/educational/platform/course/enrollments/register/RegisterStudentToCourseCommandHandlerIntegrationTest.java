@@ -30,7 +30,7 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
     private CourseEnrollmentRepository courseEnrollmentRepository;
 
     @Autowired
-    private CourseRepository courseRepository;
+    private EnrollCourseRepository courseRepository;
 
     @Autowired
     private StudentRepository studentRepository;
@@ -54,7 +54,7 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
         sut = new RegisterStudentToCourseCommandHandler(transactionTemplate, courseEnrollmentRepository, courseEnrollmentFactory, eventPublisher);
 
         courseUuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final Course course = new Course(new CreateCourseCommand(courseUuid));
+        final EnrollCourse course = new EnrollCourse(new CreateCourseCommand(courseUuid));
         courseRepository.save(course);
 
         studentUsername = "username";
@@ -90,7 +90,7 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
         final Student student = (Student) ReflectionTestUtils.getField(savedEnrollment, "student");
         assertThat(student).hasFieldOrPropertyWithValue("username", "username");
 
-        final Course course = (Course) ReflectionTestUtils.getField(savedEnrollment, "course");
+        final EnrollCourse course = (EnrollCourse) ReflectionTestUtils.getField(savedEnrollment, "course");
         assertThat(course).hasFieldOrPropertyWithValue("uuid", courseUuid);
     }
 }

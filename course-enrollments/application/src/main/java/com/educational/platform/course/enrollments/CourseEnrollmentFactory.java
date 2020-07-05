@@ -18,7 +18,7 @@ import java.util.Set;
 public class CourseEnrollmentFactory {
 
     private final Validator validator;
-    private final CourseRepository courseRepository;
+    private final EnrollCourseRepository courseRepository;
     private final CurrentUserAsStudent currentUserAsStudent;
 
     /**
@@ -35,7 +35,7 @@ public class CourseEnrollmentFactory {
             throw new ConstraintViolationException(violations);
         }
 
-        final Course course = courseRepository.findByUuid(command.getCourseId())
+        final EnrollCourse course = courseRepository.findByUuid(command.getCourseId())
                 .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by uuid = " + command.getCourseId()));
 
         final Student student = currentUserAsStudent.userAsStudent();

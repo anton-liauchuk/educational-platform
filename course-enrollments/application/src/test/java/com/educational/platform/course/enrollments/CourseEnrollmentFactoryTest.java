@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 public class CourseEnrollmentFactoryTest {
 
     @Mock
-    private CourseRepository courseRepository;
+    private EnrollCourseRepository courseRepository;
 
     @Mock
     private CurrentUserAsStudent currentUserAsStudent;
@@ -47,7 +47,7 @@ public class CourseEnrollmentFactoryTest {
                 .courseId(courseId)
                 .build();
         final CreateCourseCommand createCourseCommand = new CreateCourseCommand(courseId);
-        final Course correspondingCourse = new Course(createCourseCommand);
+        final EnrollCourse correspondingCourse = new EnrollCourse(createCourseCommand);
         when(courseRepository.findByUuid(courseId)).thenReturn(Optional.of(correspondingCourse));
 
         final CreateStudentCommand createStudentCommand = new CreateStudentCommand("username");
@@ -63,7 +63,7 @@ public class CourseEnrollmentFactoryTest {
         final Student student = (Student) ReflectionTestUtils.getField(enrollment, "student");
         assertThat(student).hasFieldOrPropertyWithValue("username", "username");
 
-        final Course course = (Course) ReflectionTestUtils.getField(enrollment, "course");
+        final EnrollCourse course = (EnrollCourse) ReflectionTestUtils.getField(enrollment, "course");
         assertThat(course).hasFieldOrPropertyWithValue("uuid", courseId);
     }
 
