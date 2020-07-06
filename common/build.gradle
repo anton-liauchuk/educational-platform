@@ -1,3 +1,7 @@
 dependencies {
+    api ('org.axonframework:axon-spring-boot-starter:4.3.4') {
+        exclude group: "org.axonframework", module: "axon-server-connector"
+    }
+
     runtimeOnly 'com.h2database:h2'
 }

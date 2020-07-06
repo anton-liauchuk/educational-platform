@@ -1,8 +1,9 @@
 package com.educational.platform.course.enrollments;
 
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
-import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommandHandler;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,15 +18,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class CourseEnrollmentController {
 
-    private final RegisterStudentToCourseCommandHandler handler;
+    private final CommandGateway commandGateway;
 
     @PostMapping(value = "/courses/{uuid}/course-enrollments", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public UUID enroll(@PathVariable UUID uuid, @RequestBody CourseEnrollmentRequest request) {
-        final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
+        var command = RegisterStudentToCourseCommand.builder()
                 .courseId(uuid)
                 .build();
 
-        return handler.handle(command);
+        return commandGateway.sendAndWait(command);
     }
 }

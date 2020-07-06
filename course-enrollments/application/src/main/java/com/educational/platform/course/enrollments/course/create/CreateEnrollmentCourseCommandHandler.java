@@ -22,6 +22,7 @@ public class CreateEnrollmentCourseCommandHandler implements CommandHandler {
      *
      * @param command command
      */
+    @org.axonframework.commandhandling.CommandHandler
     public void handle(CreateCourseCommand command) {
         final EnrollCourse course = new EnrollCourse(command);
         courseRepository.save(course);

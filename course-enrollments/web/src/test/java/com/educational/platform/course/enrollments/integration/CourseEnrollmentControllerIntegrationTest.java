@@ -3,8 +3,9 @@ package com.educational.platform.course.enrollments.integration;
 import com.educational.platform.common.exception.RelatedResourceIsNotResolvedException;
 import com.educational.platform.course.enrollments.CourseEnrollmentController;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
-import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommandHandler;
 import com.educational.platform.users.security.WebSecurityConfig;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -36,7 +37,7 @@ public class CourseEnrollmentControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private RegisterStudentToCourseCommandHandler handler;
+    private CommandGateway commandGateway;
 
     @Test
     @WithMockUser(username = "student", roles = "STUDENT")
@@ -53,7 +54,7 @@ public class CourseEnrollmentControllerIntegrationTest {
     @Test
     @WithMockUser(username = "student", roles = "STUDENT")
     void enroll_relatedResourceIsNotResolvedException_badRequest() throws Exception {
-        doThrow(RelatedResourceIsNotResolvedException.class).when(handler).handle(any(RegisterStudentToCourseCommand.class));
+        doThrow(RelatedResourceIsNotResolvedException.class).when(commandGateway).sendAndWait(any(RegisterStudentToCourseCommand.class));
 
         this.mockMvc.perform(post("/courses/{uuid}/course-enrollments", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{\n" +
@@ -69,7 +70,7 @@ public class CourseEnrollmentControllerIntegrationTest {
     void enroll_constraintViolationException_badRequest() throws Exception {
         final ConstraintViolationException exception = mock(ConstraintViolationException.class);
         doReturn(new HashSet<>()).when(exception).getConstraintViolations();
-        doThrow(exception).when(handler).handle(any(RegisterStudentToCourseCommand.class));
+        doThrow(exception).when(commandGateway).sendAndWait(any(RegisterStudentToCourseCommand.class));
 
         this.mockMvc.perform(post("/courses/{uuid}/course-enrollments", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{\n" +

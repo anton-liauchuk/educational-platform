@@ -35,6 +35,7 @@ public class RegisterStudentToCourseCommandHandler implements CommandHandler {
      *
      * @param command command
      */
+    @org.axonframework.commandhandling.CommandHandler
     @NonNull
     @PreAuthorize("hasRole('STUDENT')")
     public UUID handle(RegisterStudentToCourseCommand command) {

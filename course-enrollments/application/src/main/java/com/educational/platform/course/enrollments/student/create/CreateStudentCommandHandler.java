@@ -22,6 +22,7 @@ public class CreateStudentCommandHandler implements CommandHandler {
      *
      * @param command command
      */
+    @org.axonframework.commandhandling.CommandHandler
     public void handle(CreateStudentCommand command) {
         final Student student = new Student(command);
         studentRepository.save(student);
