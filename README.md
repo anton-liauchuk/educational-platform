@@ -81,16 +81,20 @@ The idea from CQRS - do not return anything from command processing. But in some
 ### 3.10. Architecture tests
 We need to have the mechanism for supporting common architecture principles in all application. Architecture tests with Archunit are used for these goals.
 
-### 3.11. Bounded context map
+### 3.11. Axon Framework
+Axon Framework is used as DDD library for not creating custom building block classes.
+
+### 3.12. Bounded context map
 ![](docs/bounded_context_map.png)
 
-### 3.12. Integration event inside application
+### 3.13. Integration event inside application
 ![](docs/integration_events.png)
 
-### 3.13. Technology stack
-- Spring
-- Java
-- Lombok
+### 3.14. Technology stack
+- Spring;
+- Java 11;
+- Lombok;
+- Axon Framework;
 
 ## 4. Contribution
 The application is in development status. Please feel free to submit pull request or create the issue.
