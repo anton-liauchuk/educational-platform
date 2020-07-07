@@ -1,11 +1,12 @@
 package com.educational.platform.users.login;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.UnprocessableEntityException;
 import com.educational.platform.users.Role;
 import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +24,7 @@ import java.util.Set;
  */
 @RequiredArgsConstructor
 @Component
-public class SignInCommandHandler implements CommandHandler {
+public class SignInCommandHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository repository;
@@ -38,6 +39,7 @@ public class SignInCommandHandler implements CommandHandler {
      * @throws ConstraintViolationException validation errors
      * @throws UnprocessableEntityException invalid username/password
      */
+    @CommandHandler
     @NonNull
     public String handle(SignInCommand command) {
         try {

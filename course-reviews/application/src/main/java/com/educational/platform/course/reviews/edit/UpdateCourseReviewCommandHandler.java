@@ -1,10 +1,11 @@
 package com.educational.platform.course.reviews.edit;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class UpdateCourseReviewCommandHandler implements CommandHandler {
+public class UpdateCourseReviewCommandHandler {
 
     private final Validator validator;
     private final CourseReviewRepository courseReviewRepository;
@@ -34,6 +35,7 @@ public class UpdateCourseReviewCommandHandler implements CommandHandler {
      * @throws ResourceNotFoundException    course review not found
      * @throws ConstraintViolationException validation issues
      */
+    @CommandHandler
     @PreAuthorize("hasRole('STUDENT') and @courseReviewChecker.hasAccess(authentication, #c.uuid)")
     public void handle(@P("c") UpdateCourseReviewCommand command) {
         final Optional<CourseReview> dbResult = courseReviewRepository.findByUuid(command.getUuid());

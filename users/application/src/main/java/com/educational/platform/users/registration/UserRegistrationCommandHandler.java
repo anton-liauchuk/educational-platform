@@ -1,6 +1,5 @@
 package com.educational.platform.users.registration;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.UnprocessableEntityException;
 import com.educational.platform.users.Role;
 import com.educational.platform.users.User;
@@ -9,6 +8,8 @@ import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 import com.educational.platform.users.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +28,7 @@ import java.util.Set;
  */
 @RequiredArgsConstructor
 @Component
-public class UserRegistrationCommandHandler implements CommandHandler {
+public class UserRegistrationCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final PasswordEncoder passwordEncoder;
@@ -44,6 +45,7 @@ public class UserRegistrationCommandHandler implements CommandHandler {
      * @throws ConstraintViolationException validation errors
      * @throws UnprocessableEntityException if username is already in use
      */
+    @CommandHandler
     @NonNull
     public String handle(UserRegistrationCommand command) {
         final User user = transactionTemplate.execute(transactionStatus -> {

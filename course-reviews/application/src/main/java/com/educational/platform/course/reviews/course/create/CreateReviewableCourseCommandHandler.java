@@ -1,9 +1,10 @@
 package com.educational.platform.course.reviews.course.create;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.course.reviews.ReviewableCourse;
 import com.educational.platform.course.reviews.ReviewableCourseRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class CreateReviewableCourseCommandHandler implements CommandHandler {
+public class CreateReviewableCourseCommandHandler {
 
     private final ReviewableCourseRepository reviewableCourseRepository;
 
@@ -22,6 +23,7 @@ public class CreateReviewableCourseCommandHandler implements CommandHandler {
      *
      * @param command command
      */
+    @CommandHandler
     public void handle(CreateReviewableCourseCommand command) {
         final ReviewableCourse reviewableCourse = new ReviewableCourse(command);
         reviewableCourseRepository.save(reviewableCourse);

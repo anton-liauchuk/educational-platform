@@ -5,9 +5,10 @@ import com.educational.platform.administration.course.CourseProposalAlreadyAppro
 import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Component
-public class ApproveCourseProposalCommandHandler implements CommandHandler {
+public class ApproveCourseProposalCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;
@@ -34,6 +35,7 @@ public class ApproveCourseProposalCommandHandler implements CommandHandler {
      * @throws ResourceNotFoundException              if resource not found
      * @throws CourseProposalAlreadyApprovedException course proposal already approved
      */
+    @CommandHandler
     @PreAuthorize("hasRole('ADMIN')")
     public void handle(ApproveCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {

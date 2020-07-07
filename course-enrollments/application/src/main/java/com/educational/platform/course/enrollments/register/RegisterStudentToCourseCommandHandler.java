@@ -1,12 +1,13 @@
 package com.educational.platform.course.enrollments.register;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.course.enrollments.CourseEnrollment;
 import com.educational.platform.course.enrollments.CourseEnrollmentDTO;
 import com.educational.platform.course.enrollments.CourseEnrollmentFactory;
 import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,7 +24,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class RegisterStudentToCourseCommandHandler implements CommandHandler {
+public class RegisterStudentToCourseCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseEnrollmentRepository courseEnrollmentRepository;
@@ -35,7 +36,7 @@ public class RegisterStudentToCourseCommandHandler implements CommandHandler {
      *
      * @param command command
      */
-    @org.axonframework.commandhandling.CommandHandler
+    @CommandHandler
     @NonNull
     @PreAuthorize("hasRole('STUDENT')")
     public UUID handle(RegisterStudentToCourseCommand command) {

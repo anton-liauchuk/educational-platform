@@ -1,10 +1,11 @@
 package com.educational.platform.courses.course.create;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class CreateCourseCommandHandler implements CommandHandler {
+public class CreateCourseCommandHandler {
 
     private final CourseRepository courseRepository;
     private final CourseFactory courseFactory;
@@ -31,6 +32,7 @@ public class CreateCourseCommandHandler implements CommandHandler {
      * @throws ConstraintViolationException in the case of validation issues
      */
     // todo move to factory
+    @CommandHandler
     @NonNull
     @PreAuthorize("hasRole('TEACHER')")
     public UUID handle(CreateCourseCommand command) {

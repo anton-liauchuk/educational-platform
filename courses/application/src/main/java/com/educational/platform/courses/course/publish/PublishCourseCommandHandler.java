@@ -1,11 +1,12 @@
 package com.educational.platform.courses.course.publish;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseCannotBePublishedException;
 import com.educational.platform.courses.course.CourseRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class PublishCourseCommandHandler implements CommandHandler {
+public class PublishCourseCommandHandler {
 
     private final CourseRepository repository;
 
@@ -30,6 +31,7 @@ public class PublishCourseCommandHandler implements CommandHandler {
      * @throws ResourceNotFoundException        if resource not found
      * @throws CourseCannotBePublishedException if course is not approved
      */
+    @CommandHandler
     @PreAuthorize("hasRole('TEACHER') and @courseTeacherChecker.hasAccess(authentication, #c.uuid)")
     public void handle(@P("c") PublishCourseCommand command) {
         final Optional<Course> dbResult = repository.findByUuid(command.getUuid());

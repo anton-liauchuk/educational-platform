@@ -5,9 +5,10 @@ import com.educational.platform.administration.course.CourseProposalAlreadyDecli
 import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseDeclinedByAdminIntegrationEvent;
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Component
-public class DeclineCourseProposalCommandHandler implements CommandHandler {
+public class DeclineCourseProposalCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;
@@ -34,6 +35,7 @@ public class DeclineCourseProposalCommandHandler implements CommandHandler {
      * @throws ResourceNotFoundException              if resource not found
      * @throws CourseProposalAlreadyDeclinedException course proposal already declined
      */
+    @CommandHandler
     @PreAuthorize("hasRole('ADMIN')")
     public void handle(DeclineCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {

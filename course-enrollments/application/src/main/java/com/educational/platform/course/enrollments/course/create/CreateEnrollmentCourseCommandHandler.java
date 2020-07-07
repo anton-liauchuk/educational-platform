@@ -1,9 +1,10 @@
 package com.educational.platform.course.enrollments.course.create;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.course.enrollments.EnrollCourse;
 import com.educational.platform.course.enrollments.EnrollCourseRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class CreateEnrollmentCourseCommandHandler implements CommandHandler {
+public class CreateEnrollmentCourseCommandHandler {
 
     private final EnrollCourseRepository courseRepository;
 
@@ -22,7 +23,7 @@ public class CreateEnrollmentCourseCommandHandler implements CommandHandler {
      *
      * @param command command
      */
-    @org.axonframework.commandhandling.CommandHandler
+    @CommandHandler
     public void handle(CreateCourseCommand command) {
         final EnrollCourse course = new EnrollCourse(command);
         courseRepository.save(course);

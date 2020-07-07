@@ -2,8 +2,9 @@ package com.educational.platform.administration.course.create;
 
 import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalRepository;
-import com.educational.platform.common.domain.CommandHandler;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class CreateCourseProposalCommandHandler implements CommandHandler {
+public class CreateCourseProposalCommandHandler {
 
     private final CourseProposalRepository courseProposalRepository;
 
@@ -22,6 +23,7 @@ public class CreateCourseProposalCommandHandler implements CommandHandler {
      *
      * @param command command
      */
+    @CommandHandler
     public void handle(CreateCourseProposalCommand command) {
         final CourseProposal courseProposal = new CourseProposal(command);
         courseProposalRepository.save(courseProposal);

@@ -1,9 +1,10 @@
 package com.educational.platform.course.reviews.reviewer.create;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.course.reviews.Reviewer;
 import com.educational.platform.course.reviews.ReviewerRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class CreateReviewerCommandHandler implements CommandHandler {
+public class CreateReviewerCommandHandler {
 
     private final ReviewerRepository reviewerRepository;
 
@@ -22,6 +23,7 @@ public class CreateReviewerCommandHandler implements CommandHandler {
      *
      * @param command command
      */
+    @CommandHandler
     public void handle(CreateReviewerCommand command) {
         final Reviewer reviewer = new Reviewer(command);
         reviewerRepository.save(reviewer);

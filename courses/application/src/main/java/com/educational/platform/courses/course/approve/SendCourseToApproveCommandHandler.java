@@ -1,12 +1,13 @@
 package com.educational.platform.courses.course.approve;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseAlreadyApprovedException;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
@@ -21,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class SendCourseToApproveCommandHandler implements CommandHandler {
+public class SendCourseToApproveCommandHandler {
 
     private final CourseRepository repository;
     private final ApplicationEventPublisher eventPublisher;
@@ -33,6 +34,7 @@ public class SendCourseToApproveCommandHandler implements CommandHandler {
      * @throws CourseAlreadyApprovedException if course was already approved
      * @throws ResourceNotFoundException      if resource not found
      */
+    @CommandHandler
     @PreAuthorize("hasRole('TEACHER') and @courseTeacherChecker.hasAccess(authentication, #c.uuid)")
     public void handle(@P("c") SendCourseToApproveCommand command) {
         final Optional<Course> dbResult = repository.findByUuid(command.getUuid());

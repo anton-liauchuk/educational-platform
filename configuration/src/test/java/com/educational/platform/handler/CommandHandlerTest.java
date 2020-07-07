@@ -1,11 +1,12 @@
 package com.educational.platform.handler;
 
-import com.educational.platform.common.domain.CommandHandler;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+
+import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -23,15 +24,9 @@ public class CommandHandlerTest {
                     return javaClass.isPrimitive() || javaClass.isEquivalentTo(Void.TYPE);
                 }
             })
-            .and().areDeclaredInClassesThat().implement(CommandHandler.class)
+            .and().areAnnotatedWith(CommandHandler.class)
             .should().beAnnotatedWith(NonNull.class).orShould().beAnnotatedWith(Nullable.class)
             .because("Command handlers should provide detailed documentation of API, it's why nullability annotations are needed.");
-
-    @ArchTest
-    public static final ArchRule commandHandlers_shouldHave_nameEndingWithCommandHandler = classes()
-            .that().implement(CommandHandler.class)
-            .should().haveSimpleNameEndingWith("CommandHandler")
-            .because("Command handlers should have common naming convention.");
 
     @ArchTest
     public static final ArchRule commands_shouldBe_immutable = fields()
