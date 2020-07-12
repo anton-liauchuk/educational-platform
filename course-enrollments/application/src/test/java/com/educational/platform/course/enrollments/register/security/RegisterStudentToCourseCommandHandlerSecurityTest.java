@@ -4,6 +4,8 @@ import com.educational.platform.course.enrollments.CourseEnrollment;
 import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommandHandler;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Sql(scripts = "classpath:course.sql")
@@ -55,9 +58,10 @@ public class RegisterStudentToCourseCommandHandlerSecurityTest {
                 .build();
 
         // when
-        final Executable publishAction = () -> sut.handle(command);
+        final ThrowingCallable registerAction = () -> sut.handle(command);
 
         // then
-        assertThrows(AccessDeniedException.class, publishAction);
+        assertThatThrownBy(registerAction)
+                .hasRootCauseInstanceOf(AccessDeniedException.class);
     }
 }

@@ -5,8 +5,9 @@ import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.create.CreateCourseCommandHandler;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -17,7 +18,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest(properties = "com.educational.platform.security.enabled=true")
 public class CreateCourseCommandHandlerSecurityTest {
@@ -61,9 +62,10 @@ public class CreateCourseCommandHandlerSecurityTest {
                 .build();
 
         // when
-        final Executable createAction = () -> sut.handle(command);
+        final ThrowingCallable createAction = () -> sut.handle(command);
 
         // then
-        assertThrows(AccessDeniedException.class, createAction);
+        assertThatThrownBy(createAction)
+                .hasRootCauseInstanceOf(AccessDeniedException.class);
     }
 }

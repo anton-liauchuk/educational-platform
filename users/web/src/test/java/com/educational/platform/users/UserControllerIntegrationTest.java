@@ -1,9 +1,9 @@
 package com.educational.platform.users;
 
-import com.educational.platform.users.login.SignInCommandHandler;
-import com.educational.platform.users.registration.UserRegistrationCommandHandler;
 import com.educational.platform.users.security.UserController;
 import com.educational.platform.users.security.WebSecurityConfig;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -28,10 +28,7 @@ public class UserControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserRegistrationCommandHandler registrationCommandHandler;
-
-    @MockBean
-    private SignInCommandHandler signInCommandHandler;
+    private CommandGateway commandGateway;
 
     @Test
     void signUp_validRequest_signedUp() throws Exception {

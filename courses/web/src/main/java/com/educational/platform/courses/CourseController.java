@@ -2,11 +2,11 @@ package com.educational.platform.courses;
 
 import com.educational.platform.courses.course.CourseCannotBePublishedException;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
-import com.educational.platform.courses.course.create.CreateCourseCommandHandler;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
-import com.educational.platform.courses.course.publish.PublishCourseCommandHandler;
 import com.educational.platform.web.handler.ErrorResponse;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,8 +26,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class CourseController {
 
-    private final CreateCourseCommandHandler createCourseCommandHandler;
-    private final PublishCourseCommandHandler publishCourseCommandHandler;
+    private final CommandGateway commandGateway;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,13 +36,13 @@ public class CourseController {
                 .description(courseCreateRequest.getDescription())
                 .build();
 
-        return new CreatedCourseResponse(createCourseCommandHandler.handle(command));
+        return new CreatedCourseResponse(commandGateway.sendAndWait(command));
     }
 
     @PutMapping(value = "/{uuid}/publish-status", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void publish(@PathVariable UUID uuid) {
-        publishCourseCommandHandler.handle(new PublishCourseCommand(uuid));
+        commandGateway.sendAndWait(new PublishCourseCommand(uuid));
     }
 
     @ExceptionHandler(CourseCannotBePublishedException.class)

@@ -1,6 +1,8 @@
 package com.educational.platform.courses.course.approve;
 
 import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -17,7 +19,7 @@ import static org.mockito.Mockito.verify;
 public class CourseApprovedByAdminIntegrationEventListenerTest {
 
     @Mock
-    private ApproveCourseCommandHandler handler;
+    private CommandGateway commandGateway;
 
     @InjectMocks
     private CourseApprovedByAdminIntegrationEventListener sut;
@@ -33,7 +35,7 @@ public class CourseApprovedByAdminIntegrationEventListenerTest {
 
         // then
         final ArgumentCaptor<ApproveCourseCommand> argument = ArgumentCaptor.forClass(ApproveCourseCommand.class);
-        verify(handler).handle(argument.capture());
+        verify(commandGateway).send(argument.capture());
         final ApproveCourseCommand approveCourseCommand = argument.getValue();
         assertThat(approveCourseCommand)
                 .hasFieldOrPropertyWithValue("uuid", uuid);

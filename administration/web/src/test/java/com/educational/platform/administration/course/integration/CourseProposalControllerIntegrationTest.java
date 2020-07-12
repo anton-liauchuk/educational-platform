@@ -4,10 +4,10 @@ import com.educational.platform.administration.course.CourseProposalAlreadyAppro
 import com.educational.platform.administration.course.CourseProposalAlreadyDeclinedException;
 import com.educational.platform.administration.course.CourseProposalController;
 import com.educational.platform.administration.course.approve.ApproveCourseProposalCommand;
-import com.educational.platform.administration.course.approve.ApproveCourseProposalCommandHandler;
 import com.educational.platform.administration.course.decline.DeclineCourseProposalCommand;
-import com.educational.platform.administration.course.decline.DeclineCourseProposalCommandHandler;
 import com.educational.platform.common.exception.ResourceNotFoundException;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -34,10 +34,7 @@ public class CourseProposalControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ApproveCourseProposalCommandHandler approveHandler;
-
-    @MockBean
-    private DeclineCourseProposalCommandHandler declineHandler;
+    private CommandGateway commandGateway;
 
     @Test
     void approve_existingCourseProposal_noContent() throws Exception {
@@ -49,7 +46,7 @@ public class CourseProposalControllerIntegrationTest {
 
     @Test
     void approve_resourceNotFoundException_notFound() throws Exception {
-        doThrow(ResourceNotFoundException.class).when(approveHandler).handle(any(ApproveCourseProposalCommand.class));
+        doThrow(ResourceNotFoundException.class).when(commandGateway).sendAndWait(any(ApproveCourseProposalCommand.class));
 
         this.mockMvc.perform(put("/administration/course-proposals/{uuid}/approval-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{}")
@@ -59,7 +56,7 @@ public class CourseProposalControllerIntegrationTest {
 
     @Test
     void approve_courseProposalAlreadyApprovedException_conflict() throws Exception {
-        doThrow(CourseProposalAlreadyApprovedException.class).when(approveHandler).handle(any(ApproveCourseProposalCommand.class));
+        doThrow(CourseProposalAlreadyApprovedException.class).when(commandGateway).sendAndWait(any(ApproveCourseProposalCommand.class));
 
         this.mockMvc.perform(put("/administration/course-proposals/{uuid}/approval-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{}")
@@ -77,7 +74,7 @@ public class CourseProposalControllerIntegrationTest {
 
     @Test
     void decline_resourceNotFoundException_notFound() throws Exception {
-        doThrow(ResourceNotFoundException.class).when(declineHandler).handle(any(DeclineCourseProposalCommand.class));
+        doThrow(ResourceNotFoundException.class).when(commandGateway).sendAndWait(any(DeclineCourseProposalCommand.class));
 
         this.mockMvc.perform(delete("/administration/course-proposals/{uuid}/approval-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{}")
@@ -87,7 +84,7 @@ public class CourseProposalControllerIntegrationTest {
 
     @Test
     void decline_courseProposalAlreadyDeclinedException_conflict() throws Exception {
-        doThrow(CourseProposalAlreadyDeclinedException.class).when(declineHandler).handle(any(DeclineCourseProposalCommand.class));
+        doThrow(CourseProposalAlreadyDeclinedException.class).when(commandGateway).sendAndWait(any(DeclineCourseProposalCommand.class));
 
         this.mockMvc.perform(delete("/administration/course-proposals/{uuid}/approval-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{}")

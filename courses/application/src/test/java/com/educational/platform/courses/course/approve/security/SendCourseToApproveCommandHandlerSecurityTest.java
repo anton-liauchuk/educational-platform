@@ -6,6 +6,8 @@ import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.approve.SendCourseToApproveCommand;
 import com.educational.platform.courses.course.approve.SendCourseToApproveCommandHandler;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Sql(scripts = "classpath:not_approved_course.sql")
@@ -54,10 +57,11 @@ public class SendCourseToApproveCommandHandlerSecurityTest {
         final SendCourseToApproveCommand command = new SendCourseToApproveCommand(uuid);
 
         // when
-        final Executable sendCourseToApproveAction = () -> sut.handle(command);
+        final ThrowingCallable sendCourseToApproveAction = () -> sut.handle(command);
 
         // then
-        assertThrows(AccessDeniedException.class, sendCourseToApproveAction);
+        assertThatThrownBy(sendCourseToApproveAction)
+                .hasRootCauseInstanceOf(AccessDeniedException.class);
     }
 
     @Test
@@ -67,9 +71,10 @@ public class SendCourseToApproveCommandHandlerSecurityTest {
         final SendCourseToApproveCommand command = new SendCourseToApproveCommand(uuid);
 
         // when
-        final Executable publishAction = () -> sut.handle(command);
+        final ThrowingCallable sendCourseToApproveAction = () -> sut.handle(command);
 
         // then
-        assertThrows(AccessDeniedException.class, publishAction);
+        assertThatThrownBy(sendCourseToApproveAction)
+                .hasRootCauseInstanceOf(AccessDeniedException.class);
     }
 }

@@ -1,6 +1,8 @@
 package com.educational.platform.courses.course.rating.update;
 
 import com.educational.platform.course.reviews.integration.event.CourseRatingRecalculatedIntegrationEvent;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -17,7 +19,7 @@ import static org.mockito.Mockito.verify;
 public class CourseRatingRecalculatedIntegrationEventListenerTest {
 
     @Mock
-    private UpdateCourseRatingCommandHandler handler;
+    private CommandGateway commandGateway;
 
     @InjectMocks
     private CourseRatingRecalculatedIntegrationEventListener sut;
@@ -34,7 +36,7 @@ public class CourseRatingRecalculatedIntegrationEventListenerTest {
 
         // then
         final ArgumentCaptor<UpdateCourseRatingCommand> argument = ArgumentCaptor.forClass(UpdateCourseRatingCommand.class);
-        verify(handler).handle(argument.capture());
+        verify(commandGateway).send(argument.capture());
         final UpdateCourseRatingCommand updateCourseRatingCommand = argument.getValue();
         assertThat(updateCourseRatingCommand)
                 .hasFieldOrPropertyWithValue("uuid", uuid)

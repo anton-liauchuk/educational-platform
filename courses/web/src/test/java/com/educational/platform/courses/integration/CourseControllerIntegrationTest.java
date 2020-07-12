@@ -4,10 +4,10 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.CourseController;
 import com.educational.platform.courses.course.CourseCannotBePublishedException;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
-import com.educational.platform.courses.course.create.CreateCourseCommandHandler;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
-import com.educational.platform.courses.course.publish.PublishCourseCommandHandler;
 import com.educational.platform.users.security.WebSecurityConfig;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -39,10 +39,7 @@ public class CourseControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CreateCourseCommandHandler createCourseCommandHandler;
-
-    @MockBean
-    private PublishCourseCommandHandler publishCourseCommandHandler;
+    private CommandGateway commandGateway;
 
     @Test
     void create_validRequest_created() throws Exception {
@@ -84,7 +81,7 @@ public class CourseControllerIntegrationTest {
     void create_constraintViolationException_badRequest() throws Exception {
         final ConstraintViolationException exception = mock(ConstraintViolationException.class);
         doReturn(new HashSet<>()).when(exception).getConstraintViolations();
-        doThrow(exception).when(createCourseCommandHandler).handle(any(CreateCourseCommand.class));
+        doThrow(exception).when(commandGateway).sendAndWait(any(CreateCourseCommand.class));
 
         this.mockMvc.perform(post("/courses")
                 .content("{\n" +
@@ -105,7 +102,7 @@ public class CourseControllerIntegrationTest {
 
     @Test
     void publish_resourceNotFoundException_notFound() throws Exception {
-        doThrow(ResourceNotFoundException.class).when(publishCourseCommandHandler).handle(any(PublishCourseCommand.class));
+        doThrow(ResourceNotFoundException.class).when(commandGateway).sendAndWait(any(PublishCourseCommand.class));
 
         this.mockMvc.perform(put("/courses/{uuid}/publish-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .accept(MediaType.APPLICATION_JSON))
@@ -114,7 +111,7 @@ public class CourseControllerIntegrationTest {
 
     @Test
     void publish_courseCannotBePublishedException_conflict() throws Exception {
-        doThrow(CourseCannotBePublishedException.class).when(publishCourseCommandHandler).handle(any(PublishCourseCommand.class));
+        doThrow(CourseCannotBePublishedException.class).when(commandGateway).sendAndWait(any(PublishCourseCommand.class));
 
         this.mockMvc.perform(put("/courses/{uuid}/publish-status", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .accept(MediaType.APPLICATION_JSON))

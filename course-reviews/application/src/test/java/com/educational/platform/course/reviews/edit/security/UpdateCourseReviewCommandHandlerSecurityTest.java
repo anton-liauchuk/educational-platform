@@ -4,6 +4,8 @@ import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewRepository;
 import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommand;
 import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommandHandler;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Sql(scripts = "classpath:course_review.sql")
@@ -60,10 +63,11 @@ public class UpdateCourseReviewCommandHandlerSecurityTest {
                 .build();
 
         // when
-        final Executable sendCourseToApproveAction = () -> sut.handle(command);
+        final ThrowingCallable updateAction = () -> sut.handle(command);
 
         // then
-        assertThrows(AccessDeniedException.class, sendCourseToApproveAction);
+        assertThatThrownBy(updateAction)
+                .hasRootCauseInstanceOf(AccessDeniedException.class);
     }
 
     @Test
@@ -77,9 +81,10 @@ public class UpdateCourseReviewCommandHandlerSecurityTest {
                 .build();
 
         // when
-        final Executable publishAction = () -> sut.handle(command);
+        final ThrowingCallable updateAction = () -> sut.handle(command);
 
         // then
-        assertThrows(AccessDeniedException.class, publishAction);
+        assertThatThrownBy(updateAction)
+                .hasRootCauseInstanceOf(AccessDeniedException.class);
     }
 }

@@ -4,10 +4,10 @@ import com.educational.platform.common.exception.RelatedResourceIsNotResolvedExc
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.course.reviews.CourseReviewController;
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
-import com.educational.platform.course.reviews.create.ReviewCourseCommandHandler;
 import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommand;
-import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommandHandler;
 import com.educational.platform.users.security.WebSecurityConfig;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -39,10 +39,7 @@ public class CourseReviewControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ReviewCourseCommandHandler reviewCourseCommandHandler;
-
-    @MockBean
-    private UpdateCourseReviewCommandHandler updateCourseReviewCommandHandler;
+    private CommandGateway commandGateway;
 
     @Test
     void review_validRequest_created() throws Exception {
@@ -71,7 +68,7 @@ public class CourseReviewControllerIntegrationTest {
 
     @Test
     void review_relatedResourceIsNotResolvedException_badRequest() throws Exception {
-        doThrow(RelatedResourceIsNotResolvedException.class).when(reviewCourseCommandHandler).handle(any(ReviewCourseCommand.class));
+        doThrow(RelatedResourceIsNotResolvedException.class).when(commandGateway).sendAndWait(any(ReviewCourseCommand.class));
 
         this.mockMvc.perform(post("/courses/{uuid}/course-reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{\n" +
@@ -87,7 +84,7 @@ public class CourseReviewControllerIntegrationTest {
     void review_constraintViolationException_badRequest() throws Exception {
         final ConstraintViolationException exception = mock(ConstraintViolationException.class);
         doReturn(new HashSet<>()).when(exception).getConstraintViolations();
-        doThrow(exception).when(reviewCourseCommandHandler).handle(any(ReviewCourseCommand.class));
+        doThrow(exception).when(commandGateway).sendAndWait(any(ReviewCourseCommand.class));
 
         this.mockMvc.perform(post("/courses/{uuid}/course-reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{\n" +
@@ -125,7 +122,7 @@ public class CourseReviewControllerIntegrationTest {
 
     @Test
     void updateReview_resourceNotFoundException_notFound() throws Exception {
-        doThrow(ResourceNotFoundException.class).when(updateCourseReviewCommandHandler).handle(any(UpdateCourseReviewCommand.class));
+        doThrow(ResourceNotFoundException.class).when(commandGateway).sendAndWait(any(UpdateCourseReviewCommand.class));
 
         this.mockMvc.perform(put("/courses/{courseUuid}/course-reviews/{reviewUuid}", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"), UUID.fromString("123e4567-e89b-12d3-a456-426655440002"))
                 .content("{\n" +
@@ -141,7 +138,7 @@ public class CourseReviewControllerIntegrationTest {
     void updateReview_constraintViolationException_badRequest() throws Exception {
         final ConstraintViolationException exception = mock(ConstraintViolationException.class);
         doReturn(new HashSet<>()).when(exception).getConstraintViolations();
-        doThrow(exception).when(updateCourseReviewCommandHandler).handle(any(UpdateCourseReviewCommand.class));
+        doThrow(exception).when(commandGateway).sendAndWait(any(UpdateCourseReviewCommand.class));
 
         this.mockMvc.perform(put("/courses/{courseUuid}/course-reviews/{reviewUuid}", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"), UUID.fromString("123e4567-e89b-12d3-a456-426655440002"))
                 .content("{\n" +

@@ -1,11 +1,11 @@
 package com.educational.platform.administration.course;
 
 import com.educational.platform.administration.course.approve.ApproveCourseProposalCommand;
-import com.educational.platform.administration.course.approve.ApproveCourseProposalCommandHandler;
 import com.educational.platform.administration.course.decline.DeclineCourseProposalCommand;
-import com.educational.platform.administration.course.decline.DeclineCourseProposalCommandHandler;
 import com.educational.platform.web.handler.ErrorResponse;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,19 +22,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class CourseProposalController {
 
-    private final ApproveCourseProposalCommandHandler approveHandler;
-    private final DeclineCourseProposalCommandHandler declineHandler;
+    private final CommandGateway commandGateway;
 
     @PutMapping(value = "/{uuid}/approval-status", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approve(@PathVariable UUID uuid) {
-        approveHandler.handle(new ApproveCourseProposalCommand(uuid));
+        commandGateway.sendAndWait(new ApproveCourseProposalCommand(uuid));
     }
 
     @DeleteMapping(value = "/{uuid}/approval-status", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void decline(@PathVariable UUID uuid) {
-        declineHandler.handle(new DeclineCourseProposalCommand(uuid));
+        commandGateway.sendAndWait(new DeclineCourseProposalCommand(uuid));
     }
 
     @ExceptionHandler({CourseProposalAlreadyDeclinedException.class, CourseProposalAlreadyApprovedException.class})

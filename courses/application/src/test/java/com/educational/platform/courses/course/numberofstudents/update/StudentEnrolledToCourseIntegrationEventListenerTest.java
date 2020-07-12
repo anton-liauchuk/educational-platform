@@ -3,7 +3,8 @@ package com.educational.platform.courses.course.numberofstudents.update;
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
 import com.educational.platform.courses.course.numberofsudents.update.StudentEnrolledToCourseIntegrationEventListener;
 import com.educational.platform.courses.course.numberofsudents.update.IncreaseNumberOfStudentsCommand;
-import com.educational.platform.courses.course.numberofsudents.update.IncreaseNumberOfStudentsCommandHandler;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.verify;
 public class StudentEnrolledToCourseIntegrationEventListenerTest {
 
     @Mock
-    private IncreaseNumberOfStudentsCommandHandler handler;
+    private CommandGateway commandGateway;
 
     @InjectMocks
     private StudentEnrolledToCourseIntegrationEventListener sut;
@@ -37,7 +38,7 @@ public class StudentEnrolledToCourseIntegrationEventListenerTest {
 
         // then
         final ArgumentCaptor<IncreaseNumberOfStudentsCommand> argument = ArgumentCaptor.forClass(IncreaseNumberOfStudentsCommand.class);
-        verify(handler).handle(argument.capture());
+        verify(commandGateway).send(argument.capture());
         final IncreaseNumberOfStudentsCommand updateNumberOfStudentsCommand = argument.getValue();
         assertThat(updateNumberOfStudentsCommand)
                 .hasFieldOrPropertyWithValue("uuid", uuid);

@@ -3,7 +3,8 @@ package com.educational.platform.users.security;
 import javax.validation.Valid;
 
 import com.educational.platform.users.login.SignInCommand;
-import com.educational.platform.users.login.SignInCommandHandler;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.educational.platform.users.registration.UserRegistrationCommand;
-import com.educational.platform.users.registration.UserRegistrationCommandHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,8 +21,7 @@ import lombok.RequiredArgsConstructor;
 @Validated
 public class UserController {
 
-	private final UserRegistrationCommandHandler registrationCommandHandler;
-	private final SignInCommandHandler signInCommandHandler;
+	private final CommandGateway commandGateway;
 
 	@PostMapping("/sign-up")
 	public String signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
@@ -34,7 +33,7 @@ public class UserController {
 				.password(signUpRequest.getPassword())
 				.build();
 
-		return registrationCommandHandler.handle(command);
+		return commandGateway.sendAndWait(command);
 	}
 
 	@PostMapping("/sign-in")
@@ -45,6 +44,6 @@ public class UserController {
 				.password(signInRequest.getPassword())
 				.build();
 
-		return signInCommandHandler.handle(command);
+		return commandGateway.sendAndWait(command);
 	}
 }

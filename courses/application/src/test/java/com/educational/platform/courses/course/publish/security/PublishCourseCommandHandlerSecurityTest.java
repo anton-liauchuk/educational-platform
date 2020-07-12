@@ -6,8 +6,9 @@ import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.PublishStatus;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommandHandler;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -19,7 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Sql(scripts = "classpath:approved_course.sql")
 @SpringBootTest(properties = "com.educational.platform.security.enabled=true")
@@ -57,10 +58,11 @@ public class PublishCourseCommandHandlerSecurityTest {
         final PublishCourseCommand command = new PublishCourseCommand(uuid);
 
         // when
-        final Executable publishAction = () -> sut.handle(command);
+        final ThrowingCallable publishAction = () -> sut.handle(command);
 
         // then
-        assertThrows(AccessDeniedException.class, publishAction);
+        assertThatThrownBy(publishAction)
+                .hasRootCauseInstanceOf(AccessDeniedException.class);
     }
 
     @Test
@@ -70,9 +72,10 @@ public class PublishCourseCommandHandlerSecurityTest {
         final PublishCourseCommand command = new PublishCourseCommand(uuid);
 
         // when
-        final Executable publishAction = () -> sut.handle(command);
+        final ThrowingCallable publishAction = () -> sut.handle(command);
 
         // then
-        assertThrows(AccessDeniedException.class, publishAction);
+        assertThatThrownBy(publishAction)
+                .hasRootCauseInstanceOf(AccessDeniedException.class);
     }
 }

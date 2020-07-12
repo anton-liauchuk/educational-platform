@@ -2,6 +2,8 @@ package com.educational.platform.administration.course.create;
 
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -13,12 +15,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SendCourseToApproveIntegrationEventListener {
 
-    private final CreateCourseProposalCommandHandler handler;
+    private final CommandGateway commandGateway;
 
     @Async
     @EventListener
     public void handleSendCourseToApproveEvent(SendCourseToApproveIntegrationEvent event) {
-        handler.handle(new CreateCourseProposalCommand(event.getCourseId()));
+        commandGateway.send(new CreateCourseProposalCommand(event.getCourseId()));
     }
 
 }

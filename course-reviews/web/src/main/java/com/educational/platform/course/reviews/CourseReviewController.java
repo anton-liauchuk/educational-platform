@@ -1,10 +1,10 @@
 package com.educational.platform.course.reviews;
 
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
-import com.educational.platform.course.reviews.create.ReviewCourseCommandHandler;
 import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommand;
-import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommandHandler;
 import lombok.RequiredArgsConstructor;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +22,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class CourseReviewController {
 
-    private final ReviewCourseCommandHandler reviewCourseCommandHandler;
-    private final UpdateCourseReviewCommandHandler updateCourseReviewCommandHandler;
+    private final CommandGateway commandGateway;
 
     @PostMapping(value = "/courses/{uuid}/course-reviews", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -34,7 +33,7 @@ public class CourseReviewController {
                 .comment(request.getComment())
                 .build();
 
-        return new CourseReviewCreatedResponse(reviewCourseCommandHandler.handle(command));
+        return new CourseReviewCreatedResponse(commandGateway.sendAndWait(command));
     }
 
     @PutMapping(value = "/courses/{courseUuid}/course-reviews/{reviewUuid}", produces = APPLICATION_JSON_VALUE)
@@ -46,6 +45,6 @@ public class CourseReviewController {
                 .comment(request.getComment())
                 .build();
 
-        updateCourseReviewCommandHandler.handle(command);
+        commandGateway.sendAndWait(command);
     }
 }

@@ -6,9 +6,10 @@ import com.educational.platform.administration.course.CourseProposalStatus;
 import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
 import com.educational.platform.administration.course.decline.DeclineCourseProposalCommand;
 import com.educational.platform.administration.course.decline.DeclineCourseProposalCommandHandler;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -19,7 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest(properties = "com.educational.platform.security.enabled=true")
 public class DeclineCourseProposalCommandHandlerSecurityTest {
@@ -57,10 +58,11 @@ public class DeclineCourseProposalCommandHandlerSecurityTest {
         var command = new DeclineCourseProposalCommand(courseUuid);
 
         // when
-        final Executable publishAction = () -> sut.handle(command);
+        final ThrowingCallable declineAction = () -> sut.handle(command);
 
         // then
-        assertThrows(AccessDeniedException.class, publishAction);
+        assertThatThrownBy(declineAction)
+                .hasRootCauseInstanceOf(AccessDeniedException.class);
     }
 
     @Test
@@ -70,9 +72,10 @@ public class DeclineCourseProposalCommandHandlerSecurityTest {
         var command = new DeclineCourseProposalCommand(courseUuid);
 
         // when
-        final Executable publishAction = () -> sut.handle(command);
+        final ThrowingCallable declineAction = () -> sut.handle(command);
 
         // then
-        assertThrows(AccessDeniedException.class, publishAction);
+        assertThatThrownBy(declineAction)
+                .hasRootCauseInstanceOf(AccessDeniedException.class);
     }
 }
