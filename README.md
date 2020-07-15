@@ -23,8 +23,8 @@ Modular Monolith Java application with DDD. In the plans, this application shoul
 | API | COMPLETED |
 | Architecture tests | COMPLETED |
 | Integration events as public sub-module for each module | COMPLETED |
-| Axon Framework integration | IN PROGRESS |
-| Extend functionality in modules |  |
+| Axon Framework integration | COMPLETED |
+| Extend functionality in modules | IN PROGRESS |
 | UI application |  |
 | Microservices |  |
 

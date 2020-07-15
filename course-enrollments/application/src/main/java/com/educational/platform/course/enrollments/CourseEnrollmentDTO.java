@@ -2,7 +2,7 @@ package com.educational.platform.course.enrollments;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 import java.util.UUID;
 
@@ -10,13 +10,19 @@ import java.util.UUID;
  * Represents DTO for {@link CourseEnrollment}
  */
 @Builder
-@Data
 @AllArgsConstructor
+@Value
 public class CourseEnrollmentDTO {
 
-    private final UUID uuid;
-    private final UUID course;
-    private final String student;
-    private final CompletionStatusDTO completionStatus;
+    UUID uuid;
+    UUID course;
+    String student;
+    CompletionStatusDTO completionStatus;
 
+	public CourseEnrollmentDTO(UUID uuid, UUID course, String student, CompletionStatus completionStatus) {
+		this.uuid = uuid;
+		this.course = course;
+		this.student = student;
+		this.completionStatus = completionStatus.toDTO();
+	}
 }
