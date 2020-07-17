@@ -25,6 +25,7 @@ Modular Monolith Java application with DDD. In the plans, this application shoul
 | Integration events as public sub-module for each module | COMPLETED |
 | Axon Framework integration | COMPLETED |
 | Extend functionality in modules | IN PROGRESS |
+| Review access checker implementation |  |
 | UI application |  |
 | Microservices |  |
 

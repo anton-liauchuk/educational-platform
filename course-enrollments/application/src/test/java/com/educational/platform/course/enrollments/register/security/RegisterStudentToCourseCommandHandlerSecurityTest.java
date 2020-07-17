@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class RegisterStudentToCourseCommandHandlerSecurityTest {
 
     private final UUID courseUuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-    private final String studentUsername = "student";
     @Autowired
     private CourseEnrollmentRepository courseEnrollmentRepository;
     @SpyBean

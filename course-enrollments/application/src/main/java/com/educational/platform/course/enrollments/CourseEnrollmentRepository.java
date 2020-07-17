@@ -29,8 +29,9 @@ public interface CourseEnrollmentRepository extends JpaRepository<CourseEnrollme
      * @throws IllegalArgumentException if {@literal uuid} is {@literal null}.
      */
     @Query(value = "SELECT new com.educational.platform.course.enrollments.CourseEnrollmentDTO(ce.uuid, ec.uuid, s.username, ce.completionStatus) "
-            + "FROM com.educational.platform.course.enrollments.CourseEnrollment ce JOIN com.educational.platform.course.enrollments.EnrollCourse ec " + "ON ce.course = ec.id JOIN com.educational.platform.course.enrollments.Student s ON ce.student = s.id "
-            + "WHERE ce.uuid = :uuid")
-    Optional<CourseEnrollmentDTO> findDtoByUuid(@Param("uuid") UUID uuid);
+            + "FROM com.educational.platform.course.enrollments.CourseEnrollment ce JOIN com.educational.platform.course.enrollments.EnrollCourse ec "
+            + "ON ce.course = ec.id JOIN com.educational.platform.course.enrollments.Student s ON ce.student = s.id "
+            + "WHERE ce.uuid = :uuid and ce.student.username = :student")
+    Optional<CourseEnrollmentDTO> query(@Param("uuid") UUID uuid, @Param("student") String student);
 
 }

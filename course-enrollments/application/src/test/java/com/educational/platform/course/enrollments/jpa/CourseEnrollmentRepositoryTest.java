@@ -19,6 +19,8 @@ import com.educational.platform.course.enrollments.StudentRepository;
 @DataJpaTest
 public class CourseEnrollmentRepositoryTest {
 
+	private static final String STUDENT = "student";
+
 	@Autowired
 	private CourseEnrollmentRepository courseEnrollmentRepository;
 
@@ -32,13 +34,13 @@ public class CourseEnrollmentRepositoryTest {
 	void queryDtoByUUID_createdCourseEnrollment_dtoRetrieved() {
 		// given
 		var course = enrollCourseRepository.findByUuid(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"));
-		var student = studentRepository.findByUsername("student");
+		var student = studentRepository.findByUsername(STUDENT);
 		var courseEnrollment = new CourseEnrollment(course.get(), student);
 		courseEnrollmentRepository.save(courseEnrollment);
 		var uuid = courseEnrollment.toDTO().getUuid();
 
 		// when
-		var result = courseEnrollmentRepository.findDtoByUuid(uuid);
+		var result = courseEnrollmentRepository.query(uuid, STUDENT);
 
 		// then
 		assertThat(result).isNotEmpty();
