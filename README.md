@@ -54,13 +54,13 @@ Communication between bounded contexts is asynchronous. Bounded contexts don't s
 This solution reduces coupling of bounded contexts through data replication across contexts which results to higher bounded contexts independence.
 
 ### 3.3. Validation
-Always valid approach is used. So domain model will be changed from one valid state to another valid state. Technically, validation rules are defined on `Command` models.
+Always valid approach is used. So domain model will be changed from one valid state to another valid state. Technically, validation rules are defined on `Command` models and executed during processing the command. Javax validation-api is used for defining the validation rules via annotations.
 
 ### 3.4. CQRS
-CQRS solution is used. It will give us flexibility in optimizing model for read and write operations. The simple version of CQRS is implemented in this application.
+CQRS principle is used. It gives the flexibility in optimizing model for read and write operations. The simple version of CQRS is implemented in this application. On write operations, full logic is executed via aggregate. On read operations, DTO objects are created via JPQL queries on repository level.
 
 ### 3.5. The identifiers for communication between modules
-Natural keys or uuids should be used. Primary keys are forbidden for communications between modules or with external systems.
+Natural keys or uuids should be used. Primary keys are forbidden for communications between modules or with external systems. If entity has good natural key - it's the most preferable choice for identifier between modules.
 
 ### 3.6. API First
 API First is one of engineering and architecture principles. In a nutshell API First requires two aspects:

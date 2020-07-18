@@ -11,7 +11,7 @@ There are possible solutions related to validation topic:
 - return validation object.
 
 ## Decision
-Always valid approach will be used. So domain model will be changed from one valid state to another valid state.
+Always valid approach will be used. So domain model will be changed from one valid state to another valid state. Technically, validation rules are defined on `Command` models and executed during processing the command. Javax validation-api is used for defining the validation rules via annotations.
 - https://danielwhittaker.me/2016/04/20/how-to-validate-commands-in-a-cqrs-application/
 - https://enterprisecraftsmanship.com/posts/validate-commands-cqrs/
 - https://enterprisecraftsmanship.com/posts/validation-and-ddd/
