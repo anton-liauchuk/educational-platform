@@ -42,16 +42,16 @@ public class CourseEnrollmentByUUIDQueryHandlerIntegrationTest {
 
 	@BeforeEach
 	void setUp() {
-		final EnrollCourse course = new EnrollCourse(new CreateCourseCommand(courseUuid));
+		var course = new EnrollCourse(new CreateCourseCommand(courseUuid));
 		courseRepository.save(course);
 
-		final Student student = new Student(new CreateStudentCommand("student"));
+		var student = new Student(new CreateStudentCommand("student"));
 		studentRepository.save(student);
 	}
 
 	@Test
 	@WithMockUser(username = "student", roles = "STUDENT")
-	void handle_validCommand_courseSaved() {
+	void handle_validQuery_courseEnrollmentRetrieved() {
 		// given
 		var command = RegisterStudentToCourseCommand.builder().courseId(courseUuid).build();
 		var identifier = registerStudentToCourseCommandHandler.handle(command);
