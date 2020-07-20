@@ -4,19 +4,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.educational.platform.course.enrollments.CompletionStatusDTO;
+import com.educational.platform.course.enrollments.EnrollCourse;
+import com.educational.platform.course.enrollments.EnrollCourseRepository;
+import com.educational.platform.course.enrollments.Student;
+import com.educational.platform.course.enrollments.StudentRepository;
+import com.educational.platform.course.enrollments.course.create.CreateCourseCommand;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommandHandler;
+import com.educational.platform.course.enrollments.student.create.CreateStudentCommand;
 
-@Sql(scripts = "classpath:course.sql")
 @AutoConfigureTestDatabase
 @SpringBootTest
 public class CourseEnrollmentByUUIDQueryHandlerIntegrationTest {
@@ -24,13 +29,28 @@ public class CourseEnrollmentByUUIDQueryHandlerIntegrationTest {
 	private final UUID courseUuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
 
 	@Autowired
+	private EnrollCourseRepository courseRepository;
+
+	@Autowired
+	private StudentRepository studentRepository;
+
+	@Autowired
 	private RegisterStudentToCourseCommandHandler registerStudentToCourseCommandHandler;
 
 	@SpyBean
 	private CourseEnrollmentByUUIDQueryHandler sut;
 
-    @Test
-    @WithMockUser(username = "student", roles = "STUDENT")
+	@BeforeEach
+	void setUp() {
+		final EnrollCourse course = new EnrollCourse(new CreateCourseCommand(courseUuid));
+		courseRepository.save(course);
+
+		final Student student = new Student(new CreateStudentCommand("student"));
+		studentRepository.save(student);
+	}
+
+	@Test
+	@WithMockUser(username = "student", roles = "STUDENT")
 	void handle_validCommand_courseSaved() {
 		// given
 		var command = RegisterStudentToCourseCommand.builder().courseId(courseUuid).build();
