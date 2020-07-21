@@ -50,7 +50,7 @@ public class ListCourseReviewsByCourseUUIDQueryHandlerIntegrationTest {
 
 	@Test
 	@WithMockUser(username = "reviewer", roles = "STUDENT")
-	void handle_validCommand_courseSaved() {
+	void handle_validQuery_courseReviews() {
 		// given
 		var command = ReviewCourseCommand.builder().courseId(courseUuid).comment("comment").rating(4.0).build();
 		reviewCourseCommandHandler.handle(command);

@@ -53,7 +53,7 @@ public class UpdateCourseReviewCommandHandlerSecurityTest {
     }
 
     @Test
-    @WithMockUser(username = "another_reviewer", roles = "STUDENT")
+    @WithMockUser(username = "another-reviewer", roles = "STUDENT")
     void handle_anotherReviewer_accessDeniedException() {
         // given
         var command = UpdateCourseReviewCommand.builder()

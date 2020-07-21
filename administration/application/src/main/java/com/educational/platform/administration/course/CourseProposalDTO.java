@@ -1,20 +1,24 @@
 package com.educational.platform.administration.course;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-
-import java.util.UUID;
+import lombok.Value;
 
 /**
  * Represents DTO for {@link CourseProposal}
  */
 @Builder
-@Data
 @AllArgsConstructor
+@Value
 public class CourseProposalDTO {
 
-    private final UUID uuid;
-    private final CourseProposalStatusDTO status;
+	UUID uuid;
+	CourseProposalStatusDTO status;
 
+	public CourseProposalDTO(UUID uuid, CourseProposalStatus status) {
+		this.uuid = uuid;
+		this.status = status.toDTO();
+	}
 }

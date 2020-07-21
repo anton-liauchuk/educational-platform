@@ -12,7 +12,7 @@ import com.educational.platform.course.reviews.CourseReviewRepository;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Query handler for getting the course enrollment by uuid.
+ * Query handler for getting the course reviews by course uuid.
  */
 @RequiredArgsConstructor
 @Component

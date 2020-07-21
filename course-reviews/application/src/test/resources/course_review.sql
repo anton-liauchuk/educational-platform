@@ -9,6 +9,3 @@ UPDATE course_review SET reviewer_id = (SELECT reviewer.id FROM reviewer WHERE r
 UPDATE course_review SET course_id = (SELECT reviewable_course.id FROM reviewable_course WHERE reviewable_course.original_course_id = '123E4567E89B12D3A456426655440000' GROUP BY reviewable_course.id);
 
 INSERT INTO reviewer (username) VALUES ('another-reviewer');
-INSERT INTO course_review (uuid, rating, comment) VALUES ('123E4567E89B12D3A456426655440002', 3, 'another comment');
-UPDATE course_review SET reviewer_id = (SELECT reviewer.id FROM reviewer WHERE reviewer.username = 'another-reviewer' GROUP BY reviewer.id);
-UPDATE course_review SET course_id = (SELECT reviewable_course.id FROM reviewable_course WHERE reviewable_course.original_course_id = '123E4567E89B12D3A456426655440000' GROUP BY reviewable_course.id);
