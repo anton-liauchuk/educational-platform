@@ -29,9 +29,9 @@ public class CourseEnrollmentByUUIDQueryHandlerSecurityTest {
 		var command = new CourseEnrollmentByUUIDQuery(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"));
 
 		// when
-		final ThrowingCallable registerAction = () -> sut.handle(command);
+		final ThrowingCallable queryAction = () -> sut.handle(command);
 
 		// then
-		assertThatThrownBy(registerAction).hasRootCauseInstanceOf(AccessDeniedException.class);
+		assertThatThrownBy(queryAction).hasRootCauseInstanceOf(AccessDeniedException.class);
 	}
 }
