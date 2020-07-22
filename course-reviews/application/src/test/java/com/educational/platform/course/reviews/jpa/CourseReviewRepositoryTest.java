@@ -26,6 +26,6 @@ public class CourseReviewRepositoryTest {
 		var result = sut.listCourseReviews(COURSE_UUID);
 
 		// then
-		assertThat(result).hasSize(2);
+		assertThat(result).hasSize(1);
 	}
 }
