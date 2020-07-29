@@ -43,7 +43,8 @@ public class Course implements AggregateRoot {
 
     }
 
-    Course(CreateCourseCommand command, Teacher teacher) {
+    // todo remove public access + architecture tests
+    public Course(CreateCourseCommand command, Teacher teacher) {
         this.uuid = UUID.randomUUID();
         this.name = command.getName();
         this.description = command.getDescription();
