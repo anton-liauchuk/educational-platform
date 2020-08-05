@@ -1,5 +1,6 @@
 package com.educational.platform.courses.course;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,5 +32,15 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 	@Query(value = "SELECT new com.educational.platform.courses.course.CourseDTO(c.uuid, c.name, c.description, c.numberOfStudents) "
 			+ "FROM com.educational.platform.courses.course.Course c WHERE c.uuid = :uuid")
 	Optional<CourseDTO> findDTOByUuid(@Param("uuid") UUID uuid);
+
+	/**
+	 * Retrieves a list of course dtos.
+	 *
+	 * @return the list of course dtos.
+	 * @throws IllegalArgumentException if {@literal uuid} is {@literal null}.
+	 */
+	@Query(value = "SELECT new com.educational.platform.courses.course.CourseDTO(c.uuid, c.name, c.description, c.numberOfStudents) "
+			+ "FROM com.educational.platform.courses.course.Course c")
+	List<CourseDTO> list();
 
 }
