@@ -14,6 +14,10 @@ Modular Monolith Java application with DDD. In the plans, this application shoul
 - example of documentation of architecture decisions;
 
 ## 2. Plan
+The issues are represented in https://github.com/anton-liauchuk/educational-platform/issues
+
+High-level plan is represented in the table
+
 | Feature | Status |
 | ------- | ------ |
 | Reach documentation | COMPLETED |
@@ -24,10 +28,6 @@ Modular Monolith Java application with DDD. In the plans, this application shoul
 | Architecture tests | COMPLETED |
 | Integration events as public sub-module for each module | COMPLETED |
 | Axon Framework integration | COMPLETED |
-| Extend functionality in modules | IN PROGRESS |
-| Review access checker implementation |  |
-| Update libs |  |
-| License |  |
 | UI application |  |
 | Microservices |  |
 
