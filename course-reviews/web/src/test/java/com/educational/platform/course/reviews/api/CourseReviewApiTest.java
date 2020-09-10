@@ -1,10 +1,10 @@
 package com.educational.platform.course.reviews.api;
 
-import com.educational.platform.security.SignUpHelper;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.parsing.Parser;
-import org.junit.jupiter.api.BeforeAll;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,9 +12,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.util.UUID;
+import com.educational.platform.security.SignUpHelper;
 
-import static io.restassured.RestAssured.given;
+import io.restassured.RestAssured;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.http.ContentType;
+import io.restassured.parsing.Parser;
 
 /**
  * Represents API tests for course reviews functionality.
@@ -23,63 +27,81 @@ import static io.restassured.RestAssured.given;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CourseReviewApiTest {
 
-    @LocalServerPort
-    private int port;
+	@LocalServerPort
+	private int port;
 
-    @BeforeEach
-    void setup() {
-        RestAssured.defaultParser = Parser.JSON;
-        RestAssured.port = port;
-    }
+	@BeforeEach
+	void setup() {
+		RestAssured.defaultParser = Parser.JSON;
+		RestAssured.port = port;
+		RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+	}
 
-    @Test
-    void review_validRequest_created() {
-        var token = SignUpHelper.signUpStudent();
+	@Test
+	void reviews_validRequest_reviews() {
+		var token = SignUpHelper.signUpStudent();
 
-        given()
-                .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + token)
-                .body("{\n" +
-                        "  \"reviewer\": \"username\",\n" +
-                        "  \"rating\": 3.2\n" +
-                        "}")
+		final UUID reviewUuid = UUID.fromString(given()
+				.contentType(ContentType.JSON)
+				.header("Authorization", "Bearer " + token)
+				.body("{\n" + "  \"rating\": 3.2\n" + "}")
 
-                .when()
-                .post("/courses/{uuid}/course-reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+				.when()
+				.post("/courses/{uuid}/reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+				.path("uuid"));
 
-                .then()
-                .statusCode(HttpStatus.CREATED.value());
-    }
+		given()
+				.header("Authorization", "Bearer " + token)
 
-    @Test
-    void update_validRequest_noContent() {
-        var token = SignUpHelper.signUpStudent();
+				.when()
+				.get("/courses/{uuid}/reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
 
-        final UUID reviewUuid = UUID.fromString(
-                given()
-                        .contentType(ContentType.JSON)
-                        .header("Authorization", "Bearer " + token)
-                        .body("{\n" +
-                                "  \"rating\": 3.2\n" +
-                                "}")
+				.then()
+				.body("[0].course", equalTo("123e4567-e89b-12d3-a456-426655440001"))
+				.body("[0].uuid", equalTo(reviewUuid.toString()))
+				.body("[0].username", equalTo("username"))
+				.statusCode(HttpStatus.OK.value());
+	}
 
-                        .when()
-                        .post("/courses/{uuid}/course-reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
-                        .path("uuid"));
+	@Test
+	void review_validRequest_created() {
+		var token = SignUpHelper.signUpStudent();
 
-        given()
-                .contentType(ContentType.JSON)
-                .header("Authorization", "Bearer " + token)
-                .body("{\n" +
-                        "  \"comment\": \"comment2\",\n" +
-                        "  \"rating\": 3.5\n" +
-                        "}")
+		given()
+				.contentType(ContentType.JSON)
+				.header("Authorization", "Bearer " + token)
+				.body("{\n" + "  \"reviewer\": \"username\",\n" + "  \"rating\": 3.2\n" + "}")
 
-                .when()
-                .put("/courses/{courseUuid}/course-reviews/{reviewUuid}", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"), reviewUuid)
+				.when()
+				.post("/courses/{uuid}/reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
 
-                .then()
-                .statusCode(HttpStatus.NO_CONTENT.value());
-    }
+				.then()
+				.statusCode(HttpStatus.CREATED.value());
+	}
+
+	@Test
+	void update_validRequest_noContent() {
+		var token = SignUpHelper.signUpStudent();
+
+		final UUID reviewUuid = UUID.fromString(given()
+				.contentType(ContentType.JSON)
+				.header("Authorization", "Bearer " + token)
+				.body("{\n" + "  \"rating\": 3.2\n" + "}")
+
+				.when()
+				.post("/courses/{uuid}/reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
+				.path("uuid"));
+
+		given()
+				.contentType(ContentType.JSON)
+				.header("Authorization", "Bearer " + token)
+				.body("{\n" + "  \"comment\": \"comment2\",\n" + "  \"rating\": 3.5\n" + "}")
+
+				.when()
+				.put("/courses/{courseUuid}/reviews/{reviewUuid}", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"), reviewUuid)
+
+				.then()
+				.statusCode(HttpStatus.NO_CONTENT.value());
+	}
 
 }
