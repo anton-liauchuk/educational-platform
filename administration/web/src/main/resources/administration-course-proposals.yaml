@@ -82,8 +82,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestApiErrorResponse'
+  '/administration/course-proposals':
+    get:
+      tags:
+        - Administration Course Proposals API
+      summary: List course proposals
+      description: List course proposals
+      operationId: listCourseProposals
+      responses:
+        '200':
+          description: Course Proposals returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCourseProposalsResponse'
+        '500':
+          description: Unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
 components:
   schemas:
+    ListCourseProposalsResponse:
+      description: List of Course Proposals response model
+      type: array
+      items:
+        type: object
+        properties:
+          uuid:
+            type: string
+            description: Course UUID
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426655440001
+          status:
+            type: string
+            description: status
+            example: APPROVED
+            enum: [WAITING_FOR_APPROVAL, DECLINED, APPROVED]
     RestApiError:
       type: object
       required:

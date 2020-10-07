@@ -51,6 +51,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestApiErrorResponse'
+    get:
+      tags:
+        - Course Reviews
+      summary: List course reviews
+      description: List course reviews
+      operationId: listCourseReviews
+      parameters:
+        - name: uuid
+          in: path
+          description: Course UUID
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440001
+      responses:
+        '200':
+          description: Course Reviews returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCourseReviewsResponse'
+        '404':
+          description: Course with provided identifier not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+        '500':
+          description: Unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
+
   /courses/{courseUuid}/reviews/{reviewUuid}:
     put:
       tags:
@@ -149,6 +184,34 @@ components:
           description: Course Review UUID
           format: uuid
           example: 123e4567-e89b-12d3-a456-426655440001
+    ListCourseReviewsResponse:
+      description: List of Course Reviews response model
+      type: array
+      items:
+        type: object
+        properties:
+          uuid:
+            type: string
+            description: Course Review UUID
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426655440001
+          course:
+            type: string
+            description: Course UUID
+            format: uuid
+            example: 123e4567-e89b-12d3-a456-426655440002
+          username:
+            type: string
+            description: username
+            example: user
+          comment:
+            type: string
+            description: comment
+            example: comment
+          rating:
+            type: double
+            description: rating
+            example: 4.2
     RestApiError:
       type: object
       required:

@@ -51,6 +51,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestApiErrorResponse'
+  /course-enrollments:
+    get:
+      tags:
+        - Course Enrollments
+      summary: List Course Enrollments
+      description: List Course Enrollments
+      operationId: courseEnrollments
+      responses:
+        '200':
+          description: List of course enrollments returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseEnrollmentDTO'
+        '500':
+          description: Unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestApiErrorResponse'
 components:
   schemas:
     CourseEnrollmentRequest:
@@ -69,8 +89,31 @@ components:
         uuid:
           type: string
           format: uuid
+          description: Course Enrollment UUID.
+          example: 123e4567-e89b-12d3-a456-426655440001
+    CourseEnrollmentDTO:
+      description: Course enrollment
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Course enrollment UUID.
+          example: 123e4567-e89b-12d3-a456-426655440001
+        course:
+          type: string
+          format: uuid
           description: Course UUID.
           example: 123e4567-e89b-12d3-a456-426655440001
+        student:
+          type: string
+          description: Student name.
+          example: name
+        completionStatus:
+          type: string
+          description: Completion status.
+          example: IN_PROGRESS
+          enum: [IN_PROGRESS, COMPLETED]
     RestApiError:
       type: object
       required:
