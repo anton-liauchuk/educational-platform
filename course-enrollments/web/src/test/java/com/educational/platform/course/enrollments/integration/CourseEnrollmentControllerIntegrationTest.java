@@ -6,6 +6,7 @@ import com.educational.platform.course.enrollments.register.RegisterStudentToCou
 import com.educational.platform.users.security.WebSecurityConfig;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -38,6 +39,9 @@ public class CourseEnrollmentControllerIntegrationTest {
 
     @MockBean
     private CommandGateway commandGateway;
+
+    @MockBean
+    private QueryGateway queryGateway;
 
     @Test
     @WithMockUser(username = "student", roles = "STUDENT")

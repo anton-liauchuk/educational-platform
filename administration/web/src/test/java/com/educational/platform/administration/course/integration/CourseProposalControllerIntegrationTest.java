@@ -8,6 +8,7 @@ import com.educational.platform.administration.course.decline.DeclineCoursePropo
 import com.educational.platform.common.exception.ResourceNotFoundException;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.queryhandling.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -35,6 +36,9 @@ public class CourseProposalControllerIntegrationTest {
 
     @MockBean
     private CommandGateway commandGateway;
+
+    @MockBean
+    private QueryGateway queryGateway;
 
     @Test
     void approve_existingCourseProposal_noContent() throws Exception {
