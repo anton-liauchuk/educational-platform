@@ -4,18 +4,19 @@ dependencies {
     implementation project(':users:users-integration-events')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
-    implementation 'org.passay:passay:1.5.0'
+    implementation "io.jsonwebtoken:jjwt:${Versions.jsonwebtoken}"
+    implementation "org.passay:passay:${Versions.passay}"
 
-    compileOnly 'org.projectlombok:lombok:1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compileOnly "org.projectlombok:lombok:${Versions.lombok}"
+    annotationProcessor "org.projectlombok:lombok:${Versions.lombok}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.rest-assured:rest-assured:4.2.0'
-    testImplementation 'io.rest-assured:json-path:4.2.0'
-    testImplementation 'io.rest-assured:xml-path:4.2.0'
+    testImplementation "io.rest-assured:rest-assured:${Versions.restAssured}"
+    testImplementation "io.rest-assured:json-path:${Versions.restAssured}"
+    testImplementation "io.rest-assured:xml-path:${Versions.restAssured}"
 }
 
 compileJava {

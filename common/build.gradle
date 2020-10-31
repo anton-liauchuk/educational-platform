@@ -1,5 +1,5 @@
 dependencies {
-    api ('org.axonframework:axon-spring-boot-starter:4.3.4') {
+    api ("org.axonframework:axon-spring-boot-starter:${Versions.axon}") {
         exclude group: "org.axonframework", module: "axon-server-connector"
     }
 
