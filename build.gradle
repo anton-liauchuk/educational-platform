@@ -1,5 +1,5 @@
 plugins {
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id("io.spring.dependency-management") version "${springDependencyManagementPlugin}"
 }
 
 allprojects {
@@ -13,14 +13,13 @@ subprojects {
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'java-library'
 
-    // todo change
-    group = 'com.user'
+    group = 'com.educational.platform'
     version = '0.0.1-SNAPSHOT'
     sourceCompatibility = '11'
 
     dependencyManagement {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.2.1.RELEASE")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${Versions.spring}")
         }
     }
 }

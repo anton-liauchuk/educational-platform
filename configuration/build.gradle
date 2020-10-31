@@ -1,5 +1,5 @@
 plugins {
-    id "org.springframework.boot" version "2.2.1.RELEASE"
+    id "org.springframework.boot" version "2.3.4.RELEASE"
 }
 
 dependencies {
@@ -30,8 +30,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
-    testImplementation 'org.mockito:mockito-junit-jupiter:3.3.0'
-    testImplementation 'com.tngtech.archunit:archunit-junit5:0.14.1'
+    testImplementation "org.mockito:mockito-junit-jupiter:${Versions.mockito}"
+    testImplementation "com.tngtech.archunit:archunit-junit5:${Versions.archunit}"
 }
 
 test {
