@@ -1,5 +1,6 @@
-package com.educational.platform.course.enrollments;
+package com.educational.platform.course.enrollments.student;
 
+import com.educational.platform.common.domain.AggregateRoot;
 import com.educational.platform.course.enrollments.student.create.CreateStudentCommand;
 
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.Id;
  * Represents student domain model.
  */
 @Entity
-public class Student {
+public class Student implements AggregateRoot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +26,10 @@ public class Student {
 
     public Student(CreateStudentCommand createStudentCommand) {
         this.username = createStudentCommand.getUsername();
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String toReference() {

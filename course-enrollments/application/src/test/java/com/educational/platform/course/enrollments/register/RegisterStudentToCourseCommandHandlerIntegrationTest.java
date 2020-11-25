@@ -1,8 +1,12 @@
 package com.educational.platform.course.enrollments.register;
 
 import com.educational.platform.course.enrollments.*;
+import com.educational.platform.course.enrollments.course.EnrollCourse;
+import com.educational.platform.course.enrollments.course.EnrollCourseRepository;
 import com.educational.platform.course.enrollments.course.create.CreateCourseCommand;
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
+import com.educational.platform.course.enrollments.student.Student;
+import com.educational.platform.course.enrollments.student.StudentRepository;
 import com.educational.platform.course.enrollments.student.create.CreateStudentCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,6 +45,9 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
     @Autowired
     private TransactionTemplate transactionTemplate;
 
+    @Autowired
+    private CurrentUserAsStudent currentUserAsStudent;
+
     @MockBean
     private ApplicationEventPublisher eventPublisher;
 
@@ -51,7 +58,7 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        sut = new RegisterStudentToCourseCommandHandler(transactionTemplate, courseEnrollmentRepository, courseEnrollmentFactory, eventPublisher);
+        sut = new RegisterStudentToCourseCommandHandler(transactionTemplate, courseEnrollmentRepository, courseEnrollmentFactory, eventPublisher, currentUserAsStudent);
 
         courseUuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final EnrollCourse course = new EnrollCourse(new CreateCourseCommand(courseUuid));
@@ -86,11 +93,5 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
 
         final Optional<CourseEnrollment> saved = courseEnrollmentRepository.findByUuid(uuid);
         assertThat(saved).isNotEmpty();
-        final CourseEnrollment savedEnrollment = saved.get();
-        final Student student = (Student) ReflectionTestUtils.getField(savedEnrollment, "student");
-        assertThat(student).hasFieldOrPropertyWithValue("username", "username");
-
-        final EnrollCourse course = (EnrollCourse) ReflectionTestUtils.getField(savedEnrollment, "course");
-        assertThat(course).hasFieldOrPropertyWithValue("uuid", courseUuid);
     }
 }

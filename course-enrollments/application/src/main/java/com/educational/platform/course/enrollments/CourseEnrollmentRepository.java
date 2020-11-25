@@ -31,9 +31,9 @@ public interface CourseEnrollmentRepository extends JpaRepository<CourseEnrollme
 	 * @throws IllegalArgumentException if {@literal uuid} is {@literal null}.
 	 */
 	@Query(value = "SELECT new com.educational.platform.course.enrollments.CourseEnrollmentDTO(ce.uuid, ec.uuid, s.username, ce.completionStatus) "
-			+ "FROM com.educational.platform.course.enrollments.CourseEnrollment ce JOIN com.educational.platform.course.enrollments.EnrollCourse ec "
-			+ "ON ce.course = ec.id JOIN com.educational.platform.course.enrollments.Student s ON ce.student = s.id "
-			+ "WHERE ce.uuid = :uuid and ce.student.username = :student")
+			+ "FROM com.educational.platform.course.enrollments.CourseEnrollment ce JOIN com.educational.platform.course.enrollments.course.EnrollCourse ec "
+			+ "ON ce.course = ec.id JOIN com.educational.platform.course.enrollments.student.Student s ON ce.student = s.id "
+			+ "WHERE ce.uuid = :uuid and s.username = :student")
 	Optional<CourseEnrollmentDTO> query(@Param("uuid") UUID uuid, @Param("student") String student);
 
 	/**
@@ -44,9 +44,9 @@ public interface CourseEnrollmentRepository extends JpaRepository<CourseEnrollme
 	 * @throws IllegalArgumentException if {@literal uuid} is {@literal null}.
 	 */
 	@Query(value = "SELECT new com.educational.platform.course.enrollments.CourseEnrollmentDTO(ce.uuid, ec.uuid, s.username, ce.completionStatus) "
-			+ "FROM com.educational.platform.course.enrollments.CourseEnrollment ce JOIN com.educational.platform.course.enrollments.EnrollCourse ec "
-			+ "ON ce.course = ec.id JOIN com.educational.platform.course.enrollments.Student s ON ce.student = s.id "
-			+ "WHERE ce.student.username = :student")
+			+ "FROM com.educational.platform.course.enrollments.CourseEnrollment ce JOIN com.educational.platform.course.enrollments.course.EnrollCourse ec "
+			+ "ON ce.course = ec.id JOIN com.educational.platform.course.enrollments.student.Student s ON ce.student = s.id "
+			+ "WHERE s.username = :student")
 	List<CourseEnrollmentDTO> query(@Param("student") String student);
 
 }

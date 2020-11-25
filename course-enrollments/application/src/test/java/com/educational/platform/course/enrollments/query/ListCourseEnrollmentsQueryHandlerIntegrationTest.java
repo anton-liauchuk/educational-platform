@@ -13,10 +13,10 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.educational.platform.course.enrollments.CompletionStatusDTO;
-import com.educational.platform.course.enrollments.EnrollCourse;
-import com.educational.platform.course.enrollments.EnrollCourseRepository;
-import com.educational.platform.course.enrollments.Student;
-import com.educational.platform.course.enrollments.StudentRepository;
+import com.educational.platform.course.enrollments.course.EnrollCourse;
+import com.educational.platform.course.enrollments.course.EnrollCourseRepository;
+import com.educational.platform.course.enrollments.student.Student;
+import com.educational.platform.course.enrollments.student.StudentRepository;
 import com.educational.platform.course.enrollments.course.create.CreateCourseCommand;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommandHandler;

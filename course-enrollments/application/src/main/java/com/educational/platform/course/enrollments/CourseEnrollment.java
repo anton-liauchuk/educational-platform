@@ -17,11 +17,9 @@ public class CourseEnrollment implements AggregateRoot {
 
     private UUID uuid;
 
-    @ManyToOne
-    private EnrollCourse course;
+    private Integer course;
 
-    @ManyToOne
-    private Student student;
+    private Integer student;
 
     private CompletionStatus completionStatus;
 
@@ -29,7 +27,7 @@ public class CourseEnrollment implements AggregateRoot {
     private CourseEnrollment() {
     }
 
-    public CourseEnrollment(EnrollCourse course, Student student) {
+    public CourseEnrollment(Integer course, Integer student) {
         this.uuid = UUID.randomUUID();
         this.course = course;
         this.student = student;
@@ -40,12 +38,7 @@ public class CourseEnrollment implements AggregateRoot {
         this.completionStatus = CompletionStatus.COMPLETED;
     }
 
-    public CourseEnrollmentDTO toDTO() {
-        return CourseEnrollmentDTO.builder()
-                .uuid(uuid)
-                .course(course.toReference())
-                .student(student.toReference())
-                .completionStatus(completionStatus.toDTO())
-                .build();
+    public UUID getUuid() {
+        return uuid;
     }
 }

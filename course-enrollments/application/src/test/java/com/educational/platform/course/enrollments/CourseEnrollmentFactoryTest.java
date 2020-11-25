@@ -1,8 +1,11 @@
 package com.educational.platform.course.enrollments;
 
 import com.educational.platform.common.exception.RelatedResourceIsNotResolvedException;
+import com.educational.platform.course.enrollments.course.EnrollCourse;
+import com.educational.platform.course.enrollments.course.EnrollCourseRepository;
 import com.educational.platform.course.enrollments.course.create.CreateCourseCommand;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
+import com.educational.platform.course.enrollments.student.Student;
 import com.educational.platform.course.enrollments.student.create.CreateStudentCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
@@ -59,12 +61,6 @@ public class CourseEnrollmentFactoryTest {
 
         // then
         assertThat(enrollment).hasFieldOrPropertyWithValue("completionStatus", CompletionStatus.IN_PROGRESS);
-
-        final Student student = (Student) ReflectionTestUtils.getField(enrollment, "student");
-        assertThat(student).hasFieldOrPropertyWithValue("username", "username");
-
-        final EnrollCourse course = (EnrollCourse) ReflectionTestUtils.getField(enrollment, "course");
-        assertThat(course).hasFieldOrPropertyWithValue("uuid", courseId);
     }
 
     @Test

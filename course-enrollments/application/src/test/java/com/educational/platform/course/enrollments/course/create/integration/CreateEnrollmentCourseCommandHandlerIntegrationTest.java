@@ -1,7 +1,7 @@
 package com.educational.platform.course.enrollments.course.create.integration;
 
-import com.educational.platform.course.enrollments.EnrollCourse;
-import com.educational.platform.course.enrollments.EnrollCourseRepository;
+import com.educational.platform.course.enrollments.course.EnrollCourse;
+import com.educational.platform.course.enrollments.course.EnrollCourseRepository;
 import com.educational.platform.course.enrollments.course.create.CreateCourseCommand;
 import com.educational.platform.course.enrollments.course.create.CreateEnrollmentCourseCommandHandler;
 import org.junit.jupiter.api.Test;

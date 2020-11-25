@@ -1,7 +1,7 @@
 package com.educational.platform.course.enrollments.student.create;
 
-import com.educational.platform.course.enrollments.Student;
-import com.educational.platform.course.enrollments.StudentRepository;
+import com.educational.platform.course.enrollments.student.Student;
+import com.educational.platform.course.enrollments.student.StudentRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;

@@ -1,7 +1,7 @@
 package com.educational.platform.course.enrollments.student.create;
 
-import com.educational.platform.course.enrollments.Student;
-import com.educational.platform.course.enrollments.StudentRepository;
+import com.educational.platform.course.enrollments.student.Student;
+import com.educational.platform.course.enrollments.student.StudentRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
