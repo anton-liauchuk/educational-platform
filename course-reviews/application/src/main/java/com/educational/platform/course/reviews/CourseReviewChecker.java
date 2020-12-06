@@ -1,10 +1,11 @@
 package com.educational.platform.course.reviews;
 
-import lombok.RequiredArgsConstructor;
+import java.util.UUID;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Represents the logic for checking if user is a reviewer of course review
@@ -13,11 +14,10 @@ import java.util.UUID;
 @Component
 public class CourseReviewChecker {
 
-    private final CourseReviewRepository courseReviewRepository;
+	private final CourseReviewRepository courseReviewRepository;
 
-    public boolean hasAccess(Authentication authentication, UUID reviewId) {
-        var courseReview = courseReviewRepository.findByUuid(reviewId);
-        return courseReview.map(value -> value.isReviewer(authentication.getName())).orElse(false);
-    }
+	public boolean hasAccess(Authentication authentication, UUID reviewId) {
+		return courseReviewRepository.isReviewer(reviewId, authentication.getName());
+	}
 
 }

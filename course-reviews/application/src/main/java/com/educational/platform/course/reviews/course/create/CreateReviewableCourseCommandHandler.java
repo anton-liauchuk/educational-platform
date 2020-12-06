@@ -1,7 +1,7 @@
 package com.educational.platform.course.reviews.course.create;
 
-import com.educational.platform.course.reviews.ReviewableCourse;
-import com.educational.platform.course.reviews.ReviewableCourseRepository;
+import com.educational.platform.course.reviews.course.ReviewableCourse;
+import com.educational.platform.course.reviews.course.ReviewableCourseRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;

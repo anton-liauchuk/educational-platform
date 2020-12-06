@@ -2,8 +2,11 @@ package com.educational.platform.course.reviews.edit;
 
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.course.reviews.*;
+import com.educational.platform.course.reviews.course.ReviewableCourse;
+import com.educational.platform.course.reviews.course.ReviewableCourseRepository;
 import com.educational.platform.course.reviews.course.create.CreateReviewableCourseCommand;
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
+import com.educational.platform.course.reviews.reviewer.Reviewer;
 import com.educational.platform.course.reviews.reviewer.create.CreateReviewerCommand;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;

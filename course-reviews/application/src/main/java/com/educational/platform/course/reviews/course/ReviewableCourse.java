@@ -1,5 +1,6 @@
-package com.educational.platform.course.reviews;
+package com.educational.platform.course.reviews.course;
 
+import com.educational.platform.common.domain.AggregateRoot;
 import com.educational.platform.course.reviews.course.create.CreateReviewableCourseCommand;
 
 import javax.persistence.Entity;
@@ -12,7 +13,7 @@ import java.util.UUID;
  * Represents Reviewable Course domain model.
  */
 @Entity
-public class ReviewableCourse {
+public class ReviewableCourse implements AggregateRoot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +27,9 @@ public class ReviewableCourse {
 
     public ReviewableCourse(CreateReviewableCourseCommand createReviewableCourseCommand) {
         this.originalCourseId = createReviewableCourseCommand.getUuid();
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

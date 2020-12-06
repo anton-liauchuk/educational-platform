@@ -1,7 +1,7 @@
 package com.educational.platform.course.reviews.reviewer.create.integration;
 
-import com.educational.platform.course.reviews.Reviewer;
-import com.educational.platform.course.reviews.ReviewerRepository;
+import com.educational.platform.course.reviews.reviewer.Reviewer;
+import com.educational.platform.course.reviews.reviewer.ReviewerRepository;
 import com.educational.platform.course.reviews.reviewer.create.CreateReviewerCommand;
 import com.educational.platform.course.reviews.reviewer.create.CreateReviewerCommandHandler;
 import org.junit.jupiter.api.Test;
