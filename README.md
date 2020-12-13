@@ -1,6 +1,6 @@
 # Educational platform
 
-Modular Monolith Java application with DDD. In the plans, this application should be easily rewritten as microservices.
+Modular Monolith Java application with DDD. In the plans, this application will be moved to microservices architecture.
 - [1. The goals of this application](#1-the-goals-of-this-application)
 - [2. Plan](#2-plan)
 - [3. Architecture](#3-architecture)
@@ -8,10 +8,11 @@ Modular Monolith Java application with DDD. In the plans, this application shoul
 - [5. Useful links](#5-useful-links)
 
 ## 1. The goals of this application
-- example of modular monolith with DDD;
+- the modular monolith with DDD implementation;
 - example of communications between bounded contexts;
 - example of simple CQRS implementation;
-- example of documentation of architecture decisions;
+- documentation of architecture decisions;
+- best practice/patterns using;
 
 ## 2. Plan
 The issues are represented in https://github.com/anton-liauchuk/educational-platform/issues
@@ -20,16 +21,9 @@ High-level plan is represented in the table
 
 | Feature | Status |
 | ------- | ------ |
-| Reach documentation | COMPLETED |
-| DDD building blocks | COMPLETED |
 | Modular monolith with base functionality | COMPLETED |
-| Authentication/Security rules in application | COMPLETED |
-| API | COMPLETED |
-| Architecture tests | COMPLETED |
-| Integration events as public sub-module for each module | COMPLETED |
-| Axon Framework integration | COMPLETED |
-| UI application |  |
 | Microservices |  |
+| UI application |  |
 
 ## 3. Architecture
 ### 3.1. Modules
