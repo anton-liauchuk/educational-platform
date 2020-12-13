@@ -43,4 +43,14 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 			+ "FROM com.educational.platform.courses.course.Course c")
 	List<CourseDTO> list();
 
+	/**
+	 * Checks if passed username is an username of teacher of course.
+	 *
+	 * @param uuid course uuid.
+	 * @param username username.
+	 * @return true if teacher, false if not.
+	 */
+	@Query("select count(c) > 0 from Course c join com.educational.platform.courses.teacher.Teacher r on c.teacher = r.id where c.uuid = :uuid and r.username = :username")
+	boolean isTeacher(@Param("uuid") UUID uuid, @Param("username") String username);
+
 }

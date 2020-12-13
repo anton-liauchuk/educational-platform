@@ -5,8 +5,12 @@ import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.create.CreateCourseCommandHandler;
+import com.educational.platform.courses.teacher.Teacher;
+import com.educational.platform.courses.teacher.TeacherRepository;
+import com.educational.platform.courses.teacher.create.CreateTeacherCommand;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +36,15 @@ public class CreateCourseCommandHandlerSecurityTest {
     @SpyBean
     private CreateCourseCommandHandler sut;
 
-    @WithMockUser(roles = "TEACHER")
+    @Autowired
+    private TeacherRepository teacherRepository;
+
+    @BeforeEach
+    void setUp() {
+        teacherRepository.save(new Teacher(new CreateTeacherCommand("username")));
+    }
+
+    @WithMockUser(username = "username", roles = { "TEACHER" })
     @Test
     void handle_userIsTeacher_courseSaved() {
         // given

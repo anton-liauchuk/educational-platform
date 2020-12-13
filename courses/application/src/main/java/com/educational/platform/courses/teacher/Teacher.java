@@ -28,6 +28,10 @@ public class Teacher {
         this.username = command.getUsername();
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public String toIdentity() {
         return username;
     }

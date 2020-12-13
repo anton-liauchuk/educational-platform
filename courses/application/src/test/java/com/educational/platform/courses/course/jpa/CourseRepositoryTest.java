@@ -31,7 +31,7 @@ public class CourseRepositoryTest {
 		var teacher = new Teacher(createTeacherCommand);
 		teacherRepository.save(teacher);
 		var createCourseCommand = CreateCourseCommand.builder().name("name").description("description").build();
-		var course = new Course(createCourseCommand, teacher);
+		var course = new Course(createCourseCommand, teacher.getId());
 		courseRepository.save(course);
 
 		// when
@@ -49,7 +49,7 @@ public class CourseRepositoryTest {
 		var teacher = new Teacher(createTeacherCommand);
 		teacherRepository.save(teacher);
 		var createCourseCommand = CreateCourseCommand.builder().name("name").description("description").build();
-		var course = new Course(createCourseCommand, teacher);
+		var course = new Course(createCourseCommand, teacher.getId());
 		courseRepository.save(course);
 
 		// when

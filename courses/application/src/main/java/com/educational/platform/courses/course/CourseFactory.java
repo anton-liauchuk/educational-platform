@@ -33,7 +33,7 @@ public class CourseFactory {
         }
 
         var teacher = currentUserAsTeacher.userAsTeacher();
-        return new Course(courseCommand, teacher);
+        return new Course(courseCommand, teacher.getId());
     }
 
 }

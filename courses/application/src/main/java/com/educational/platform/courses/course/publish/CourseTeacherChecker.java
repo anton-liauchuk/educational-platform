@@ -17,8 +17,7 @@ public class CourseTeacherChecker {
     private final CourseRepository courseRepository;
 
     public boolean hasAccess(Authentication authentication, UUID courseId) {
-        var course = courseRepository.findByUuid(courseId);
-        return course.map(value -> value.isTeacher(authentication.getName())).orElse(false);
+        return courseRepository.isTeacher(courseId, authentication.getName());
     }
 
 }

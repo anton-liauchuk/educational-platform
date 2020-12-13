@@ -4,6 +4,8 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.*;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
+import com.educational.platform.courses.teacher.Teacher;
+
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -53,6 +56,9 @@ public class SendCourseToApproveCommandHandlerTest {
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final SendCourseToApproveCommand command = new SendCourseToApproveCommand(uuid);
 
+        var teacher = mock(Teacher.class);
+        when(currentUserAsTeacher.userAsTeacher()).thenReturn(teacher);
+        when(teacher.getId()).thenReturn(15);
         final CreateCourseCommand createCourseCommand = CreateCourseCommand.builder()
                 .name("name")
                 .description("description")
