@@ -12,10 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.educational.platform.course.reviews.ReviewableCourse;
-import com.educational.platform.course.reviews.ReviewableCourseRepository;
-import com.educational.platform.course.reviews.Reviewer;
-import com.educational.platform.course.reviews.ReviewerRepository;
+import com.educational.platform.course.reviews.course.ReviewableCourse;
+import com.educational.platform.course.reviews.course.ReviewableCourseRepository;
+import com.educational.platform.course.reviews.reviewer.Reviewer;
+import com.educational.platform.course.reviews.reviewer.ReviewerRepository;
 import com.educational.platform.course.reviews.course.create.CreateReviewableCourseCommand;
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
 import com.educational.platform.course.reviews.create.ReviewCourseCommandHandler;

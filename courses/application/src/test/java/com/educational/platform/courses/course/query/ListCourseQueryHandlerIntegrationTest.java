@@ -33,7 +33,7 @@ public class ListCourseQueryHandlerIntegrationTest {
 		var teacher = new Teacher(new CreateTeacherCommand("teacher"));
 		teacherRepository.save(teacher);
 
-		var course = new Course(CreateCourseCommand.builder().name("name").description("description").build(), teacher);
+		var course = new Course(CreateCourseCommand.builder().name("name").description("description").build(), teacher.getId());
 		courseRepository.save(course);
 	}
 

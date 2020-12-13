@@ -3,6 +3,7 @@ package com.educational.platform.course.reviews;
 import com.educational.platform.common.domain.AggregateRoot;
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
 import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommand;
+import com.educational.platform.course.reviews.reviewer.Reviewer;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -19,11 +20,8 @@ public class CourseReview implements AggregateRoot {
 
     private UUID uuid;
 
-    @ManyToOne
-    private Reviewer reviewer;
-
-    @ManyToOne
-    private ReviewableCourse course;
+    private Integer reviewer;
+    private Integer course;
     private CourseRating rating;
     private Comment comment;
 
@@ -32,7 +30,7 @@ public class CourseReview implements AggregateRoot {
 
     }
 
-    CourseReview(ReviewCourseCommand command, ReviewableCourse course, Reviewer reviewer) {
+    CourseReview(ReviewCourseCommand command, Integer course, Integer reviewer) {
         this.uuid = UUID.randomUUID();
         this.course = course;
         this.reviewer = reviewer;
@@ -43,10 +41,6 @@ public class CourseReview implements AggregateRoot {
     public void update(UpdateCourseReviewCommand command) {
         this.rating = new CourseRating(command.getRating());
         this.comment = new Comment(command.getComment());
-    }
-
-    public boolean isReviewer(String username) {
-        return username.equals(reviewer.toIdentity());
     }
 
     public UUID toIdentifier() {

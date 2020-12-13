@@ -13,6 +13,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class CourseTest {
 
+    private static final Integer TEACHER_ID = 15;
+
     @Test
     void approve_approvedStatus() {
         // given
@@ -22,7 +24,7 @@ public class CourseTest {
                 .build();
         var createTeacherCommand = new CreateTeacherCommand("username");
         var teacher = new Teacher(createTeacherCommand);
-        final Course course = new Course(createCourseCommand, teacher);
+        final Course course = new Course(createCourseCommand, TEACHER_ID);
 
         // when
         course.approve();
@@ -41,7 +43,7 @@ public class CourseTest {
                 .build();
         var createTeacherCommand = new CreateTeacherCommand("username");
         var teacher = new Teacher(createTeacherCommand);
-        final Course course = new Course(createCourseCommand, teacher);
+        final Course course = new Course(createCourseCommand, TEACHER_ID);
 
         // when
         course.decline();
@@ -60,7 +62,7 @@ public class CourseTest {
                 .build();
         var createTeacherCommand = new CreateTeacherCommand("username");
         var teacher = new Teacher(createTeacherCommand);
-        final Course course = new Course(createCourseCommand, teacher);
+        final Course course = new Course(createCourseCommand, TEACHER_ID);
         course.approve();
 
         // when
@@ -80,7 +82,7 @@ public class CourseTest {
                 .build();
         var createTeacherCommand = new CreateTeacherCommand("username");
         var teacher = new Teacher(createTeacherCommand);
-        final Course course = new Course(createCourseCommand, teacher);
+        final Course course = new Course(createCourseCommand, TEACHER_ID);
         ReflectionTestUtils.setField(course, "id", 15);
 
         // when
@@ -101,7 +103,7 @@ public class CourseTest {
         var teacher = new Teacher(createTeacherCommand);
 
         // when
-        final Course course = new Course(command, teacher);
+        final Course course = new Course(command, TEACHER_ID);
 
         // then
         assertThat(course)
@@ -120,7 +122,7 @@ public class CourseTest {
                 .build();
         var createTeacherCommand = new CreateTeacherCommand("username");
         var teacher = new Teacher(createTeacherCommand);
-        final Course course = new Course(command, teacher);
+        final Course course = new Course(command, TEACHER_ID);
         ReflectionTestUtils.setField(course, "id", 15);
         ReflectionTestUtils.setField(course, "approvalStatus", ApprovalStatus.APPROVED);
 
@@ -140,7 +142,7 @@ public class CourseTest {
                 .build();
         var createTeacherCommand = new CreateTeacherCommand("username");
         var teacher = new Teacher(createTeacherCommand);
-        final Course course = new Course(command, teacher);
+        final Course course = new Course(command, TEACHER_ID);
         ReflectionTestUtils.setField(course, "id", 15);
 
         // when

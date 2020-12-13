@@ -2,6 +2,8 @@ package com.educational.platform.courses.course;
 
 
 import com.educational.platform.courses.course.create.CreateCourseCommand;
+import com.educational.platform.courses.teacher.Teacher;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +17,8 @@ import javax.validation.Validator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class CourseFactoryTest {
@@ -33,6 +37,9 @@ public class CourseFactoryTest {
     @Test
     void createFrom_validCourse_courseCreated() {
         // given
+        var teacher = mock(Teacher.class);
+        when(currentUserAsTeacher.userAsTeacher()).thenReturn(teacher);
+        when(teacher.getId()).thenReturn(15);
         final CreateCourseCommand command = CreateCourseCommand.builder()
                 .name("name")
                 .description("description")

@@ -1,7 +1,11 @@
 package com.educational.platform.course.enrollments;
 
 import com.educational.platform.common.exception.RelatedResourceIsNotResolvedException;
+import com.educational.platform.course.enrollments.course.EnrollCourse;
+import com.educational.platform.course.enrollments.course.EnrollCourseRepository;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
+import com.educational.platform.course.enrollments.student.Student;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +44,6 @@ public class CourseEnrollmentFactory {
 
         final Student student = currentUserAsStudent.userAsStudent();
 
-        return new CourseEnrollment(course, student);
+        return new CourseEnrollment(course.getId(), student.getId());
     }
 }

@@ -4,6 +4,8 @@ import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.CurrentUserAsTeacher;
+import com.educational.platform.courses.teacher.Teacher;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +17,9 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class CreateCourseCommandHandlerTest {
@@ -33,6 +37,10 @@ public class CreateCourseCommandHandlerTest {
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         final CourseFactory courseFactory = new CourseFactory(validator, currentUserAsTeacher);
         sut = new CreateCourseCommandHandler(repository, courseFactory);
+
+        var teacher = mock(Teacher.class);
+        when(currentUserAsTeacher.userAsTeacher()).thenReturn(teacher);
+        when(teacher.getId()).thenReturn(15);
     }
 
     @Test

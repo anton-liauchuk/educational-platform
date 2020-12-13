@@ -1,9 +1,11 @@
-package com.educational.platform.course.reviews;
+package com.educational.platform.course.reviews.course;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 import java.util.UUID;
+
+import com.educational.platform.course.reviews.course.ReviewableCourse;
 
 /**
  * Represents reviewable course repository.

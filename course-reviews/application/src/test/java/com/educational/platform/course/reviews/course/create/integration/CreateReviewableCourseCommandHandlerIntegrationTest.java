@@ -1,7 +1,7 @@
 package com.educational.platform.course.reviews.course.create.integration;
 
-import com.educational.platform.course.reviews.ReviewableCourse;
-import com.educational.platform.course.reviews.ReviewableCourseRepository;
+import com.educational.platform.course.reviews.course.ReviewableCourse;
+import com.educational.platform.course.reviews.course.ReviewableCourseRepository;
 import com.educational.platform.course.reviews.course.create.CreateReviewableCourseCommand;
 import com.educational.platform.course.reviews.course.create.CreateReviewableCourseCommandHandler;
 import org.junit.jupiter.api.Test;

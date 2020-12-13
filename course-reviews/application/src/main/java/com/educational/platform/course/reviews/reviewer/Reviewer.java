@@ -1,5 +1,6 @@
-package com.educational.platform.course.reviews;
+package com.educational.platform.course.reviews.reviewer;
 
+import com.educational.platform.common.domain.AggregateRoot;
 import com.educational.platform.course.reviews.reviewer.create.CreateReviewerCommand;
 
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.Id;
  * Represents Reviewer domain model.
  */
 @Entity
-public class Reviewer {
+public class Reviewer implements AggregateRoot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +28,7 @@ public class Reviewer {
         this.username = createReviewerCommand.getUsername();
     }
 
-    public String toIdentity() {
-        return username;
+    public Integer getId() {
+        return id;
     }
 }

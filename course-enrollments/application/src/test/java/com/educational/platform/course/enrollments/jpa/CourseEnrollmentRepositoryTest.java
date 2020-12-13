@@ -11,8 +11,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.educational.platform.course.enrollments.CourseEnrollment;
 import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
-import com.educational.platform.course.enrollments.EnrollCourseRepository;
-import com.educational.platform.course.enrollments.StudentRepository;
+import com.educational.platform.course.enrollments.course.EnrollCourseRepository;
+import com.educational.platform.course.enrollments.student.StudentRepository;
 
 @Sql(scripts = "classpath:course.sql")
 @DataJpaTest
@@ -48,14 +48,14 @@ public class CourseEnrollmentRepositoryTest {
 	private void createFirstCourseEnrollment() {
 		var course = enrollCourseRepository.findByUuid(FIRST_COURSE);
 		var student = studentRepository.findByUsername(STUDENT);
-		var first = new CourseEnrollment(course.get(), student);
+		var first = new CourseEnrollment(course.get().getId(), student.getId());
 		courseEnrollmentRepository.save(first);
 	}
 
 	private void createSecondCourseEnrollment() {
 		var course = enrollCourseRepository.findByUuid(SECOND_COURSE);
 		var student = studentRepository.findByUsername(STUDENT);
-		var second = new CourseEnrollment(course.get(), student);
+		var second = new CourseEnrollment(course.get().getId(), student.getId());
 		courseEnrollmentRepository.save(second);
 	}
 

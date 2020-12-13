@@ -1,4 +1,4 @@
-package com.educational.platform.course.enrollments;
+package com.educational.platform.course.enrollments.student;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

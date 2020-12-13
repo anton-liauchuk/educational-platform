@@ -1,5 +1,6 @@
 package com.educational.platform.courses.teacher;
 
+import com.educational.platform.common.domain.AggregateRoot;
 import com.educational.platform.courses.teacher.create.CreateTeacherCommand;
 
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.Id;
  * Represents Teacher model.
  */
 @Entity
-public class Teacher {
+public class Teacher implements AggregateRoot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +27,10 @@ public class Teacher {
 
     public Teacher(CreateTeacherCommand command) {
         this.username = command.getUsername();
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String toIdentity() {

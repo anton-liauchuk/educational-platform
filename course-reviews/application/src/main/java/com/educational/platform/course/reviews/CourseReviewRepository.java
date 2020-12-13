@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Represents course review repository.
@@ -27,9 +28,19 @@ public interface CourseReviewRepository extends JpaRepository<CourseReview, Inte
      * @param uuid course uuid.
      * @return list of course reviews.
      */
-    @Query("select new com.educational.platform.course.reviews.CourseReviewDTO(cr.uuid, c.originalCourseId, r.username, cr.comment.comment, cr.rating.rating) from CourseReview cr \n"
-            + "join com.educational.platform.course.reviews.ReviewableCourse c on cr.course = c.id\n"
-            + "join com.educational.platform.course.reviews.Reviewer r on cr.reviewer =  r.id")
+    // todo uuid not used
+    @Query("select new com.educational.platform.course.reviews.CourseReviewDTO(cr.uuid, c.originalCourseId, r.username, cr.comment.comment, cr.rating.rating) from CourseReview cr "
+            + "join com.educational.platform.course.reviews.course.ReviewableCourse c on cr.course = c.id "
+            + "join com.educational.platform.course.reviews.reviewer.Reviewer r on cr.reviewer =  r.id")
     List<CourseReviewDTO> listCourseReviews(UUID uuid);
 
+    /**
+     * Checks if passed username is an username of reviewer of course review.
+     *
+     * @param uuid course review uuid.
+     * @param username username.
+     * @return true if reviewer, false if not.
+     */
+    @Query("select count(cr) > 0 from CourseReview cr join com.educational.platform.course.reviews.reviewer.Reviewer r on cr.reviewer = r.id where cr.uuid = :uuid and r.username = :username")
+    boolean isReviewer(@Param("uuid") UUID uuid, @Param("username") String username);
 }

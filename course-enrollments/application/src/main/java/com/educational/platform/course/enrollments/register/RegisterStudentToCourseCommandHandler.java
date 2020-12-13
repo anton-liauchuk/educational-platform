@@ -1,9 +1,9 @@
 package com.educational.platform.course.enrollments.register;
 
 import com.educational.platform.course.enrollments.CourseEnrollment;
-import com.educational.platform.course.enrollments.CourseEnrollmentDTO;
 import com.educational.platform.course.enrollments.CourseEnrollmentFactory;
 import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
+import com.educational.platform.course.enrollments.CurrentUserAsStudent;
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +30,7 @@ public class RegisterStudentToCourseCommandHandler {
     private final CourseEnrollmentRepository courseEnrollmentRepository;
     private final CourseEnrollmentFactory courseEnrollmentFactory;
     private final ApplicationEventPublisher eventPublisher;
+    private final CurrentUserAsStudent currentUserAsStudent;
 
     /**
      * Creates course enrollment from command.
@@ -47,14 +48,14 @@ public class RegisterStudentToCourseCommandHandler {
             return enrollment;
         });
 
-        final CourseEnrollmentDTO courseEnrollmentDTO = Objects.requireNonNull(courseEnrollment).toDTO();
+        final UUID uuid = Objects.requireNonNull(courseEnrollment).getUuid();
 
         eventPublisher.publishEvent(
                 new StudentEnrolledToCourseIntegrationEvent(courseEnrollment,
-                        courseEnrollmentDTO.getCourse(),
-                        courseEnrollmentDTO.getStudent()));
+                        command.getCourseId(),
+                        currentUserAsStudent.userAsStudent().toReference()));
 
-        return courseEnrollmentDTO.getUuid();
+        return uuid;
     }
 
 }

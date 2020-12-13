@@ -1,8 +1,8 @@
-package com.educational.platform.course.reviews;
+package com.educational.platform.course.reviews.reviewer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import com.educational.platform.course.reviews.reviewer.Reviewer;
 
 /**
  * Represents reviewer repository.

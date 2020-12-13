@@ -7,6 +7,11 @@ import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.approve.ApproveCourseCommand;
 import com.educational.platform.courses.course.approve.ApproveCourseCommandHandler;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
+import com.educational.platform.courses.teacher.Teacher;
+import com.educational.platform.courses.teacher.TeacherRepository;
+import com.educational.platform.courses.teacher.create.CreateTeacherCommand;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +35,14 @@ public class ApproveCourseCommandHandlerIntegrationTest {
 
     @SpyBean
     private ApproveCourseCommandHandler sut;
+
+    @Autowired
+    private TeacherRepository teacherRepository;
+
+    @BeforeEach
+    void setUp() {
+        teacherRepository.save(new Teacher(new CreateTeacherCommand("username")));
+    }
 
     @Test
     @WithMockUser(username = "username", authorities = { "TEACHER" })

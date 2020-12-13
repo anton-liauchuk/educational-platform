@@ -32,8 +32,7 @@ public class Course implements AggregateRoot {
     private CourseRating rating;
     private NumberOfStudents numberOfStudents;
 
-    @OneToOne
-    private Teacher teacher;
+    private Integer teacher;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Lecture> lectures;
@@ -44,7 +43,7 @@ public class Course implements AggregateRoot {
     }
 
     // todo remove public access + architecture tests
-    public Course(CreateCourseCommand command, Teacher teacher) {
+    public Course(CreateCourseCommand command, Integer teacher) {
         this.uuid = UUID.randomUUID();
         this.name = command.getName();
         this.description = command.getDescription();
@@ -89,10 +88,6 @@ public class Course implements AggregateRoot {
 
     public void increaseNumberOfStudents() {
         numberOfStudents = new NumberOfStudents(numberOfStudents.getNumber() + 1);
-    }
-
-    public boolean isTeacher(String username) {
-        return username.equals(teacher.toIdentity());
     }
 
     // todo implement
