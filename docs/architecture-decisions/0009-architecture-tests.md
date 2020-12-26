@@ -5,7 +5,7 @@ Date: 2020-06-27
 Accepted
 
 ## Context
-We need to have the mechanism for supporting common architecture principles in all application.
+We need to have the mechanism for supporting and validating common architecture principles in all application.
 
 ## Decision
 Architecture tests with using Archunit should be implemented.

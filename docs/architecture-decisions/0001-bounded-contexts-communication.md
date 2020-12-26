@@ -5,12 +5,14 @@ Date: 2020-02-29
 Accepted
 
 ## Context
-Some data should be available for several bounded contexts. The solution should be defined for retrieving the data from other bounded contexts.
+Some common data should be used by several bounded contexts (modules, in the case of monolith application).
 
 ## Possible solutions
 ### 1. Direct method call
+We will create the dependency between modules. After setting up the dependency, needed method can be called from another module.
 
 ### 2. Event-driven
+The modules will not communicate by direct calls, so the dependency between modules is not needed. Common data can be duplicated inside the modules during executing the listener for particular events.
 
 ## Decision
 Communication between bounded contexts asynchronous. Bounded contexts don't share data, it's forbidden to create a transaction which spans more than one bounded context.

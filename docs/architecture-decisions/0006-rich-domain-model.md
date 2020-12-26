@@ -1,4 +1,4 @@
-# 5. Identifier between modules.
+# 6. Rich domain model.
 Date: 2020-05-05
 
 ## Status
@@ -10,4 +10,4 @@ Possible solutions related to domain model implementation:
 - rich domain model with encapsulated logic;
 
 ## Decision
-Rich domain model solution should be used. This API from domain model will be easy to use. Domain model will encapsulate internal structure.
+Rich domain model solution will be used. Domain model will encapsulate internal structure and logic.
