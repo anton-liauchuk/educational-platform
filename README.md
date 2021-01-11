@@ -104,7 +104,52 @@ Definition of common formats for API.
 ### 3.2. Communications between bounded contexts
 Communication between bounded contexts is asynchronous. Bounded contexts don't share data, it's forbidden to create a transaction which spans more than one bounded context.
 
-This solution reduces coupling of bounded contexts through data replication across contexts which results to higher bounded contexts independence.
+This solution reduces coupling of bounded contexts through data replication across contexts which results to higher bounded contexts independence. Event publishing/subscribing is used from Axon Framework. The example of implementation:
+```java
+@RequiredArgsConstructor
+@Component
+public class ApproveCourseProposalCommandHandler {
+
+    private final TransactionTemplate transactionTemplate;
+    private final CourseProposalRepository repository;
+    private final EventBus eventBus;
+
+    /**
+     * Handles approve course proposal command. Approves and save approved course proposal
+     *
+     * @param command command
+     * @throws ResourceNotFoundException              if resource not found
+     * @throws CourseProposalAlreadyApprovedException course proposal already approved
+     */
+    @CommandHandler
+    @PreAuthorize("hasRole('ADMIN')")
+    public void handle(ApproveCourseProposalCommand command) {
+        final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {
+            // the logic related to approving the proposal inside the transaction
+        });
+
+        final CourseProposalDTO dto = Objects.requireNonNull(proposal).toDTO();
+        // publishing integration event outside the transaction
+        eventBus.publish(GenericEventMessage.asEventMessage(new CourseApprovedByAdminIntegrationEvent(dto.getUuid())));
+    }
+}
+```
+
+The listener for this integration event:
+```java
+@Component
+@RequiredArgsConstructor
+public class SendCourseToApproveIntegrationEventHandler {
+
+    private final CommandGateway commandGateway;
+
+    @EventHandler
+    public void handleSendCourseToApproveEvent(SendCourseToApproveIntegrationEvent event) {
+        commandGateway.send(new CreateCourseProposalCommand(event.getCourseId()));
+    }
+
+}
+```
 
 ### 3.3. Validation
 Always valid approach is used. So domain model will be changed from one valid state to another valid state. Technically, validation rules are defined on `Command` models and executed during processing the command. Javax validation-api is used for defining the validation rules via annotations.
@@ -300,7 +345,7 @@ ArchUnit are used for implementing architecture tests. These tests are placed in
 **LayerTest** - tests for validating the dependencies between layers of application.
 
 ### 3.11. Axon Framework
-Axon Framework is used as DDD library for not creating custom building block classes.
+Axon Framework is used as DDD library for not creating custom building block classes. Also, more functionality for event publishing/event sourcing is used from Axon functionality.
 
 ### 3.12. Bounded context map
 ![](docs/bounded_context_map.png)

@@ -4,16 +4,16 @@ import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.course.CourseProposalStatus;
 import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
-import com.educational.platform.administration.integration.event.CourseDeclinedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import org.assertj.core.api.ThrowableAssert;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -39,14 +39,14 @@ public class DeclineCourseProposalCommandHandlerTest {
     private TransactionTemplate transactionTemplate;
 
     @Mock
-    private ApplicationEventPublisher eventPublisher;
+    private EventBus eventBus;
 
     private DeclineCourseProposalCommandHandler sut;
 
     @BeforeEach
     void setUp() {
         transactionTemplate = new TransactionTemplate(transactionManager);
-        sut = new DeclineCourseProposalCommandHandler(transactionTemplate, repository, eventPublisher);
+        sut = new DeclineCourseProposalCommandHandler(transactionTemplate, repository, eventBus);
     }
 
     @Test
@@ -70,9 +70,9 @@ public class DeclineCourseProposalCommandHandlerTest {
         assertThat(proposal)
                 .hasFieldOrPropertyWithValue("status", CourseProposalStatus.DECLINED);
 
-        final ArgumentCaptor<CourseDeclinedByAdminIntegrationEvent> eventArgument = ArgumentCaptor.forClass(CourseDeclinedByAdminIntegrationEvent.class);
-        verify(eventPublisher).publishEvent(eventArgument.capture());
-        final CourseDeclinedByAdminIntegrationEvent event = eventArgument.getValue();
+        var eventArgument = ArgumentCaptor.forClass(GenericEventMessage.class);
+        verify(eventBus).publish(eventArgument.capture());
+        var event = eventArgument.getValue().getPayload();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("courseId", uuid);
     }

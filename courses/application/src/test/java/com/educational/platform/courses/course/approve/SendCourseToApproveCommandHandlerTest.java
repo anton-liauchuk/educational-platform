@@ -7,6 +7,8 @@ import com.educational.platform.courses.integration.event.SendCourseToApproveInt
 import com.educational.platform.courses.teacher.Teacher;
 
 import org.assertj.core.api.ThrowableAssert;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +16,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationEventPublisher;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -39,7 +40,7 @@ public class SendCourseToApproveCommandHandlerTest {
     private CourseRepository repository;
 
     @Mock
-    private ApplicationEventPublisher eventPublisher;
+    private EventBus eventBus;
 
     @InjectMocks
     private SendCourseToApproveCommandHandler sut;
@@ -70,15 +71,10 @@ public class SendCourseToApproveCommandHandlerTest {
         sut.handle(command);
 
         // then
-        final ArgumentCaptor<SendCourseToApproveIntegrationEvent> argument = ArgumentCaptor.forClass(SendCourseToApproveIntegrationEvent.class);
-        verify(eventPublisher).publishEvent(argument.capture());
-        assertThat(argument.getValue())
+        final ArgumentCaptor<GenericEventMessage<SendCourseToApproveIntegrationEvent>> argument = ArgumentCaptor.forClass(GenericEventMessage.class);
+        verify(eventBus).publish(argument.capture());
+        assertThat(argument.getValue().getPayload())
                 .hasFieldOrPropertyWithValue("courseId", uuid);
-        final Course course = (Course) argument.getValue().getSource();
-        assertThat(course)
-                .hasFieldOrPropertyWithValue("name", "name")
-                .hasFieldOrPropertyWithValue("description", "description")
-                .hasFieldOrPropertyWithValue("approvalStatus", ApprovalStatus.WAITING_FOR_APPROVAL);
     }
 
     @Test

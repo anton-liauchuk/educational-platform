@@ -4,8 +4,7 @@ import com.educational.platform.administration.integration.event.CourseApprovedB
 import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
+import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,12 +12,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class CourseApprovedByAdminIntegrationEventListener {
+public class CourseApprovedByAdminIntegrationEventHandler {
 
     private final CommandGateway commandGateway;
 
-    @Async
-    @EventListener
+    @EventHandler
     public void handleCourseApprovedByAdminEvent(CourseApprovedByAdminIntegrationEvent event) {
         commandGateway.send(new ApproveCourseCommand(event.getCourseId()));
     }

@@ -4,8 +4,7 @@ import com.educational.platform.course.enrollments.integration.event.StudentEnro
 import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
+import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,12 +12,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class StudentEnrolledToCourseIntegrationEventListener {
+public class StudentEnrolledToCourseIntegrationEventHandler {
 
     private final CommandGateway commandGateway;
 
-    @Async
-    @EventListener
+    @EventHandler
     public void handleStudentEnrolledToCourseEvent(StudentEnrolledToCourseIntegrationEvent event) {
         commandGateway.send(new IncreaseNumberOfStudentsCommand(event.getCourseId()));
     }

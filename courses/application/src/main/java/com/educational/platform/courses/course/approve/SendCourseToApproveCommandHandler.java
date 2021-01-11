@@ -8,7 +8,8 @@ import com.educational.platform.courses.integration.event.SendCourseToApproveInt
 import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
-import org.springframework.context.ApplicationEventPublisher;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.GenericEventMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ import java.util.Optional;
 public class SendCourseToApproveCommandHandler {
 
     private final CourseRepository repository;
-    private final ApplicationEventPublisher eventPublisher;
+    private final EventBus eventBus;
 
     /**
      * Handles send course to approve command.
@@ -46,6 +47,6 @@ public class SendCourseToApproveCommandHandler {
         course.sendToApprove();
 
         // todo integration event outside transaction
-        eventPublisher.publishEvent(new SendCourseToApproveIntegrationEvent(course, command.getUuid()));
+        eventBus.publish(GenericEventMessage.asEventMessage(new SendCourseToApproveIntegrationEvent(command.getUuid())));
     }
 }

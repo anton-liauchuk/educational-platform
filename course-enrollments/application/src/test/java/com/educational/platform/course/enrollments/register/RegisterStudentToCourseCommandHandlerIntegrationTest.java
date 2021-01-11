@@ -8,16 +8,22 @@ import com.educational.platform.course.enrollments.integration.event.StudentEnro
 import com.educational.platform.course.enrollments.student.Student;
 import com.educational.platform.course.enrollments.student.StudentRepository;
 import com.educational.platform.course.enrollments.student.create.CreateStudentCommand;
+
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.springboot.autoconfig.AxonAutoConfiguration;
+import org.axonframework.springboot.autoconfig.JdbcAutoConfiguration;
+import org.axonframework.springboot.autoconfig.JpaAutoConfiguration;
+import org.axonframework.springboot.autoconfig.JpaEventStoreAutoConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Optional;
@@ -28,6 +34,7 @@ import static org.mockito.Mockito.verify;
 
 @AutoConfigureTestDatabase
 @SpringBootTest
+@EnableAutoConfiguration(exclude = { AxonAutoConfiguration.class, JpaAutoConfiguration.class, JpaEventStoreAutoConfiguration.class, JdbcAutoConfiguration.class })
 public class RegisterStudentToCourseCommandHandlerIntegrationTest {
 
     @Autowired
@@ -49,7 +56,7 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
     private CurrentUserAsStudent currentUserAsStudent;
 
     @MockBean
-    private ApplicationEventPublisher eventPublisher;
+    private EventBus eventBus;
 
     private RegisterStudentToCourseCommandHandler sut;
 
@@ -58,7 +65,7 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        sut = new RegisterStudentToCourseCommandHandler(transactionTemplate, courseEnrollmentRepository, courseEnrollmentFactory, eventPublisher, currentUserAsStudent);
+        sut = new RegisterStudentToCourseCommandHandler(transactionTemplate, courseEnrollmentRepository, courseEnrollmentFactory, currentUserAsStudent, eventBus);
 
         courseUuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
         final EnrollCourse course = new EnrollCourse(new CreateCourseCommand(courseUuid));
@@ -78,18 +85,15 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
                 .build();
 
         // when
-        sut.handle(command);
+        var uuid = sut.handle(command);
 
         // then
-        final ArgumentCaptor<StudentEnrolledToCourseIntegrationEvent> argument = ArgumentCaptor.forClass(StudentEnrolledToCourseIntegrationEvent.class);
-        verify(eventPublisher).publishEvent(argument.capture());
-        final StudentEnrolledToCourseIntegrationEvent event = argument.getValue();
+        final ArgumentCaptor<GenericEventMessage<StudentEnrolledToCourseIntegrationEvent>> argument = ArgumentCaptor.forClass(GenericEventMessage.class);
+        verify(eventBus).publish(argument.capture());
+        final StudentEnrolledToCourseIntegrationEvent event = argument.getValue().getPayload();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("courseId", courseUuid)
                 .hasFieldOrPropertyWithValue("username", "username");
-
-        final CourseEnrollment enrollmentInEvent = (CourseEnrollment) ReflectionTestUtils.getField(event, "source");
-        final UUID uuid = (UUID) ReflectionTestUtils.getField(enrollmentInEvent, "uuid");
 
         final Optional<CourseEnrollment> saved = courseEnrollmentRepository.findByUuid(uuid);
         assertThat(saved).isNotEmpty();
