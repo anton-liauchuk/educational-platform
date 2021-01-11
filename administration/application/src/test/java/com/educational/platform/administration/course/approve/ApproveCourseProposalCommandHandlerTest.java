@@ -7,13 +7,14 @@ import com.educational.platform.administration.course.create.CreateCourseProposa
 import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import org.assertj.core.api.ThrowableAssert;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -39,14 +40,14 @@ public class ApproveCourseProposalCommandHandlerTest {
     private TransactionTemplate transactionTemplate;
 
     @Mock
-    private ApplicationEventPublisher eventPublisher;
+    private EventBus eventBus;
 
     private ApproveCourseProposalCommandHandler sut;
 
     @BeforeEach
     void setUp() {
         transactionTemplate = new TransactionTemplate(transactionManager);
-        sut = new ApproveCourseProposalCommandHandler(transactionTemplate, repository, eventPublisher);
+        sut = new ApproveCourseProposalCommandHandler(transactionTemplate, repository, eventBus);
     }
 
     @Test
@@ -70,9 +71,9 @@ public class ApproveCourseProposalCommandHandlerTest {
         assertThat(proposal)
                 .hasFieldOrPropertyWithValue("status", CourseProposalStatus.APPROVED);
 
-        final ArgumentCaptor<CourseApprovedByAdminIntegrationEvent> eventArgument = ArgumentCaptor.forClass(CourseApprovedByAdminIntegrationEvent.class);
-        verify(eventPublisher).publishEvent(eventArgument.capture());
-        final CourseApprovedByAdminIntegrationEvent event = eventArgument.getValue();
+        final ArgumentCaptor<GenericEventMessage<CourseApprovedByAdminIntegrationEvent>> eventArgument = ArgumentCaptor.forClass(GenericEventMessage.class);
+        verify(eventBus).publish(eventArgument.capture());
+        final CourseApprovedByAdminIntegrationEvent event = eventArgument.getValue().getPayload();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("courseId", uuid);
     }

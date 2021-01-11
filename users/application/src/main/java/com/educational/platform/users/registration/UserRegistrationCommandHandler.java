@@ -10,7 +10,8 @@ import com.educational.platform.users.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
-import org.springframework.context.ApplicationEventPublisher;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.GenericEventMessage;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,7 @@ public class UserRegistrationCommandHandler {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository repository;
-    private final ApplicationEventPublisher eventPublisher;
+    private final EventBus eventBus;
     private final Validator validator;
 
     /**
@@ -64,7 +65,7 @@ public class UserRegistrationCommandHandler {
         });
 
         final UserDTO dto = Objects.requireNonNull(user).toDTO();
-        eventPublisher.publishEvent(new UserCreatedIntegrationEvent(dto, dto.getUsername(), dto.getEmail()));
+        eventBus.publish(GenericEventMessage.asEventMessage(new UserCreatedIntegrationEvent(dto.getUsername(), dto.getEmail())));
 
         return jwtTokenProvider.createToken(dto.getUsername(), Collections.singletonList(Role.from(dto.getRole())));
     }

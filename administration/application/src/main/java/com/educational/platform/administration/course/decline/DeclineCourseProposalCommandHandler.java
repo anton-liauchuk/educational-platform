@@ -9,7 +9,8 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
-import org.springframework.context.ApplicationEventPublisher;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.GenericEventMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -26,7 +27,7 @@ public class DeclineCourseProposalCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;
-    private final ApplicationEventPublisher eventPublisher;
+    private final EventBus eventBus;
 
     /**
      * Handles decline course proposal command. Declines and save declined course proposal
@@ -52,7 +53,7 @@ public class DeclineCourseProposalCommandHandler {
         });
 
         final CourseProposalDTO dto = Objects.requireNonNull(proposal).toDTO();
-        eventPublisher.publishEvent(new CourseDeclinedByAdminIntegrationEvent(dto, dto.getUuid()));
+        eventBus.publish(GenericEventMessage.asEventMessage(new CourseDeclinedByAdminIntegrationEvent(dto.getUuid())));
     }
 
 }

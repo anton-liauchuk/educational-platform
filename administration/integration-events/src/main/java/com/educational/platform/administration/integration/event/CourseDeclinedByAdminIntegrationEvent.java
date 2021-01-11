@@ -1,7 +1,6 @@
 package com.educational.platform.administration.integration.event;
 
 import lombok.Getter;
-import org.springframework.context.ApplicationEvent;
 
 import java.util.UUID;
 
@@ -9,7 +8,7 @@ import java.util.UUID;
  * Represents course declined by admin integration event.
  */
 @Getter
-public class CourseDeclinedByAdminIntegrationEvent extends ApplicationEvent {
+public class CourseDeclinedByAdminIntegrationEvent {
 
 
     private final UUID courseId;
@@ -18,12 +17,9 @@ public class CourseDeclinedByAdminIntegrationEvent extends ApplicationEvent {
     /**
      * Create a new {@code CourseDeclinedByAdminIntegrationEvent}.
      *
-     * @param source   the object on which the event initially occurred or with
-     *                 which the event is associated (never {@code null})
      * @param courseId course id
      */
-    public CourseDeclinedByAdminIntegrationEvent(Object source, UUID courseId) {
-        super(source);
+    public CourseDeclinedByAdminIntegrationEvent(UUID courseId) {
         this.courseId = courseId;
     }
 }

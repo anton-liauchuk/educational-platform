@@ -1,7 +1,7 @@
 package com.educational.platform.courses.course.numberofstudents.update;
 
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
-import com.educational.platform.courses.course.numberofsudents.update.StudentEnrolledToCourseIntegrationEventListener;
+import com.educational.platform.courses.course.numberofsudents.update.StudentEnrolledToCourseIntegrationEventHandler;
 import com.educational.platform.courses.course.numberofsudents.update.IncreaseNumberOfStudentsCommand;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -18,20 +18,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class StudentEnrolledToCourseIntegrationEventListenerTest {
+public class StudentEnrolledToCourseIntegrationEventHandlerTest {
 
     @Mock
     private CommandGateway commandGateway;
 
     @InjectMocks
-    private StudentEnrolledToCourseIntegrationEventListener sut;
+    private StudentEnrolledToCourseIntegrationEventHandler sut;
 
 
     @Test
     void handleStudentEnrolledToCourseEvent_updateNumberOfStudentsCommandExecuted() {
         // given
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final StudentEnrolledToCourseIntegrationEvent event = new StudentEnrolledToCourseIntegrationEvent(new Object(), uuid, "username");
+        final StudentEnrolledToCourseIntegrationEvent event = new StudentEnrolledToCourseIntegrationEvent(uuid, "username");
 
         // when
         sut.handleStudentEnrolledToCourseEvent(event);

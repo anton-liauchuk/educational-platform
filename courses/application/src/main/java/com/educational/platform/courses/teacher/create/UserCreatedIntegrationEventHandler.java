@@ -4,8 +4,7 @@ import com.educational.platform.users.integration.event.UserCreatedIntegrationEv
 import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
+import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,12 +13,11 @@ import org.springframework.stereotype.Component;
 // todo should be transactional?
 @Component
 @RequiredArgsConstructor
-public class UserCreatedIntegrationEventListener {
+public class UserCreatedIntegrationEventHandler {
 
     private final CommandGateway commandGateway;
 
-    @Async
-    @EventListener
+    @EventHandler
     public void handleUserCreatedEvent(UserCreatedIntegrationEvent event) {
         commandGateway.send(new CreateTeacherCommand(event.getUsername()));
     }

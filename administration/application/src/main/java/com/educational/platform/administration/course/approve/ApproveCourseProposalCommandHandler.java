@@ -9,7 +9,8 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
-import org.springframework.context.ApplicationEventPublisher;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.GenericEventMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -26,7 +27,7 @@ public class ApproveCourseProposalCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;
-    private final ApplicationEventPublisher eventPublisher;
+    private final EventBus eventBus;
 
     /**
      * Handles approve course proposal command. Approves and save approved course proposal
@@ -52,6 +53,6 @@ public class ApproveCourseProposalCommandHandler {
         });
 
         final CourseProposalDTO dto = Objects.requireNonNull(proposal).toDTO();
-        eventPublisher.publishEvent(new CourseApprovedByAdminIntegrationEvent(dto, dto.getUuid()));
+        eventBus.publish(GenericEventMessage.asEventMessage(new CourseApprovedByAdminIntegrationEvent(dto.getUuid())));
     }
 }

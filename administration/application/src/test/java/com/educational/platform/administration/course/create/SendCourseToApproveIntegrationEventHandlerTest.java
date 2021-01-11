@@ -16,19 +16,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class SendCourseToApproveIntegrationEventListenerTest {
+public class SendCourseToApproveIntegrationEventHandlerTest {
 
     @Mock
     private CommandGateway commandGateway;
 
     @InjectMocks
-    private SendCourseToApproveIntegrationEventListener sut;
+    private SendCourseToApproveIntegrationEventHandler sut;
 
     @Test
     void handleCourseApprovedByAdminEvent_approveCourseCommandExecuted() {
         // given
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final SendCourseToApproveIntegrationEvent event = new SendCourseToApproveIntegrationEvent(new Object(), uuid);
+        final SendCourseToApproveIntegrationEvent event = new SendCourseToApproveIntegrationEvent(uuid);
 
         // when
         sut.handleSendCourseToApproveEvent(event);

@@ -8,7 +8,8 @@ import com.educational.platform.course.enrollments.integration.event.StudentEnro
 import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
-import org.springframework.context.ApplicationEventPublisher;
+import org.axonframework.eventhandling.EventBus;
+import org.axonframework.eventhandling.GenericEventMessage;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -29,8 +30,8 @@ public class RegisterStudentToCourseCommandHandler {
     private final TransactionTemplate transactionTemplate;
     private final CourseEnrollmentRepository courseEnrollmentRepository;
     private final CourseEnrollmentFactory courseEnrollmentFactory;
-    private final ApplicationEventPublisher eventPublisher;
     private final CurrentUserAsStudent currentUserAsStudent;
+    private final EventBus eventBus;
 
     /**
      * Creates course enrollment from command.
@@ -49,11 +50,8 @@ public class RegisterStudentToCourseCommandHandler {
         });
 
         final UUID uuid = Objects.requireNonNull(courseEnrollment).getUuid();
-
-        eventPublisher.publishEvent(
-                new StudentEnrolledToCourseIntegrationEvent(courseEnrollment,
-                        command.getCourseId(),
-                        currentUserAsStudent.userAsStudent().toReference()));
+        eventBus.publish(GenericEventMessage.asEventMessage(new StudentEnrolledToCourseIntegrationEvent(command.getCourseId(),
+                currentUserAsStudent.userAsStudent().toReference())));
 
         return uuid;
     }
