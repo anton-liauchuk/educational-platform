@@ -1,5 +1,20 @@
 package com.educational.platform.courses.course.create.integration;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.util.ReflectionTestUtils;
+
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
@@ -12,21 +27,6 @@ import com.educational.platform.courses.course.create.CreateQuizCommand;
 import com.educational.platform.courses.teacher.Teacher;
 import com.educational.platform.courses.teacher.TeacherRepository;
 import com.educational.platform.courses.teacher.create.CreateTeacherCommand;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class CreateCourseCommandHandlerIntegrationTest {
@@ -55,9 +55,14 @@ public class CreateCourseCommandHandlerIntegrationTest {
         final CreateCourseCommand command = CreateCourseCommand
                 .builder()
                 .name("name")
-                .description("description")
-                .curriculumItems(Arrays.asList(CreateLectureCommand.builder().title("lecture title").text("text").build(), CreateQuizCommand.builder().title("quiz title").questions(
-                        Collections.singletonList(CreateQuestionCommand.builder().content("question text").build())).build()))
+                .description("description").curriculumItems(Arrays.asList(
+                        CreateLectureCommand.builder().title("lecture title").text("text").build(),
+                        CreateQuizCommand
+                                .builder()
+                                .title("quiz title")
+                                .questions(Collections.singletonList(CreateQuestionCommand.builder().content("question text").build()))
+                                .build()
+                ))
                 .build();
 
         // when

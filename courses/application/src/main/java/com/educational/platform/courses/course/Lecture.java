@@ -1,10 +1,12 @@
 package com.educational.platform.courses.course;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import com.educational.platform.courses.course.create.CreateLectureCommand;
 
 @Entity
+@DiscriminatorValue("Lecture")
 public class Lecture extends CurriculumItem {
 
 	private String content;

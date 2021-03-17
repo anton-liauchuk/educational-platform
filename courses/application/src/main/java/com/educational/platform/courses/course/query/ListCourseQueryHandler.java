@@ -1,5 +1,6 @@
 package com.educational.platform.courses.course.query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.axonframework.queryhandling.QueryHandler;
@@ -29,7 +30,7 @@ public class ListCourseQueryHandler {
 	@QueryHandler
 	@NonNull
 	public List<CourseDTO> handle(ListCourseQuery query) {
-		return repository.list();
+		return new ArrayList<>();
 	}
 
 }

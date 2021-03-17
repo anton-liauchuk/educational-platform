@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -11,6 +12,7 @@ import javax.persistence.OneToMany;
 import com.educational.platform.courses.course.create.CreateQuizCommand;
 
 @Entity
+@DiscriminatorValue("Quiz")
 public class Quiz extends CurriculumItem {
 
 	@OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

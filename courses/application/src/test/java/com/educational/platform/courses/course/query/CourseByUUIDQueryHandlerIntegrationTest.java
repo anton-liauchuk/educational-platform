@@ -2,6 +2,8 @@ package com.educational.platform.courses.course.query;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +17,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.create.CreateCourseCommandHandler;
+import com.educational.platform.courses.course.create.CreateLectureCommand;
+import com.educational.platform.courses.course.create.CreateQuestionCommand;
+import com.educational.platform.courses.course.create.CreateQuizCommand;
 import com.educational.platform.courses.teacher.Teacher;
 import com.educational.platform.courses.teacher.TeacherRepository;
 import com.educational.platform.courses.teacher.create.CreateTeacherCommand;
@@ -47,7 +52,14 @@ public class CourseByUUIDQueryHandlerIntegrationTest {
 	@WithMockUser(username = "teacher", roles = "TEACHER")
 	void handle_validQuery_courseRetrieved() {
 		// given
-		final CreateCourseCommand command = CreateCourseCommand.builder().name("name").description("description").build();
+		final CreateCourseCommand command = CreateCourseCommand.builder().name("name").description("description").curriculumItems(Arrays.asList(
+				CreateLectureCommand.builder().title("lecture title").text("text").build(),
+				CreateQuizCommand
+						.builder()
+						.title("quiz title")
+						.questions(Collections.singletonList(CreateQuestionCommand.builder().content("question text").build()))
+						.build()
+		)).build();
 		var identifier = createCourseCommandHandler.handle(command);
 
 		// when
