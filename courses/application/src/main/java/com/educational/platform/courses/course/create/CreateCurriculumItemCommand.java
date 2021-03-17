@@ -1,16 +1,14 @@
 package com.educational.platform.courses.course.create;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
 public abstract class CreateCurriculumItemCommand {
 
-	private String title;
-	private String description;
-	private Integer serialNumber;
+	private final String title;
+	private final String description;
+	private final Integer serialNumber;
 
 }

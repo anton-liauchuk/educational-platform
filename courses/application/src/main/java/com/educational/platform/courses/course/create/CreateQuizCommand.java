@@ -4,14 +4,12 @@ import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class CreateQuizCommand extends CreateCurriculumItemCommand {
 
-	private String text;
-	private List<CreateQuestionCommand> questions;
+	private final String text;
+	private final List<CreateQuestionCommand> questions;
 
 	@Builder
 	public CreateQuizCommand(List<CreateQuestionCommand> questions, String title, String description, Integer serialNumber, String text) {

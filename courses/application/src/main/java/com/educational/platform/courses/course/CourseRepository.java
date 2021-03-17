@@ -23,6 +23,16 @@ public interface CourseRepository extends JpaRepository<Course, Integer>, Course
 	Optional<Course> findByUuid(UUID uuid);
 
 	/**
+	 * Retrieves a list of course dtos.
+	 *
+	 * @return the list of course dtos.
+	 * @throws IllegalArgumentException if {@literal uuid} is {@literal null}.
+	 */
+	@Query(value = "SELECT new com.educational.platform.courses.course.CourseLightDTO(c.uuid, c.name, c.description, c.numberOfStudents) "
+			+ "FROM com.educational.platform.courses.course.Course c")
+	List<CourseLightDTO> list();
+
+	/**
 	 * Checks if passed username is an username of teacher of course.
 	 *
 	 * @param uuid course uuid.

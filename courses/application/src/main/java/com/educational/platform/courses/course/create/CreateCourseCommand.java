@@ -23,7 +23,6 @@ public class CreateCourseCommand {
     @NotBlank
     private final String description;
 
-    @NotEmpty
     private final List<CreateCurriculumItemCommand> curriculumItems;
 
 }

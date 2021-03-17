@@ -61,11 +61,13 @@ public class Course implements AggregateRoot {
 		this.publishStatus = PublishStatus.DRAFT;
 		this.approvalStatus = ApprovalStatus.NOT_SENT_FOR_APPROVAL;
 		this.teacher = teacher;
-		this.curriculumItems = command
-				.getCurriculumItems()
-				.stream()
-				.map(item -> CurriculumItemFactory.createFrom(item, this))
-				.collect(Collectors.toList());
+		if (command.getCurriculumItems() != null) {
+			this.curriculumItems = command
+					.getCurriculumItems()
+					.stream()
+					.map(item -> CurriculumItemFactory.createFrom(item, this))
+					.collect(Collectors.toList());
+		}
 	}
 
 	public void approve() {

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class CreateLectureCommand extends CreateCurriculumItemCommand {
 
-	private String text;
+	private final String text;
 
 	@Builder
 	public CreateLectureCommand(String title, String description, Integer serialNumber, String text) {
