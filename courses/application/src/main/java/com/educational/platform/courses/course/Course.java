@@ -107,16 +107,6 @@ public class Course implements AggregateRoot {
 		numberOfStudents = new NumberOfStudents(numberOfStudents.getNumber() + 1);
 	}
 
-	// todo implement
-	public void addLecture() {
-
-	}
-
-	// todo implement
-	public void removeLecture() {
-
-	}
-
 	public UUID toIdentity() {
 		return uuid;
 	}
