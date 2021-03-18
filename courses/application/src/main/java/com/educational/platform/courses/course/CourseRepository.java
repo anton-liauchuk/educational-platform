@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 /**
  * Represents course repository.
  */
-public interface CourseRepository extends JpaRepository<Course, Integer> {
+public interface CourseRepository extends JpaRepository<Course, Integer>, CourseRepositoryCustom {
 
 	/**
 	 * Retrieves a course by its uuid.
@@ -23,25 +23,14 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 	Optional<Course> findByUuid(UUID uuid);
 
 	/**
-	 * Retrieves a course dto by its uuid.
-	 *
-	 * @param uuid must not be {@literal null}.
-	 * @return the course dto with the given uuid or {@literal Optional#empty()} if none found.
-	 * @throws IllegalArgumentException if {@literal uuid} is {@literal null}.
-	 */
-	@Query(value = "SELECT new com.educational.platform.courses.course.CourseDTO(c.uuid, c.name, c.description, c.numberOfStudents) "
-			+ "FROM com.educational.platform.courses.course.Course c WHERE c.uuid = :uuid")
-	Optional<CourseDTO> findDTOByUuid(@Param("uuid") UUID uuid);
-
-	/**
 	 * Retrieves a list of course dtos.
 	 *
 	 * @return the list of course dtos.
 	 * @throws IllegalArgumentException if {@literal uuid} is {@literal null}.
 	 */
-	@Query(value = "SELECT new com.educational.platform.courses.course.CourseDTO(c.uuid, c.name, c.description, c.numberOfStudents) "
+	@Query(value = "SELECT new com.educational.platform.courses.course.CourseLightDTO(c.uuid, c.name, c.description, c.numberOfStudents) "
 			+ "FROM com.educational.platform.courses.course.Course c")
-	List<CourseDTO> list();
+	List<CourseLightDTO> list();
 
 	/**
 	 * Checks if passed username is an username of teacher of course.

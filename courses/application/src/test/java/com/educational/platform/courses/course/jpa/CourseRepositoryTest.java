@@ -42,25 +42,4 @@ public class CourseRepositoryTest {
 		assertThat(result.get()).hasFieldOrPropertyWithValue("name", "name").hasFieldOrPropertyWithValue("description", "description");
 	}
 
-	@Test
-	void list_validQuery_dtoRetrieved() {
-		// given
-		var createTeacherCommand = new CreateTeacherCommand(TEACHER);
-		var teacher = new Teacher(createTeacherCommand);
-		teacherRepository.save(teacher);
-		var createCourseCommand = CreateCourseCommand.builder().name("name").description("description").build();
-		var course = new Course(createCourseCommand, teacher.getId());
-		courseRepository.save(course);
-
-		// when
-		var result = courseRepository.list();
-
-		// then
-		assertThat(result).isNotEmpty();
-		assertThat(result.get(0))
-				.hasFieldOrPropertyWithValue("name", "name")
-				.hasFieldOrPropertyWithValue("description", "description")
-				.hasFieldOrPropertyWithValue("uuid", course.toIdentity());
-	}
-
 }

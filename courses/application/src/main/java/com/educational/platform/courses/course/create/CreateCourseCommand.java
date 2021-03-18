@@ -1,5 +1,7 @@
 package com.educational.platform.courses.course.create;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,5 +21,7 @@ public class CreateCourseCommand {
 
     @NotBlank
     private final String description;
+
+    private final List<CreateCurriculumItemCommand> curriculumItems;
 
 }

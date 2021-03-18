@@ -1,22 +1,24 @@
 package com.educational.platform.courses.course;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
-/**
- * Represents Lecture domain model.
- */
+import com.educational.platform.courses.course.create.CreateLectureCommand;
+
 @Entity
-public class Lecture {
+@DiscriminatorValue("Lecture")
+public class Lecture extends CurriculumItem {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	private String content;
 
-    @ManyToOne
-    private Course course;
+	// for JPA
+	private Lecture() {
+		super();
+	}
 
-    private String name;
-    private String description;
-    private String content;
-
+	public Lecture(CreateLectureCommand command, Integer serialNumber, Course course) {
+		super(command.getTitle(), command.getDescription(), course, serialNumber);
+		this.content = command.getText();
+	}
 }
+

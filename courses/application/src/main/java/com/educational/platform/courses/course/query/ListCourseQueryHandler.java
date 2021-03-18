@@ -6,7 +6,7 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import com.educational.platform.courses.course.CourseDTO;
+import com.educational.platform.courses.course.CourseLightDTO;
 import com.educational.platform.courses.course.CourseRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class ListCourseQueryHandler {
 	 */
 	@QueryHandler
 	@NonNull
-	public List<CourseDTO> handle(ListCourseQuery query) {
+	public List<CourseLightDTO> handle(ListCourseQuery query) {
 		return repository.list();
 	}
 
