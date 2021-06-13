@@ -3,5 +3,7 @@ dependencies {
         exclude group: "org.axonframework", module: "axon-server-connector"
     }
 
+    //
+    //runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'com.h2database:h2'
 }

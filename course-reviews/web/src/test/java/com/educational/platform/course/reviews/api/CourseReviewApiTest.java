@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.educational.platform.security.SignUpHelper;
@@ -24,6 +25,7 @@ import io.restassured.parsing.Parser;
  * Represents API tests for course reviews functionality.
  */
 @Sql(scripts = "classpath:insert_data.sql")
+@TestPropertySource("classpath:application-security.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CourseReviewApiTest {
 

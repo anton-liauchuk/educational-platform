@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2020_06_07-1
+      author: antonliauchuk
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: course_proposal
+      changes:
+        - createTable:
+            tableName: course_proposal
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  incrementBy: 1
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: course_proposal_pk
+              - column:
+                  constraints:
+                    nullable: false
+                  name: uuid
+                  type: uuid
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(14)

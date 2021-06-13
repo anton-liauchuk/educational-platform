@@ -28,6 +28,7 @@ dependencies {
     implementation project(':common')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.liquibase:liquibase-core'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation "org.mockito:mockito-junit-jupiter:${Versions.mockito}"

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.UUID;
@@ -18,6 +19,7 @@ import static io.restassured.RestAssured.given;
  * Represents API tests for course functionality.
  */
 @Sql(scripts = "classpath:insert_data.sql")
+@TestPropertySource("classpath:application-security.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CourseApiTest {
 
