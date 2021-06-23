@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2020_06_07-1
+      id: 2021_06_13-1
       author: antonliauchuk
       preConditions:
         onFail: MARK_RAN
