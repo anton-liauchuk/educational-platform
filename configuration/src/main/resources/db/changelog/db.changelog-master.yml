@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: "classpath*:/db/administration.yml"
+  - include:
+      file: "classpath*:/db/course-enrollments.yml"

@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2021_06_25-1
+      author: antonliauchuk
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: course_enrollment
+      changes:
+        - createTable:
+            tableName: course_enrollment
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  incrementBy: 1
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: course_enrollment_pk
+              - column:
+                  constraints:
+                    nullable: false
+                  name: uuid
+                  type: uuid
+              - column:
+                  constraints:
+                    nullable: false
+                  name: course
+                  type: int
+              - column:
+                  constraints:
+                    nullable: false
+                  name: student
+                  type: int
+              - column:
+                  constraints:
+                    nullable: false
+                  name: completion_status
+                  type: VARCHAR(14)
