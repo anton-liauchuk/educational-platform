@@ -1,0 +1,123 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2021_06_25-1
+      author: antonliauchuk
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: course_review
+      changes:
+        - createTable:
+            tableName: course_review
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  incrementBy: 1
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: course_review_pk
+              - column:
+                  constraints:
+                    nullable: false
+                  name: uuid
+                  type: uuid
+              - column:
+                  constraints:
+                    foreignKeyName: reviewer_fkey
+                    nullable: false
+                  name: reviewer
+                  type: int
+              - column:
+                  constraints:
+                    foreignKeyName: reviewable_course_fkey
+                    nullable: false
+                  name: course
+                  type: int
+              - column:
+                  constraints:
+                    nullable: false
+                  name: rating
+                  type: double precision
+              - column:
+                  constraints:
+                    nullable: false
+                  name: comment
+                  type: VARCHAR(100)
+  - changeSet:
+      id: 2021_06_25-2
+      author: antonliauchuk
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: reviewable_course
+      changes:
+        - createTable:
+            tableName: reviewable_course
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  incrementBy: 1
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: reviewable_coursee_pk
+              - column:
+                  constraints:
+                    nullable: false
+                  name: uuid
+                  type: uuid
+  - changeSet:
+      id: 2021_06_25-3
+      author: antonliauchuk
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: reviewer
+      changes:
+        - createTable:
+            tableName: reviewer
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  incrementBy: 1
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: reviewer_pk
+              - column:
+                  constraints:
+                    nullable: false
+                  name: username
+                  type: VARCHAR(100)
+  - changeSet:
+      id: 2021_06_25-4
+      author: antonliauchuk
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: course
+            baseTableName: course_review
+            constraintName: reviewable_course_fkey
+            referencedColumnNames: id
+            referencedTableName: reviewable_course
+            validate: true
+  - changeSet:
+      id: 2021_06_25-5
+      author: antonliauchuk
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: reviewer
+            baseTableName: course_review
+            constraintName: reviewer_fkey
+            referencedColumnNames: id
+            referencedTableName: reviewer
+            validate: true
