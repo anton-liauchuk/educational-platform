@@ -1,0 +1,211 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2021_06_25-1
+      author: antonliauchuk
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: course
+      changes:
+        - createTable:
+            tableName: course
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  incrementBy: 1
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: course_pk
+              - column:
+                  constraints:
+                    nullable: false
+                  name: uuid
+                  type: uuid
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: publish_status
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: approval_status
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: rating
+                  type: double precision
+              - column:
+                  constraints:
+                    nullable: false
+                  name: number_of_students
+                  type: int
+              - column:
+                  constraints:
+                    foreignKeyName: teacher_fkey
+                    nullable: false
+                  name: teacher
+                  type: int
+  - changeSet:
+      id: 2021_06_25-2
+      author: antonliauchuk
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: curriculum_item
+      changes:
+        - createTable:
+            tableName: curriculum_item
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  incrementBy: 1
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: curriculum_item_pk
+              - column:
+                  constraints:
+                    nullable: false
+                  name: uuid
+                  type: uuid
+              - column:
+                  constraints:
+                    nullable: false
+                  name: title
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: serial_number
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    foreignKeyName: course_fkey
+                    nullable: false
+                  name: course
+                  type: int
+              - column:
+                  constraints:
+                    nullable: false
+                  name: type
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: content
+                  type: VARCHAR(100)
+  - changeSet:
+      id: 2021_06_25-3
+      author: antonliauchuk
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: teacher
+      changes:
+        - createTable:
+            tableName: teacher
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  incrementBy: 1
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: teacher_pk
+              - column:
+                  constraints:
+                    nullable: false
+                  name: username
+                  type: VARCHAR(100)
+  - changeSet:
+      id: 2021_06_25-4
+      author: antonliauchuk
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: question
+      changes:
+        - createTable:
+            tableName: question
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  incrementBy: 1
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: question_pk
+              - column:
+                  constraints:
+                    nullable: false
+                  name: content
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    foreignKeyName: quiz_fkey
+                    nullable: false
+                  name: quiz_id
+                  type: int
+  - changeSet:
+      id: 2021_06_25-5
+      author: antonliauchuk
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: course
+            baseTableName: curriculum_item
+            constraintName: course_course_fkey
+            referencedColumnNames: id
+            referencedTableName: course
+            validate: true
+  - changeSet:
+      id: 2021_06_25-6
+      author: antonliauchuk
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: teacher
+            baseTableName: course
+            constraintName: teacher_fkey
+            referencedColumnNames: id
+            referencedTableName: teacher
+            validate: true
+  - changeSet:
+      id: 2021_06_25-7
+      author: antonliauchuk
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: quiz_id
+            baseTableName: question
+            constraintName: quiz_fkey
+            referencedColumnNames: id
+            referencedTableName: curriculum_item
+            validate: true

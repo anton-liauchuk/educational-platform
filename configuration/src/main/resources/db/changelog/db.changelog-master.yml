@@ -5,3 +5,5 @@ databaseChangeLog:
       file: "classpath*:/db/course-enrollments.yml"
   - include:
       file: "classpath*:/db/course-reviews.yml"
+  - include:
+      file: "classpath*:/db/courses.yml"
