@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2021_06_25-1
+      author: antonliauchuk
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: user
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 1
+                  incrementBy: 1
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_pk
+              - column:
+                  constraints:
+                    nullable: false
+                  name: username
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: password
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: role
+                  type: VARCHAR(100)
