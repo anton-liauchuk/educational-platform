@@ -1,0 +1,8 @@
+dependencies {
+    implementation(project(":users:users-web"))
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("io.rest-assured:rest-assured:${Versions.restAssured}")
+    implementation("io.rest-assured:json-path:${Versions.restAssured}")
+    implementation("io.rest-assured:xml-path:${Versions.restAssured}")
+}
+
