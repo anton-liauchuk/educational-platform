@@ -1,6 +1,6 @@
 # Educational platform
 
-Example of Modular Monolith Java application with DDD. In the plans, this application will be moved to microservices architecture.
+Example of Modular Monolith Java application with Domain-Driven Design. In the plans, this application will be moved to microservices architecture.
 - [1. The goals of this application](#1-the-goals-of-this-application)
 - [2. Plan](#2-plan)
 - [3. Architecture](#3-architecture)
@@ -18,9 +18,10 @@ Example of Modular Monolith Java application with DDD. In the plans, this applic
     + [3.12. Bounded context map](#312-bounded-context-map)
     + [3.13. Integration events inside application](#313-integration-events-inside-application)
     + [3.14. Technology stack](#314-technology-stack)
-- [4. Contribution](#4-contribution)
-- [5. Useful links](#5-useful-links)
-- [6. License](#6-license)
+- [4. How to run](#4-how-to-run)
+- [5. Contribution](#5-contribution)
+- [6. Useful links](#6-useful-links)
+- [7. License](#7-license)
 
 ## 1. The goals of this application
 - the modular monolith with DDD implementation;
@@ -28,18 +29,20 @@ Example of Modular Monolith Java application with DDD. In the plans, this applic
 - example of communications between bounded contexts;
 - example of simple CQRS implementation;
 - documentation of architecture decisions;
-- best practice/patterns using;
+- best practice/patterns;
 
 ## 2. Plan
 The issues are represented in https://github.com/anton-liauchuk/educational-platform/issues
 
 High-level plan is represented in the table
 
-| Feature | Status |
-| ------- | ------ |
+| Feature                                  | Status |
+|------------------------------------------| ------ |
 | Modular monolith with base functionality | COMPLETED |
-| Microservices |  |
-| UI application |  |
+| Advanced search for courses              |  |
+| Separate database schema for each module |  |
+| Microservices                            |  |
+| UI application                           |  |
 
 ## 3. Architecture
 ### 3.1. Module structure
@@ -361,13 +364,40 @@ Axon Framework is used as DDD library for not creating custom building block cla
 - ArchUnit;
 - Gradle;
 
-## 4. Contribution
+## 4. How to run
+### Install Java 21
+- Download and install Java 21
+
+### Run application
+`./gradlew bootRun`
+
+### Sign up in educational platform
+```http
+POST http://127.0.0.1:8080/users/sign-up
+Content-Type: application/json
+
+{
+  "role": "ROLE_STUDENT",
+  "username": "student",
+  "email": "111@gmail.com",
+  "password": "11111111"
+}
+```
+
+### Play with API endpoints
+Read Course Enrollments:
+```http
+GET http://127.0.0.1:8080/course-enrollments
+Authorization: Bearer [TOKEN]
+```
+
+## 5. Contribution
 The application is in development status. Please feel free to submit pull request or create the issue.
 
-## 5. Useful links
+## 6. Useful links
 - [Modular monolith with DDD](https://github.com/kgrzybek/modular-monolith-with-ddd) - the most influenced project. This project was started as attempt of implementing something similar with Java stack.
 - [Knowledge base](https://github.com/anton-liauchuk/java-interview) - The knowledge base about Java, DDD and other topics.
 
-## 6. License
+## 7. License
 The project is under [MIT license](https://opensource.org/licenses/MIT).
 
