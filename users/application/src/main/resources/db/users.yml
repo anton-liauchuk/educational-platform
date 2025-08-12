@@ -6,10 +6,10 @@ databaseChangeLog:
         onFail: MARK_RAN
         not:
           tableExists:
-            tableName: user
+            tableName: custom_user
       changes:
         - createTable:
-            tableName: user
+            tableName: custom_user
             columns:
               - column:
                   name: id
@@ -19,7 +19,7 @@ databaseChangeLog:
                   incrementBy: 1
                   constraints:
                     primaryKey: true
-                    primaryKeyName: user_pk
+                    primaryKeyName: custom_user_pk
               - column:
                   constraints:
                     nullable: false
