@@ -3,21 +3,21 @@ dependencies {
     implementation(project(":security:security-config"))
     implementation(project(":users:users-integration-events"))
 
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("io.jsonwebtoken:jjwt:${Versions.jsonwebtoken}")
-    implementation("javax.xml.bind:jaxb-api:${Versions.jaxbApi}")
-    implementation("org.passay:passay:${Versions.passay}")
+    implementation("org.springframework.boot", "spring-boot-starter-web")
+    implementation("org.springframework.boot", "spring-boot-starter-validation")
+    implementation("org.springframework.boot", "spring-boot-starter-security")
+    implementation("org.springframework.boot", "spring-boot-starter-data-jpa")
+    implementation("io.jsonwebtoken", "jjwt", libs.versions.jsonwebtoken.get())
+    implementation("javax.xml.bind", "jaxb-api", libs.versions.jaxbApi.get())
+    implementation("org.passay", "passay", libs.versions.passay.get())
 
-    compileOnly("org.projectlombok:lombok:${Versions.lombok}")
-    annotationProcessor("org.projectlombok:lombok:${Versions.lombok}")
+    compileOnly("org.projectlombok", "lombok", libs.versions.lombok.get())
+    annotationProcessor("org.projectlombok", "lombok", libs.versions.lombok.get())
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.rest-assured:rest-assured:${Versions.restAssured}")
-    testImplementation("io.rest-assured:json-path:${Versions.restAssured}")
-    testImplementation("io.rest-assured:xml-path:${Versions.restAssured}")
+    testImplementation("org.springframework.boot", "spring-boot-starter-test")
+    testImplementation("io.rest-assured", "rest-assured", libs.versions.restAssured.get())
+    testImplementation("io.rest-assured", "json-path", libs.versions.restAssured.get())
+    testImplementation("io.rest-assured", "xml-path", libs.versions.restAssured.get())
 }
 
 tasks.compileJava {
@@ -27,4 +27,3 @@ tasks.compileJava {
 tasks.test {
     useJUnitPlatform()
 }
-

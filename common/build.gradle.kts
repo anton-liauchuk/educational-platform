@@ -1,5 +1,5 @@
 dependencies {
-    api("org.axonframework", "axon-spring-boot-starter", Versions.axon) {
+    api("org.axonframework", "axon-spring-boot-starter", libs.versions.axon.get()) {
         exclude(group = "org.axonframework", module = "axon-server-connector")
     }
 

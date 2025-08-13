@@ -1,6 +1,6 @@
 plugins {
-    id("io.spring.dependency-management") version Versions.springDependencyManagementPlugin
     java
+    alias(libs.plugins.springdependencies)
 }
 
 allprojects {
@@ -26,8 +26,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:${Versions.spring}")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${rootProject.libs.versions.spring.get()}")
         }
     }
 }
-
