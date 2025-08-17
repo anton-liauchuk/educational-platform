@@ -15,6 +15,9 @@ dependencies {
     annotationProcessor("org.projectlombok", "lombok", libs.versions.lombok.get())
 
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
+    testImplementation("org.junit.jupiter", "junit-jupiter-api")
+    testImplementation("org.junit.platform", "junit-platform-engine")
+    testImplementation("org.junit.platform", "junit-platform-launcher")
     testImplementation("io.rest-assured", "rest-assured", libs.versions.restAssured.get())
     testImplementation("io.rest-assured", "json-path", libs.versions.restAssured.get())
     testImplementation("io.rest-assured", "xml-path", libs.versions.restAssured.get())

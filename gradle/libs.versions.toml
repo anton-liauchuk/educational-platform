@@ -1,16 +1,16 @@
 [versions]
-spring = "3.3.0"
-restAssured = "5.5.0"
-mockito = "5.12.0"
-assertj = "3.26.3"
+spring = "3.5.4"
+restAssured = "5.5.5"
+mockito = "5.19.0"
+assertj = "3.27.3"
 archunit = "0.14.1"
-axon = "4.10.0"
+axon = "4.12.1"
 swagger = "3.0.0"
 lombok = "1.18.32"
 jsonwebtoken = "0.9.1"
 jaxbApi = "2.3.1"
 passay = "1.6.4"
-springDependencyManagementPlugin = "1.1.6"
+springDependencyManagementPlugin = "1.1.7"
 
 [plugins]
 springdependencies = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementPlugin" }

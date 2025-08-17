@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.course.query.ListCourseProposalsQuery;
@@ -21,10 +21,10 @@ import com.educational.platform.administration.course.query.ListCourseProposalsQ
 @SpringBootTest(properties = "com.educational.platform.security.enabled=true")
 public class ListCourseProposalsQueryHandlerSecurityTest {
 
-	@MockBean
+	@MockitoBean
 	private CourseProposalRepository courseProposalRepository;
 
-	@SpyBean
+	@MockitoSpyBean
 	private ListCourseProposalsQueryHandler sut;
 
 	@Test

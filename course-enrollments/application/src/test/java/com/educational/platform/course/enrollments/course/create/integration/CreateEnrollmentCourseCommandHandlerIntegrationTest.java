@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.data.domain.Example;
 
 import java.util.Optional;
@@ -23,7 +23,7 @@ public class CreateEnrollmentCourseCommandHandlerIntegrationTest {
     @Autowired
     private EnrollCourseRepository repository;
 
-    @SpyBean
+    @MockitoSpyBean
     private CreateEnrollmentCourseCommandHandler sut;
 
     @Test

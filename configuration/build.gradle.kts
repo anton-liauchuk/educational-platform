@@ -31,6 +31,8 @@ dependencies {
     implementation("org.liquibase", "liquibase-core")
 
     testImplementation("org.junit.jupiter", "junit-jupiter-api")
+    testImplementation("org.junit.platform", "junit-platform-engine")
+    testImplementation("org.junit.platform", "junit-platform-launcher")
     testImplementation("org.mockito", "mockito-junit-jupiter", libs.versions.mockito.get())
     testImplementation("com.tngtech.archunit", "archunit-junit5", libs.versions.archunit.get())
 }

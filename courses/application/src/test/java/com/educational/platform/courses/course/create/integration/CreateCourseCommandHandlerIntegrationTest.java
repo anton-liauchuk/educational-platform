@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -37,7 +37,7 @@ public class CreateCourseCommandHandlerIntegrationTest {
     @Autowired
     private CourseFactory courseFactory;
 
-    @SpyBean
+    @MockitoSpyBean
     private CreateCourseCommandHandler sut;
 
     @Autowired

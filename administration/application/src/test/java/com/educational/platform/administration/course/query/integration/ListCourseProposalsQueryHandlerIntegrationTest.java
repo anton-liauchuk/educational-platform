@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalRepository;
@@ -25,7 +25,7 @@ public class ListCourseProposalsQueryHandlerIntegrationTest {
 	@Autowired
 	private CourseProposalRepository courseProposalRepository;
 
-	@SpyBean
+	@MockitoSpyBean
 	private ListCourseProposalsQueryHandler sut;
 
 	@BeforeEach

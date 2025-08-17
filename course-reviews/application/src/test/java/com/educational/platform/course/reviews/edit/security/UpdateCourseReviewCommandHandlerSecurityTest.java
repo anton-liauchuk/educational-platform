@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
@@ -31,7 +31,7 @@ public class UpdateCourseReviewCommandHandlerSecurityTest {
     @Autowired
     private CourseReviewRepository repository;
 
-    @SpyBean
+    @MockitoSpyBean
     private UpdateCourseReviewCommandHandler sut;
 
     @Test

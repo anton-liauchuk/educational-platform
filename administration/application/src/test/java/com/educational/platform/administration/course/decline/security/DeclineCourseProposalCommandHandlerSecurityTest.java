@@ -12,9 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -28,7 +28,7 @@ public class DeclineCourseProposalCommandHandlerSecurityTest {
     private final UUID courseUuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
     @Autowired
     private CourseProposalRepository courseProposalRepository;
-    @SpyBean
+    @MockitoSpyBean
     private DeclineCourseProposalCommandHandler sut;
 
     @BeforeEach

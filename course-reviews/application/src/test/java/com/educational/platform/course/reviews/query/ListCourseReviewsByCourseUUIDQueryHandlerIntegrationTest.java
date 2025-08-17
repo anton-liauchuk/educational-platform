@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.educational.platform.course.reviews.course.ReviewableCourse;
@@ -36,7 +36,7 @@ public class ListCourseReviewsByCourseUUIDQueryHandlerIntegrationTest {
 	@Autowired
 	private ReviewCourseCommandHandler reviewCourseCommandHandler;
 
-	@SpyBean
+	@MockitoSpyBean
 	private ListCourseReviewsByCourseUUIDQueryHandler sut;
 
 	@BeforeEach

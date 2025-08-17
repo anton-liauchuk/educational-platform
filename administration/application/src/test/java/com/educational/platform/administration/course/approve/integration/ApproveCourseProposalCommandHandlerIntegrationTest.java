@@ -9,8 +9,8 @@ import com.educational.platform.administration.course.create.CreateCourseProposa
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -23,7 +23,7 @@ public class ApproveCourseProposalCommandHandlerIntegrationTest {
     @Autowired
     private CourseProposalRepository repository;
 
-    @SpyBean
+    @MockitoSpyBean
     private ApproveCourseProposalCommandHandler sut;
 
     @Test
