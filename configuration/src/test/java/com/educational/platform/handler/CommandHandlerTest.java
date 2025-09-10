@@ -20,7 +20,7 @@ public class CommandHandlerTest {
             .that().arePublic()
             .and().doNotHaveRawReturnType(new DescribedPredicate<>("native or void") {
                 @Override
-                public boolean apply(JavaClass javaClass) {
+                public boolean test(JavaClass javaClass) {
                     return javaClass.isPrimitive() || javaClass.isEquivalentTo(Void.TYPE);
                 }
             })
