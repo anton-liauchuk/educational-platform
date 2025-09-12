@@ -5,12 +5,12 @@ mockito = "5.19.0"
 assertj = "3.27.3"
 archunit = "1.4.1"
 axon = "4.12.1"
-swagger = "3.0.0"
 lombok = "1.18.32"
 jsonwebtoken = "0.9.1"
 jaxbApi = "2.3.1"
 passay = "1.6.4"
 springDependencyManagementPlugin = "1.1.7"
+springDoc = "2.8.13"
 
 [plugins]
 springdependencies = { id = "io.spring.dependency-management", version.ref = "springDependencyManagementPlugin" }
