@@ -39,6 +39,7 @@ High-level plan is represented in the table
 | Feature                                  | Status |
 |------------------------------------------| ------ |
 | Modular monolith with base functionality | COMPLETED |
+| Framework independence                   |  |
 | Advanced search for courses              |  |
 | Separate database schema for each module |  |
 | Microservices                            |  |
