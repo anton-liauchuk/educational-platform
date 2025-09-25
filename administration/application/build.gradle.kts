@@ -6,6 +6,7 @@ dependencies {
 
     implementation("org.springframework.boot", "spring-boot-starter-security")
     implementation("org.springframework.boot", "spring-boot-starter-data-jpa")
+    implementation("jakarta.inject", "jakarta.inject-api")
 
     compileOnly("org.projectlombok", "lombok", libs.versions.lombok.get())
     annotationProcessor("org.projectlombok", "lombok", libs.versions.lombok.get())

@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class SendCourseToApproveIntegrationEventHandlerTest {
+class SendCourseToApproveIntegrationEventHandlerTest {
 
     @Mock
     private CommandGateway commandGateway;

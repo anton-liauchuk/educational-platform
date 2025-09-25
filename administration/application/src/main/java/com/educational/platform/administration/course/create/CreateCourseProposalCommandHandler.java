@@ -2,23 +2,26 @@ package com.educational.platform.administration.course.create;
 
 import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalRepository;
-import lombok.RequiredArgsConstructor;
+
+import jakarta.inject.Named;
 
 import org.axonframework.commandhandling.CommandHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Command handler for {@link CreateCourseProposalCommand} creates a course proposal.
  */
-@RequiredArgsConstructor
-@Component
+@Named
 @Transactional
 public class CreateCourseProposalCommandHandler {
 
     private final CourseProposalRepository courseProposalRepository;
 
-    /**
+	public CreateCourseProposalCommandHandler(CourseProposalRepository courseProposalRepository) {
+		this.courseProposalRepository = courseProposalRepository;
+	}
+
+	/**
      * Creates course proposal from command.
      *
      * @param command command

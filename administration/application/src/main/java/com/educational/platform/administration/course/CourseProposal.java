@@ -33,7 +33,7 @@ public class CourseProposal implements AggregateRoot {
     }
 
     public CourseProposal(CreateCourseProposalCommand command) {
-        this.uuid = command.getUuid();
+        this.uuid = command.uuid();
         this.status = CourseProposalStatus.WAITING_FOR_APPROVAL;
     }
 

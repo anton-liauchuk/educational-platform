@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.eventhandling.EventHandler;
-import org.springframework.stereotype.Component;
+import jakarta.inject.Named;
 
 /**
  * Event listener for {@link SendCourseToApproveIntegrationEvent}, executes the logic for creating course proposal by {@link CreateCourseProposalCommandHandler}.
  */
-@Component
+@Named
 @RequiredArgsConstructor
 public class SendCourseToApproveIntegrationEventHandler {
 

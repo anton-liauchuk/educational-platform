@@ -6,13 +6,13 @@ import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
-import lombok.RequiredArgsConstructor;
+
+import jakarta.inject.Named;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventhandling.EventBus;
 import org.axonframework.eventhandling.GenericEventMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Objects;
@@ -21,15 +21,20 @@ import java.util.Optional;
 /**
  * Command handler for {@link ApproveCourseProposalCommand} approves a course proposal.
  */
-@RequiredArgsConstructor
-@Component
+@Named
 public class ApproveCourseProposalCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;
     private final EventBus eventBus;
 
-    /**
+	public ApproveCourseProposalCommandHandler(TransactionTemplate transactionTemplate, CourseProposalRepository repository, EventBus eventBus) {
+		this.transactionTemplate = transactionTemplate;
+		this.repository = repository;
+		this.eventBus = eventBus;
+	}
+
+	/**
      * Handles approve course proposal command. Approves and save approved course proposal
      *
      * @param command command
@@ -40,9 +45,9 @@ public class ApproveCourseProposalCommandHandler {
     @PreAuthorize("hasRole('ADMIN')")
     public void handle(ApproveCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {
-            final Optional<CourseProposal> dbResult = repository.findByUuid(command.getUuid());
+            final Optional<CourseProposal> dbResult = repository.findByUuid(command.uuid());
             if (dbResult.isEmpty()) {
-                throw new ResourceNotFoundException(String.format("Course Proposal with uuid: %s not found", command.getUuid()));
+                throw new ResourceNotFoundException(String.format("Course Proposal with uuid: %s not found", command.uuid()));
             }
             final CourseProposal courseProposal = dbResult.get();
 
