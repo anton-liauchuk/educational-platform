@@ -10,6 +10,7 @@ dependencies {
     testImplementation(project(":users:users-web"))
     testImplementation(project(":security:security-test"))
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
+    testImplementation("org.springframework.boot", "spring-boot-webmvc-test")
     testImplementation("org.springframework.security", "spring-security-test")
     testImplementation("org.junit.jupiter", "junit-jupiter-api")
     testImplementation("org.junit.platform", "junit-platform-engine")
