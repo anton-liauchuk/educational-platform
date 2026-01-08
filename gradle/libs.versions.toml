@@ -1,11 +1,11 @@
 [versions]
-spring = "3.5.4"
+spring = "3.5.9"
 restAssured = "5.5.5"
 mockito = "5.19.0"
 assertj = "3.27.3"
 archunit = "1.4.1"
 axon = "4.12.1"
-lombok = "1.18.32"
+lombok = "1.18.42"
 jsonwebtoken = "0.9.1"
 jaxbApi = "2.3.1"
 passay = "1.6.4"
