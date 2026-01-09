@@ -36,9 +36,7 @@ public class RegisterStudentToCourseCommandHandlerSecurityTest {
     @WithMockUser(username = "student", roles = "STUDENT")
     void handle_userIsStudent_studentEnrolled() {
         // given
-        var command = RegisterStudentToCourseCommand.builder()
-                .courseId(courseUuid)
-                .build();
+        var command = new RegisterStudentToCourseCommand(courseUuid);
 
         // when
         var result = sut.handle(command);
@@ -52,9 +50,7 @@ public class RegisterStudentToCourseCommandHandlerSecurityTest {
     @WithMockUser(roles = "TEACHER")
     void handle_userIsTeacher_accessDeniedException() {
         // given
-        var command = RegisterStudentToCourseCommand.builder()
-                .courseId(courseUuid)
-                .build();
+        var command = new RegisterStudentToCourseCommand(courseUuid);
 
         // when
         final ThrowingCallable registerAction = () -> sut.handle(command);

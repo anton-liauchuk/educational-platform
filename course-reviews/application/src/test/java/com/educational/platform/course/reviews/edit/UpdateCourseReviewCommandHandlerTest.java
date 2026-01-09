@@ -54,11 +54,7 @@ public class UpdateCourseReviewCommandHandlerTest {
     void handle_existingCourseReview_reviewSavedWithUpdatedFields() {
         // given
         final UUID uuid = configureCourseReview();
-        final UpdateCourseReviewCommand command = UpdateCourseReviewCommand.builder()
-                .uuid(uuid)
-                .rating(3.0)
-                .comment("updated comment")
-                .build();
+        final UpdateCourseReviewCommand command = new UpdateCourseReviewCommand(uuid, 3.0, "updated comment");
 
         // when
         sut.handle(command);
@@ -77,12 +73,7 @@ public class UpdateCourseReviewCommandHandlerTest {
     void handle_invalidId_resourceNotFoundException() {
         // given
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final UpdateCourseReviewCommand command = UpdateCourseReviewCommand
-                .builder()
-                .uuid(uuid)
-                .comment("updated comment")
-                .rating(3.0)
-                .build();
+        final UpdateCourseReviewCommand command = new UpdateCourseReviewCommand(uuid, 3.0, "updated comment");
         when(courseReviewRepository.findByUuid(uuid)).thenReturn(Optional.empty());
 
         // when
@@ -96,12 +87,7 @@ public class UpdateCourseReviewCommandHandlerTest {
     void handle_ratingEmpty_resourceNotFoundException() {
         // given
         final UUID uuid = configureCourseReview();
-        final UpdateCourseReviewCommand command = UpdateCourseReviewCommand
-                .builder()
-                .uuid(uuid)
-                .comment("updated comment")
-                .rating(null)
-                .build();
+        final UpdateCourseReviewCommand command = new UpdateCourseReviewCommand(uuid, null, "updated comment");
 
         // when
         final ThrowableAssert.ThrowingCallable handle = () -> sut.handle(command);
@@ -119,11 +105,7 @@ public class UpdateCourseReviewCommandHandlerTest {
         final Reviewer reviewer = new Reviewer(new CreateReviewerCommand(reviewerUsername));
         when(currentUserAsReviewer.userAsReviewer()).thenReturn(reviewer);
 
-        final ReviewCourseCommand reviewCourseCommand = ReviewCourseCommand.builder()
-                .courseId(courseId)
-                .rating(4.0)
-                .comment("comment")
-                .build();
+        final ReviewCourseCommand reviewCourseCommand = new ReviewCourseCommand(courseId, 4.0, "comment");
         final CourseReview courseReview = courseReviewFactory.createFrom(reviewCourseCommand);
         final UUID uuid = (UUID) ReflectionTestUtils.getField(courseReview, "uuid");
         when(courseReviewRepository.findByUuid(uuid)).thenReturn(Optional.of(courseReview));

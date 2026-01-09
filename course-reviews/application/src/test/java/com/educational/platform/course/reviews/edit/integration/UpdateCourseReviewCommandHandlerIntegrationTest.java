@@ -53,11 +53,7 @@ public class UpdateCourseReviewCommandHandlerIntegrationTest {
         final Reviewer reviewer = new Reviewer(new CreateReviewerCommand(reviewerUsername));
         reviewerRepository.save(reviewer);
 
-        final ReviewCourseCommand command = ReviewCourseCommand.builder()
-                .courseId(courseId)
-                .rating(4.0)
-                .comment("comment")
-                .build();
+        final ReviewCourseCommand command = new ReviewCourseCommand(courseId, 4.0, "comment");
         reviewCourseCommandHandler.handle(command);
 
         final CourseReview review = courseReviewRepository.findAll().get(0);
@@ -68,11 +64,7 @@ public class UpdateCourseReviewCommandHandlerIntegrationTest {
     @WithMockUser(username = "reviewer", roles = "STUDENT")
     void handle_validEditCourseReviewCommand_updatedReviewSaved() {
         // given
-        final UpdateCourseReviewCommand command = UpdateCourseReviewCommand.builder()
-                .uuid(courseReviewId)
-                .rating(3.0)
-                .comment("updated comment")
-                .build();
+        final UpdateCourseReviewCommand command = new UpdateCourseReviewCommand(courseReviewId, 3.0, "updated comment");
 
         // when
         sut.handle(command);

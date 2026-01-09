@@ -27,7 +27,7 @@ public class EnrollCourse implements AggregateRoot {
     }
 
     public EnrollCourse(CreateCourseCommand createCourseCommand) {
-        this.uuid = createCourseCommand.getUuid();
+        this.uuid = createCourseCommand.uuid();
     }
 
     public Integer getId() {

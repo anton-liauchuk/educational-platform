@@ -25,7 +25,7 @@ public class Reviewer implements AggregateRoot {
     }
 
     public Reviewer(CreateReviewerCommand createReviewerCommand) {
-        this.username = createReviewerCommand.getUsername();
+        this.username = createReviewerCommand.username();
     }
 
     public Integer getId() {

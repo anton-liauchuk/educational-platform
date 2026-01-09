@@ -50,7 +50,7 @@ public class RegisterStudentToCourseCommandHandler {
         });
 
         final UUID uuid = Objects.requireNonNull(courseEnrollment).getUuid();
-        eventBus.publish(GenericEventMessage.asEventMessage(new StudentEnrolledToCourseIntegrationEvent(command.getCourseId(),
+        eventBus.publish(GenericEventMessage.asEventMessage(new StudentEnrolledToCourseIntegrationEvent(command.courseId(),
                 currentUserAsStudent.userAsStudent().toReference())));
 
         return uuid;

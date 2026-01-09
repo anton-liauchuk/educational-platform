@@ -36,8 +36,8 @@ public class CourseReviewFactory {
             throw new ConstraintViolationException(violations);
         }
 
-        var course = reviewableCourseRepository.findByOriginalCourseId(reviewCourseCommand.getCourseId())
-                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by uuid = " + reviewCourseCommand.getCourseId()));
+        var course = reviewableCourseRepository.findByOriginalCourseId(reviewCourseCommand.courseId())
+                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by uuid = " + reviewCourseCommand.courseId()));
 
         var reviewer = currentUserAsReviewer.userAsReviewer();
 

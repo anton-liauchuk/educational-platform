@@ -39,8 +39,8 @@ public class CourseEnrollmentFactory {
             throw new ConstraintViolationException(violations);
         }
 
-        final EnrollCourse course = courseRepository.findByUuid(command.getCourseId())
-                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by uuid = " + command.getCourseId()));
+        final EnrollCourse course = courseRepository.findByUuid(command.courseId())
+                .orElseThrow(() -> new RelatedResourceIsNotResolvedException("Course cannot be found by uuid = " + command.courseId()));
 
         final Student student = currentUserAsStudent.userAsStudent();
 

@@ -38,9 +38,9 @@ public class UpdateCourseReviewCommandHandler {
     @CommandHandler
     @PreAuthorize("hasRole('STUDENT') and @courseReviewChecker.hasAccess(authentication, #c.uuid)")
     public void handle(@P("c") UpdateCourseReviewCommand command) {
-        final Optional<CourseReview> dbResult = courseReviewRepository.findByUuid(command.getUuid());
+        final Optional<CourseReview> dbResult = courseReviewRepository.findByUuid(command.uuid());
         if (dbResult.isEmpty()) {
-            throw new ResourceNotFoundException(String.format("Course Review with uuid: %s not found", command.getUuid()));
+            throw new ResourceNotFoundException(String.format("Course Review with uuid: %s not found", command.uuid()));
         }
 
         // todo move to validator

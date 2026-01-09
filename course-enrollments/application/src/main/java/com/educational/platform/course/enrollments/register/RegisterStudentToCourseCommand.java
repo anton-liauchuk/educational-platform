@@ -1,21 +1,12 @@
 package com.educational.platform.course.enrollments.register;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotNull;
+
 import java.util.UUID;
 
 /**
  * Represents register student to course command.
  */
-@Builder
-@Data
-@AllArgsConstructor
-public class RegisterStudentToCourseCommand {
-
-    @NotNull
-    private final UUID courseId;
+public record RegisterStudentToCourseCommand(@NotNull UUID courseId) {
 
 }

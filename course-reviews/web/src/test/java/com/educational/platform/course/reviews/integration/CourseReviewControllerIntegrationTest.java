@@ -113,12 +113,7 @@ public class CourseReviewControllerIntegrationTest {
     void reviews_validCourseId_reviews() throws Exception {
         var completableFuture = mock(CompletableFuture.class);
         doReturn(completableFuture).when(queryGateway).query(any(), any(ResponseType.class));
-        var dto = CourseReviewDTO
-                .builder()
-                .comment("comment")
-                .course(UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
-                .username("username")
-                .build();
+        var dto = new CourseReviewDTO(null, UUID.fromString("123e4567-e89b-12d3-a456-426655440001"), "username", "comment", 3.0);
         doReturn(Collections.singletonList(dto)).when(completableFuture).join();
 
         this.mockMvc

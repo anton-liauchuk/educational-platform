@@ -26,7 +26,7 @@ public class ReviewableCourse implements AggregateRoot {
     }
 
     public ReviewableCourse(CreateReviewableCourseCommand createReviewableCourseCommand) {
-        this.originalCourseId = createReviewableCourseCommand.getUuid();
+        this.originalCourseId = createReviewableCourseCommand.uuid();
     }
 
     public Integer getId() {

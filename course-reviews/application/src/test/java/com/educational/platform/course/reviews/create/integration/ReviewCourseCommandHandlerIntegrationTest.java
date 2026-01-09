@@ -54,11 +54,7 @@ public class ReviewCourseCommandHandlerIntegrationTest {
     @WithMockUser(username = "username", roles = "STUDENT")
     void handle_validReviewCourseCommand_reviewSaved() {
         // given
-        final ReviewCourseCommand command = ReviewCourseCommand.builder()
-                .courseId(courseId)
-                .rating(4.0)
-                .comment("comment")
-                .build();
+        final ReviewCourseCommand command = new ReviewCourseCommand(courseId, 4.0,"comment");
 
         // when
         sut.handle(command);

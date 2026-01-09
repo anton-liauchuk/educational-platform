@@ -80,9 +80,7 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
     @WithMockUser(username = "username", roles = "STUDENT")
     void handle_validCommand_enrollmentSaved() {
         // given
-        final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(courseUuid)
-                .build();
+        final RegisterStudentToCourseCommand command = new RegisterStudentToCourseCommand(courseUuid);
 
         // when
         var uuid = sut.handle(command);

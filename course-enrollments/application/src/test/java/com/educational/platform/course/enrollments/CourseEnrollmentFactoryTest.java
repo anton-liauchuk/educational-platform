@@ -45,9 +45,7 @@ public class CourseEnrollmentFactoryTest {
     void create_validCommand_courseEnrollmentSaved() {
         // given
         final UUID courseId = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(courseId)
-                .build();
+        final RegisterStudentToCourseCommand command = new RegisterStudentToCourseCommand(courseId);
         final CreateCourseCommand createCourseCommand = new CreateCourseCommand(courseId);
         final EnrollCourse correspondingCourse = new EnrollCourse(createCourseCommand);
         when(courseRepository.findByUuid(courseId)).thenReturn(Optional.of(correspondingCourse));
@@ -66,9 +64,7 @@ public class CourseEnrollmentFactoryTest {
     @Test
     void createFrom_courseIdIsNull_constraintViolationException() {
         // given
-        final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(null)
-                .build();
+        final RegisterStudentToCourseCommand command = new RegisterStudentToCourseCommand(null);
 
         // when
         final Executable createAction = () -> sut.createFrom(command);
@@ -81,9 +77,7 @@ public class CourseEnrollmentFactoryTest {
     void createFrom_invalidCourseId_relatedResourceIsNotResolvedException() {
         // given
         final UUID courseId = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final RegisterStudentToCourseCommand command = RegisterStudentToCourseCommand.builder()
-                .courseId(courseId)
-                .build();
+        final RegisterStudentToCourseCommand command = new RegisterStudentToCourseCommand(courseId);
         when(courseRepository.findByUuid(courseId)).thenReturn(Optional.empty());
 
         // when

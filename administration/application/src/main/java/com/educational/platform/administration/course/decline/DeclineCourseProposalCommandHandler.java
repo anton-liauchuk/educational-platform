@@ -53,7 +53,7 @@ public class DeclineCourseProposalCommandHandler {
         });
 
         final CourseProposalDTO dto = Objects.requireNonNull(proposal).toDTO();
-        eventBus.publish(GenericEventMessage.asEventMessage(new CourseDeclinedByAdminIntegrationEvent(dto.getUuid())));
+        eventBus.publish(GenericEventMessage.asEventMessage(new CourseDeclinedByAdminIntegrationEvent(dto.uuid())));
     }
 
 }

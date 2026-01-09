@@ -47,11 +47,7 @@ public class CourseReviewFactoryTest {
     void createFrom_validCourseReview_courseReviewCreated() {
         // given
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final ReviewCourseCommand command = ReviewCourseCommand.builder()
-                .courseId(uuid)
-                .rating(4.0)
-                .comment("comment")
-                .build();
+        final ReviewCourseCommand command = new ReviewCourseCommand(uuid, 4.0, "comment");
 
         final CreateReviewableCourseCommand createCourseProposalCommand = new CreateReviewableCourseCommand(uuid);
         final ReviewableCourse correspondingReviewableCourse = new ReviewableCourse(createCourseProposalCommand);
@@ -79,11 +75,7 @@ public class CourseReviewFactoryTest {
     @Test
     void createFrom_courseIdIsNull_constraintViolationException() {
         // given
-        final ReviewCourseCommand command = ReviewCourseCommand.builder()
-                .courseId(null)
-                .rating(4.0)
-                .comment("comment")
-                .build();
+        final ReviewCourseCommand command = new ReviewCourseCommand(null, 4.0, "comment");
 
         // when
         final Executable createAction = () -> sut.createFrom(command);
@@ -98,11 +90,7 @@ public class CourseReviewFactoryTest {
     void createFrom_invalidRating_constraintViolationException(double rating) {
         // given
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final ReviewCourseCommand command = ReviewCourseCommand.builder()
-                .courseId(uuid)
-                .rating(rating)
-                .comment("comment")
-                .build();
+        final ReviewCourseCommand command = new ReviewCourseCommand(uuid, rating, "comment");
 
         // when
         final Executable createAction = () -> sut.createFrom(command);
@@ -115,11 +103,7 @@ public class CourseReviewFactoryTest {
     void createFrom_emptyRating_constraintViolationException() {
         // given
         final UUID uuid = UUID.fromString("123e4567-e89b-12d3-a456-426655440001");
-        final ReviewCourseCommand command = ReviewCourseCommand.builder()
-                .courseId(uuid)
-                .rating(null)
-                .comment("comment")
-                .build();
+        final ReviewCourseCommand command = new ReviewCourseCommand(uuid, null, "comment");
 
         // when
         final Executable createAction = () -> sut.createFrom(command);

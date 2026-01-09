@@ -52,9 +52,6 @@ public class CourseProposal implements AggregateRoot {
     }
 
     public CourseProposalDTO toDTO() {
-        return CourseProposalDTO.builder()
-                .uuid(uuid)
-                .status(status.toDTO())
-                .build();
+        return new CourseProposalDTO(uuid, status.toDTO());
     }
 }

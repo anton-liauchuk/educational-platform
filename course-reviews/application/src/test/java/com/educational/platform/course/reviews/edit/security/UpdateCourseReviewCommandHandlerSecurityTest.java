@@ -38,11 +38,8 @@ public class UpdateCourseReviewCommandHandlerSecurityTest {
     @WithMockUser(username = "reviewer", roles = "STUDENT")
     void handle_userIsReviewer_courseReviewUpdated() {
         // given
-        var command = UpdateCourseReviewCommand.builder()
-                .uuid(uuid)
-                .rating(3.0)
-                .comment("updated comment")
-                .build();
+        var command = new UpdateCourseReviewCommand(
+                uuid, 3.0, "updated comment");
 
         // when
         sut.handle(command);
@@ -56,11 +53,7 @@ public class UpdateCourseReviewCommandHandlerSecurityTest {
     @WithMockUser(username = "another-reviewer", roles = "STUDENT")
     void handle_anotherReviewer_accessDeniedException() {
         // given
-        var command = UpdateCourseReviewCommand.builder()
-                .uuid(uuid)
-                .rating(3.0)
-                .comment("updated comment")
-                .build();
+        var command = new UpdateCourseReviewCommand(uuid, 3.0, "updated comment");
 
         // when
         final ThrowingCallable updateAction = () -> sut.handle(command);
@@ -74,11 +67,7 @@ public class UpdateCourseReviewCommandHandlerSecurityTest {
     @WithMockUser(roles = "TEACHER")
     void handle_userIsTeacher_accessDeniedException() {
         // given
-        var command = UpdateCourseReviewCommand.builder()
-                .uuid(uuid)
-                .rating(3.0)
-                .comment("updated comment")
-                .build();
+        var command = new UpdateCourseReviewCommand(uuid, 3.0, "updated comment");
 
         // when
         final ThrowingCallable updateAction = () -> sut.handle(command);

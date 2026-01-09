@@ -54,7 +54,7 @@ public class ListCourseEnrollmentsQueryHandlerIntegrationTest {
 	@WithMockUser(username = STUDENT, roles = "STUDENT")
 	void handle_validQuery_courseEnrollmentRetrieved() {
 		// given
-		var command = RegisterStudentToCourseCommand.builder().courseId(courseUuid).build();
+		var command = new RegisterStudentToCourseCommand(courseUuid);
 		var identifier = registerStudentToCourseCommandHandler.handle(command);
 
 		// when

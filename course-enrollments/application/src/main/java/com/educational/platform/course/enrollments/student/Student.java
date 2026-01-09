@@ -25,7 +25,7 @@ public class Student implements AggregateRoot {
     }
 
     public Student(CreateStudentCommand createStudentCommand) {
-        this.username = createStudentCommand.getUsername();
+        this.username = createStudentCommand.username();
     }
 
     public Integer getId() {

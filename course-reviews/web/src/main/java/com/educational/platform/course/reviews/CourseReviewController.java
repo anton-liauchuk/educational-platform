@@ -40,12 +40,7 @@ public class CourseReviewController {
 	@PostMapping(value = "/courses/{uuid}/reviews", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public CourseReviewCreatedResponse review(@PathVariable("uuid") UUID uuid, @RequestBody @Valid ReviewCourseRequest request) {
-		final ReviewCourseCommand command = ReviewCourseCommand
-				.builder()
-				.courseId(uuid)
-				.rating(request.getRating())
-				.comment(request.getComment())
-				.build();
+		final ReviewCourseCommand command = new ReviewCourseCommand(uuid, request.rating(), request.comment());
 
 		return new CourseReviewCreatedResponse(commandGateway.sendAndWait(command));
 	}
@@ -61,12 +56,7 @@ public class CourseReviewController {
 	@PutMapping(value = "/courses/{courseUuid}/reviews/{reviewUuid}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateReview(@PathVariable("courseUuid") UUID courseUuid, @PathVariable("reviewUuid") UUID reviewUuid, @RequestBody @Valid UpdateCourseReviewRequest request) {
-		final UpdateCourseReviewCommand command = UpdateCourseReviewCommand
-				.builder()
-				.uuid(reviewUuid)
-				.rating(request.getRating())
-				.comment(request.getComment())
-				.build();
+		final UpdateCourseReviewCommand command = new UpdateCourseReviewCommand(reviewUuid, request.rating(), request.comment());
 
 		commandGateway.sendAndWait(command);
 	}
