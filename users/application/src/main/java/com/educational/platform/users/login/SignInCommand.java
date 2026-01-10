@@ -1,23 +1,12 @@
 package com.educational.platform.users.login;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 
 /**
  * Represents Sign In Command.
  */
 @Builder
-@Data
-@AllArgsConstructor
-public class SignInCommand {
-
-    @NotBlank
-    private final String username;
-
-    @NotBlank
-    private final String password;
+public record SignInCommand(@NotBlank String username, @NotBlank String password) {
 
 }

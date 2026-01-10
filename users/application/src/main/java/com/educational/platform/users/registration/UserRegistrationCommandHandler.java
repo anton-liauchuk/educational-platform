@@ -55,8 +55,8 @@ public class UserRegistrationCommandHandler {
                 throw new ConstraintViolationException(violations);
             }
 
-            if (repository.existsByUsername(command.getUsername())) {
-                throw new UnprocessableEntityException(String.format("Username: [%s] is already in use", command.getUsername()));
+            if (repository.existsByUsername(command.username())) {
+                throw new UnprocessableEntityException(String.format("Username: [%s] is already in use", command.username()));
             }
 
             final User newUser = new User(command, passwordEncoder);
@@ -65,8 +65,8 @@ public class UserRegistrationCommandHandler {
         });
 
         final UserDTO dto = Objects.requireNonNull(user).toDTO();
-        eventBus.publish(GenericEventMessage.asEventMessage(new UserCreatedIntegrationEvent(dto.getUsername(), dto.getEmail())));
+        eventBus.publish(GenericEventMessage.asEventMessage(new UserCreatedIntegrationEvent(dto.username(), dto.email())));
 
-        return jwtTokenProvider.createToken(dto.getUsername(), Collections.singletonList(Role.from(dto.getRole())));
+        return jwtTokenProvider.createToken(dto.username(), Collections.singletonList(Role.from(dto.role())));
     }
 }

@@ -163,16 +163,8 @@ Example of validation rules for command:
 /**
  * Create course command.
  */
-@Builder
-@Data
-@AllArgsConstructor
-public class CreateCourseCommand {
-
-    @NotBlank
-    private final String name;
-
-    @NotBlank
-    private final String description;
+public record CreateCourseCommand(@NotBlank String name, @NotBlank String description,
+                                  List<CreateCurriculumItemCommand> curriculumItems) {
 
 }
 ```

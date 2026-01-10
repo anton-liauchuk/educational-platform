@@ -34,10 +34,10 @@ public class User implements AggregateRoot {
     }
 
     public User(UserRegistrationCommand command, PasswordEncoder passwordEncoder) {
-        this.username = command.getUsername();
-        this.email = command.getEmail();
-        this.password = passwordEncoder.encode(command.getPassword());
-        this.role = Role.from(command.getRole());
+        this.username = command.username();
+        this.email = command.email();
+        this.password = passwordEncoder.encode(command.password());
+        this.role = Role.from(command.role());
     }
 
     public UserDTO toDTO() {

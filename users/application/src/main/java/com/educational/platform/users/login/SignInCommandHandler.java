@@ -48,8 +48,8 @@ public class SignInCommandHandler {
                 throw new ConstraintViolationException(violations);
             }
 
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(command.getUsername(), command.getPassword()));
-            return jwtTokenProvider.createToken(command.getUsername(), Collections.singletonList(Role.from(repository.findByUsername(command.getUsername()).get().toDTO().getRole())));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(command.username(), command.password()));
+            return jwtTokenProvider.createToken(command.username(), Collections.singletonList(Role.from(repository.findByUsername(command.username()).get().toDTO().role())));
         } catch (AuthenticationException e) {
             throw new UnprocessableEntityException("Invalid username/password");
         }

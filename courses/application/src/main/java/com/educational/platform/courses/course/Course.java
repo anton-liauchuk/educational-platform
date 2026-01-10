@@ -54,16 +54,16 @@ public class Course implements AggregateRoot {
 	// todo remove public access + architecture tests
 	public Course(CreateCourseCommand command, Integer teacher) {
 		this.uuid = UUID.randomUUID();
-		this.name = command.getName();
-		this.description = command.getDescription();
+		this.name = command.name();
+		this.description = command.description();
 		this.rating = new CourseRating(0);
 		this.numberOfStudents = new NumberOfStudents(0);
 		this.publishStatus = PublishStatus.DRAFT;
 		this.approvalStatus = ApprovalStatus.NOT_SENT_FOR_APPROVAL;
 		this.teacher = teacher;
-		if (command.getCurriculumItems() != null) {
+		if (command.curriculumItems() != null) {
 			this.curriculumItems = command
-					.getCurriculumItems()
+					.curriculumItems()
 					.stream()
 					.map(item -> CurriculumItemFactory.createFrom(item, this))
 					.collect(Collectors.toList());

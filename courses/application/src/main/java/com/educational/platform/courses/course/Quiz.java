@@ -25,7 +25,7 @@ public class Quiz extends CurriculumItem {
 
 	public Quiz(CreateQuizCommand command, Integer serialNumber, Course course) {
 		super(command.getTitle(), command.getDescription(), course, serialNumber);
-		this.questions = command.getQuestions().stream().map(questionCommand -> new Question(questionCommand.getContent(), this)).collect(Collectors.toList());
+		this.questions = command.getQuestions().stream().map(questionCommand -> new Question(questionCommand.content(), this)).collect(Collectors.toList());
 	}
 }
 

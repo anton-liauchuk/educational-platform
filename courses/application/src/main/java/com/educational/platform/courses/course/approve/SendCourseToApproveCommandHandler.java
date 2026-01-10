@@ -38,15 +38,15 @@ public class SendCourseToApproveCommandHandler {
     @CommandHandler
     @PreAuthorize("hasRole('TEACHER') and @courseTeacherChecker.hasAccess(authentication, #c.uuid)")
     public void handle(@P("c") SendCourseToApproveCommand command) {
-        final Optional<Course> dbResult = repository.findByUuid(command.getUuid());
+        final Optional<Course> dbResult = repository.findByUuid(command.uuid());
         if (dbResult.isEmpty()) {
-            throw new ResourceNotFoundException(String.format("Course with uuid: %s not found", command.getUuid()));
+            throw new ResourceNotFoundException(String.format("Course with uuid: %s not found", command.uuid()));
         }
 
         final Course course = dbResult.get();
         course.sendToApprove();
 
         // todo integration event outside transaction
-        eventBus.publish(GenericEventMessage.asEventMessage(new SendCourseToApproveIntegrationEvent(command.getUuid())));
+        eventBus.publish(GenericEventMessage.asEventMessage(new SendCourseToApproveIntegrationEvent(command.uuid())));
     }
 }
