@@ -10,18 +10,19 @@ import jakarta.inject.Named;
 import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Query handler for getting the course proposals by uuid.
  */
-@RequiredArgsConstructor
 @Named
 public class ListCourseProposalsQueryHandler {
 
 	private final CourseProposalRepository repository;
 
-	/**
+    public ListCourseProposalsQueryHandler(CourseProposalRepository repository) {
+        this.repository = repository;
+    }
+
+    /**
 	 * Retrieves course proposals.
 	 *
 	 * @param query query.

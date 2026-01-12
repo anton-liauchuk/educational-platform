@@ -6,7 +6,6 @@ import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseDeclinedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventhandling.EventBus;
@@ -21,13 +20,18 @@ import java.util.Optional;
 /**
  * Command handler for {@link DeclineCourseProposalCommand} declines a course proposal.
  */
-@RequiredArgsConstructor
 @Named
 public class DeclineCourseProposalCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;
     private final EventBus eventBus;
+
+    public DeclineCourseProposalCommandHandler(TransactionTemplate transactionTemplate, CourseProposalRepository repository, EventBus eventBus) {
+        this.transactionTemplate = transactionTemplate;
+        this.repository = repository;
+        this.eventBus = eventBus;
+    }
 
     /**
      * Handles decline course proposal command. Declines and save declined course proposal

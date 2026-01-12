@@ -5,8 +5,6 @@ import com.educational.platform.administration.course.decline.DeclineCoursePropo
 import com.educational.platform.administration.course.query.ListCourseProposalsQuery;
 import com.educational.platform.web.handler.ErrorResponse;
 
-import lombok.RequiredArgsConstructor;
-
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
@@ -24,13 +22,17 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 @RequestMapping({ "/administration/course-proposals" })
 @RestController
-@RequiredArgsConstructor
 public class CourseProposalController {
 
 	private final CommandGateway commandGateway;
 	private final QueryGateway queryGateway;
 
-	@PutMapping(value = "/{uuid}/approval-status", produces = APPLICATION_JSON_VALUE)
+    public CourseProposalController(CommandGateway commandGateway, QueryGateway queryGateway) {
+        this.commandGateway = commandGateway;
+        this.queryGateway = queryGateway;
+    }
+
+    @PutMapping(value = "/{uuid}/approval-status", produces = APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void approve(@PathVariable("uuid") UUID uuid) {
 		commandGateway.sendAndWait(new ApproveCourseProposalCommand(uuid));
