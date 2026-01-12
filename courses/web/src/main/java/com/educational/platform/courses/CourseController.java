@@ -32,8 +32,8 @@ public class CourseController {
     @ResponseStatus(HttpStatus.CREATED)
     CreatedCourseResponse create(@Valid @RequestBody CreateCourseRequest courseCreateRequest) {
         final CreateCourseCommand command = CreateCourseCommand.builder()
-                .name(courseCreateRequest.getName())
-                .description(courseCreateRequest.getDescription())
+                .name(courseCreateRequest.name())
+                .description(courseCreateRequest.description())
                 .build();
 
         return new CreatedCourseResponse(commandGateway.sendAndWait(command));

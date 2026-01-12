@@ -2,24 +2,9 @@ package com.educational.platform.users.security;
 
 import jakarta.validation.constraints.NotBlank;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * Represents Course Create Request.
  */
-@Builder
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class SignInRequest {
-
-    @NotBlank
-    private String username;
-
-    @NotBlank
-    private String password;
+public record SignInRequest(@NotBlank String username, @NotBlank String password) {
 
 }

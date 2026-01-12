@@ -18,7 +18,7 @@ public class CourseLightDTO {
 		this.uuid = uuid;
 		this.name = name;
 		this.description = description;
-		this.numberOfStudents = numberOfStudents.getNumber();
+		this.numberOfStudents = numberOfStudents.number();
 	}
 
 }

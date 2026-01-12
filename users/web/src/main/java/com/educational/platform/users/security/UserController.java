@@ -27,10 +27,10 @@ public class UserController {
 	public String signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
 		UserRegistrationCommand command = UserRegistrationCommand
 				.builder()
-				.role(signUpRequest.getRole())
-				.email(signUpRequest.getEmail())
-				.username(signUpRequest.getUsername())
-				.password(signUpRequest.getPassword())
+				.role(signUpRequest.role())
+				.email(signUpRequest.email())
+				.username(signUpRequest.username())
+				.password(signUpRequest.password())
 				.build();
 
 		return commandGateway.sendAndWait(command);
@@ -40,8 +40,8 @@ public class UserController {
 	public String signIn(@Valid @RequestBody SignInRequest signInRequest) {
 		SignInCommand command = SignInCommand
 				.builder()
-				.username(signInRequest.getUsername())
-				.password(signInRequest.getPassword())
+				.username(signInRequest.username())
+				.password(signInRequest.password())
 				.build();
 
 		return commandGateway.sendAndWait(command);

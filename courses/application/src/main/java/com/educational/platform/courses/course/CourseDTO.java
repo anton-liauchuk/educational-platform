@@ -21,7 +21,7 @@ public record CourseDTO(UUID uuid, String name, String description, int numberOf
         this((UUID) tuples[aliasToIndexMap.get(UUID_COLUMN)],
                 (String) tuples[aliasToIndexMap.get(NAME_COLUMN)],
                 (String) tuples[aliasToIndexMap.get(DESCRIPTION_COLUMN)],
-                ((NumberOfStudents) tuples[aliasToIndexMap.get(NUMBER_OF_STUDENTS_COLUMN)]).getNumber(),
+                ((NumberOfStudents) tuples[aliasToIndexMap.get(NUMBER_OF_STUDENTS_COLUMN)]).number(),
                 new ArrayList<>());
     }
 }

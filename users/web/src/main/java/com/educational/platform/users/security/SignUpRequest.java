@@ -1,34 +1,13 @@
 package com.educational.platform.users.security;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import com.educational.platform.users.RoleDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
-import com.educational.platform.users.RoleDTO;
 
 /**
  * Represents Course Create Request.
  */
-@Builder
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class SignUpRequest {
-
-    @NotNull
-    private RoleDTO role;
-
-    @NotBlank
-    private String username;
-
-    @NotBlank
-    private String email;
-
-    @NotBlank
-    private String password;
+public record SignUpRequest(@NotNull RoleDTO role, @NotBlank String username, @NotBlank String email,
+                            @NotBlank String password) {
 
 }
