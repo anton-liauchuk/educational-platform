@@ -4,7 +4,6 @@ import com.educational.platform.common.exception.UnprocessableEntityException;
 import com.educational.platform.users.Role;
 import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.security.JwtTokenProvider;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.lang.NonNull;
@@ -22,7 +21,6 @@ import java.util.Set;
 /**
  * Represents Sign In command handler.
  */
-@RequiredArgsConstructor
 @Component
 public class SignInCommandHandler {
 
@@ -30,6 +28,13 @@ public class SignInCommandHandler {
     private final UserRepository repository;
     private final Validator validator;
     private final AuthenticationManager authenticationManager;
+
+    public SignInCommandHandler(JwtTokenProvider jwtTokenProvider, UserRepository repository, Validator validator, AuthenticationManager authenticationManager) {
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.repository = repository;
+        this.validator = validator;
+        this.authenticationManager = authenticationManager;
+    }
 
     /**
      * Handles sign in command. Authenticates and returns token.

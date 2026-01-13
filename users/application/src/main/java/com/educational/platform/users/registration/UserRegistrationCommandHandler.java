@@ -7,7 +7,6 @@ import com.educational.platform.users.UserDTO;
 import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 import com.educational.platform.users.security.JwtTokenProvider;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventhandling.EventBus;
@@ -27,7 +26,6 @@ import java.util.Set;
 /**
  * Represents User Registration command handler which creates user in system by provided info in command.
  */
-@RequiredArgsConstructor
 @Component
 public class UserRegistrationCommandHandler {
 
@@ -37,6 +35,15 @@ public class UserRegistrationCommandHandler {
     private final UserRepository repository;
     private final EventBus eventBus;
     private final Validator validator;
+
+    public UserRegistrationCommandHandler(TransactionTemplate transactionTemplate, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, UserRepository repository, EventBus eventBus, Validator validator) {
+        this.transactionTemplate = transactionTemplate;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.repository = repository;
+        this.eventBus = eventBus;
+        this.validator = validator;
+    }
 
     /**
      * Handles user registration command. Creates and saves user from provided registration.

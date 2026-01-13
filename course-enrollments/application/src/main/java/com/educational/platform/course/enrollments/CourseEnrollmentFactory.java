@@ -6,7 +6,6 @@ import com.educational.platform.course.enrollments.course.EnrollCourseRepository
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 import com.educational.platform.course.enrollments.student.Student;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import jakarta.validation.ConstraintViolation;
@@ -17,13 +16,18 @@ import java.util.Set;
 /**
  * Represents course enrollment factory.
  */
-@RequiredArgsConstructor
 @Component
 public class CourseEnrollmentFactory {
 
     private final Validator validator;
     private final EnrollCourseRepository courseRepository;
     private final CurrentUserAsStudent currentUserAsStudent;
+
+    public CourseEnrollmentFactory(Validator validator, EnrollCourseRepository courseRepository, CurrentUserAsStudent currentUserAsStudent) {
+        this.validator = validator;
+        this.courseRepository = courseRepository;
+        this.currentUserAsStudent = currentUserAsStudent;
+    }
 
     /**
      * Creates course enrollment from command.

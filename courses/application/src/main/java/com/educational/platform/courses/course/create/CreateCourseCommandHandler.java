@@ -3,7 +3,6 @@ package com.educational.platform.courses.course.create;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.lang.NonNull;
@@ -17,13 +16,17 @@ import java.util.UUID;
 /**
  * Command handler for {@link CreateCourseCommand} creates a course.
  */
-@RequiredArgsConstructor
 @Component
 @Transactional
 public class CreateCourseCommandHandler {
 
     private final CourseRepository courseRepository;
     private final CourseFactory courseFactory;
+
+    public CreateCourseCommandHandler(CourseRepository courseRepository, CourseFactory courseFactory) {
+        this.courseRepository = courseRepository;
+        this.courseFactory = courseFactory;
+    }
 
     /**
      * Creates course from command.

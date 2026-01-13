@@ -1,12 +1,8 @@
 package com.educational.platform.users.integration.event;
 
-import lombok.Value;
-
 /**
  * Represents user created integration event, should be published after user creation.
  */
-@Value
-public class UserCreatedIntegrationEvent {
+public record UserCreatedIntegrationEvent(String username, String email) {
 
-	String username, email;
 }

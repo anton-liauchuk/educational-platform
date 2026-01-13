@@ -20,7 +20,7 @@ public class SendCourseToApproveIntegrationEventHandler {
 
     @EventHandler
     public void handleSendCourseToApproveEvent(SendCourseToApproveIntegrationEvent event) {
-        commandGateway.send(new CreateCourseProposalCommand(event.getCourseId()));
+        commandGateway.send(new CreateCourseProposalCommand(event.courseId()));
     }
 
 }

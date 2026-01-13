@@ -5,7 +5,6 @@ import com.educational.platform.course.enrollments.CourseEnrollmentFactory;
 import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
 import com.educational.platform.course.enrollments.CurrentUserAsStudent;
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventhandling.EventBus;
@@ -22,7 +21,6 @@ import java.util.UUID;
 /**
  * Command handler for {@link RegisterStudentToCourseCommand} registers student to course.
  */
-@RequiredArgsConstructor
 @Component
 @Transactional
 public class RegisterStudentToCourseCommandHandler {
@@ -32,6 +30,14 @@ public class RegisterStudentToCourseCommandHandler {
     private final CourseEnrollmentFactory courseEnrollmentFactory;
     private final CurrentUserAsStudent currentUserAsStudent;
     private final EventBus eventBus;
+
+    public RegisterStudentToCourseCommandHandler(TransactionTemplate transactionTemplate, CourseEnrollmentRepository courseEnrollmentRepository, CourseEnrollmentFactory courseEnrollmentFactory, CurrentUserAsStudent currentUserAsStudent, EventBus eventBus) {
+        this.transactionTemplate = transactionTemplate;
+        this.courseEnrollmentRepository = courseEnrollmentRepository;
+        this.courseEnrollmentFactory = courseEnrollmentFactory;
+        this.currentUserAsStudent = currentUserAsStudent;
+        this.eventBus = eventBus;
+    }
 
     /**
      * Creates course enrollment from command.

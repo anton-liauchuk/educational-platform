@@ -1,7 +1,6 @@
 package com.educational.platform.courses.course;
 
 import com.educational.platform.courses.course.create.CreateCourseCommand;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import jakarta.validation.ConstraintViolation;
@@ -12,12 +11,16 @@ import java.util.Set;
 /**
  * Represents Course Factory.
  */
-@RequiredArgsConstructor
 @Component
 public class CourseFactory {
 
     private final Validator validator;
     private final CurrentUserAsTeacher currentUserAsTeacher;
+
+    public CourseFactory(Validator validator, CurrentUserAsTeacher currentUserAsTeacher) {
+        this.validator = validator;
+        this.currentUserAsTeacher = currentUserAsTeacher;
+    }
 
     /**
      * Creates course from command.

@@ -4,7 +4,6 @@ import com.educational.platform.common.exception.RelatedResourceIsNotResolvedExc
 import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewFactory;
 import com.educational.platform.course.reviews.CourseReviewRepository;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.lang.NonNull;
@@ -17,13 +16,17 @@ import java.util.UUID;
 /**
  * Command handler for {@link ReviewCourseCommand} creates a course review.
  */
-@RequiredArgsConstructor
 @Component
 @Transactional
 public class ReviewCourseCommandHandler {
 
     private final CourseReviewRepository courseReviewRepository;
     private final CourseReviewFactory courseReviewFactory;
+
+    public ReviewCourseCommandHandler(CourseReviewRepository courseReviewRepository, CourseReviewFactory courseReviewFactory) {
+        this.courseReviewRepository = courseReviewRepository;
+        this.courseReviewFactory = courseReviewFactory;
+    }
 
     /**
      * Creates course review from command.

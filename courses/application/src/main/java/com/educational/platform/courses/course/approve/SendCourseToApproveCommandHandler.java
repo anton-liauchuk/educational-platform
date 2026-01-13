@@ -5,7 +5,6 @@ import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseAlreadyApprovedException;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventhandling.EventBus;
@@ -20,13 +19,17 @@ import java.util.Optional;
 /**
  * Command handler for {@link SendCourseToApproveCommand}, send a course to approve.
  */
-@RequiredArgsConstructor
 @Component
 @Transactional
 public class SendCourseToApproveCommandHandler {
 
     private final CourseRepository repository;
     private final EventBus eventBus;
+
+    public SendCourseToApproveCommandHandler(CourseRepository repository, EventBus eventBus) {
+        this.repository = repository;
+        this.eventBus = eventBus;
+    }
 
     /**
      * Handles send course to approve command.

@@ -9,18 +9,19 @@ import org.springframework.stereotype.Component;
 import com.educational.platform.course.reviews.CourseReviewDTO;
 import com.educational.platform.course.reviews.CourseReviewRepository;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Query handler for getting the course reviews by course uuid.
  */
-@RequiredArgsConstructor
 @Component
 public class ListCourseReviewsByCourseUUIDQueryHandler {
 
 	private final CourseReviewRepository repository;
 
-	/**
+    public ListCourseReviewsByCourseUUIDQueryHandler(CourseReviewRepository repository) {
+        this.repository = repository;
+    }
+
+    /**
 	 * Retrieves course reviews for particular course uuid.
 	 *
 	 * @param query query.
@@ -29,7 +30,7 @@ public class ListCourseReviewsByCourseUUIDQueryHandler {
 	@QueryHandler
 	@NonNull
 	public List<CourseReviewDTO> handle(ListCourseReviewsByCourseUUIDQuery query) {
-		return repository.listCourseReviews(query.getUuid());
+		return repository.listCourseReviews(query.uuid());
 	}
 
 }

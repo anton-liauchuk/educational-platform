@@ -4,7 +4,6 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseCannotBePublishedException;
 import com.educational.platform.courses.course.CourseRepository;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,12 +16,15 @@ import java.util.Optional;
 /**
  * Command handler for {@link PublishCourseCommand} publishes a course.
  */
-@RequiredArgsConstructor
 @Component
 @Transactional
 public class PublishCourseCommandHandler {
 
     private final CourseRepository repository;
+
+    public PublishCourseCommandHandler(CourseRepository repository) {
+        this.repository = repository;
+    }
 
     /**
      * Handles publish course command. Publishes and save published course

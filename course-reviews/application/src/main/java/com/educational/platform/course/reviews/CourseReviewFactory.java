@@ -3,7 +3,6 @@ package com.educational.platform.course.reviews;
 import com.educational.platform.common.exception.RelatedResourceIsNotResolvedException;
 import com.educational.platform.course.reviews.course.ReviewableCourseRepository;
 import com.educational.platform.course.reviews.create.ReviewCourseCommand;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import jakarta.validation.ConstraintViolation;
@@ -14,13 +13,18 @@ import java.util.Set;
 /**
  * Represents Course Review Factory.
  */
-@RequiredArgsConstructor
 @Component
 public class CourseReviewFactory {
 
     private final Validator validator;
     private final CurrentUserAsReviewer currentUserAsReviewer;
     private final ReviewableCourseRepository reviewableCourseRepository;
+
+    public CourseReviewFactory(Validator validator, CurrentUserAsReviewer currentUserAsReviewer, ReviewableCourseRepository reviewableCourseRepository) {
+        this.validator = validator;
+        this.currentUserAsReviewer = currentUserAsReviewer;
+        this.reviewableCourseRepository = reviewableCourseRepository;
+    }
 
     /**
      * Creates course review from command.

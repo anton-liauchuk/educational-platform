@@ -2,7 +2,6 @@ package com.educational.platform.courses.course.create;
 
 import jakarta.validation.constraints.NotBlank;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 /**

@@ -4,7 +4,6 @@ import com.educational.platform.courses.course.CourseCannotBePublishedException;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
 import com.educational.platform.web.handler.ErrorResponse;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
@@ -23,10 +22,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Validated
 @RequestMapping(value = "/courses")
 @RestController
-@RequiredArgsConstructor
 public class CourseController {
 
     private final CommandGateway commandGateway;
+
+    public CourseController(CommandGateway commandGateway) {
+        this.commandGateway = commandGateway;
+    }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

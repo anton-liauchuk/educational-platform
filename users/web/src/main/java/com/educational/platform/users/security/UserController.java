@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.educational.platform.users.registration.UserRegistrationCommand;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
 @Validated
@@ -23,7 +20,11 @@ public class UserController {
 
 	private final CommandGateway commandGateway;
 
-	@PostMapping("/sign-up")
+    public UserController(CommandGateway commandGateway) {
+        this.commandGateway = commandGateway;
+    }
+
+    @PostMapping("/sign-up")
 	public String signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
 		UserRegistrationCommand command = UserRegistrationCommand
 				.builder()

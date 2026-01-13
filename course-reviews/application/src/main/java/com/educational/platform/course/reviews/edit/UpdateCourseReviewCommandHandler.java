@@ -3,7 +3,6 @@ package com.educational.platform.course.reviews.edit;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewRepository;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,13 +19,17 @@ import java.util.Set;
 /**
  * Command handler for {@link UpdateCourseReviewCommand} updates a course review.
  */
-@RequiredArgsConstructor
 @Component
 @Transactional
 public class UpdateCourseReviewCommandHandler {
 
     private final Validator validator;
     private final CourseReviewRepository courseReviewRepository;
+
+    public UpdateCourseReviewCommandHandler(Validator validator, CourseReviewRepository courseReviewRepository) {
+        this.validator = validator;
+        this.courseReviewRepository = courseReviewRepository;
+    }
 
     /**
      * Updates course review by values from command.

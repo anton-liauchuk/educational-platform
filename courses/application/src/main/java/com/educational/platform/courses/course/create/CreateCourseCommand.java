@@ -2,7 +2,6 @@ package com.educational.platform.courses.course.create;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import jakarta.validation.constraints.NotBlank;

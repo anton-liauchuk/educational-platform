@@ -2,13 +2,9 @@ package com.educational.platform.courses.course.query;
 
 import java.util.UUID;
 
-import lombok.Value;
-
 /**
  * Represents course query for retrieving course by uuid.
  */
-@Value
-public class CourseByUUIDQuery {
+public record CourseByUUIDQuery(UUID uuid) {
 
-	UUID uuid;
 }

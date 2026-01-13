@@ -2,7 +2,6 @@ package com.educational.platform.course.enrollments;
 
 import com.educational.platform.course.enrollments.query.ListCourseEnrollmentsQuery;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -19,11 +18,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * Represents Course Enrollment Controller.
  */
 @RestController
-@RequiredArgsConstructor
 public class CourseEnrollmentController {
 
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
+
+    public CourseEnrollmentController(CommandGateway commandGateway, QueryGateway queryGateway) {
+        this.commandGateway = commandGateway;
+        this.queryGateway = queryGateway;
+    }
 
     @PostMapping(value = "/courses/{uuid}/course-enrollments", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

@@ -12,18 +12,19 @@ import org.springframework.stereotype.Component;
 import com.educational.platform.course.enrollments.CourseEnrollmentDTO;
 import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Query handler for getting the course enrollment by uuid.
  */
-@RequiredArgsConstructor
 @Component
 public class CourseEnrollmentByUUIDQueryHandler {
 
 	private final CourseEnrollmentRepository repository;
 
-	/**
+    public CourseEnrollmentByUUIDQueryHandler(CourseEnrollmentRepository repository) {
+        this.repository = repository;
+    }
+
+    /**
 	 * Retrieves course enrollment by uuid.
 	 *
 	 * @param query query.
@@ -36,7 +37,7 @@ public class CourseEnrollmentByUUIDQueryHandler {
 		var principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		var username = principal.getUsername();
 
-		return repository.query(query.getUuid(), username);
+		return repository.query(query.uuid(), username);
 	}
 
 }

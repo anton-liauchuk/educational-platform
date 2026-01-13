@@ -9,18 +9,19 @@ import org.springframework.stereotype.Component;
 import com.educational.platform.courses.course.CourseDTO;
 import com.educational.platform.courses.course.CourseRepository;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Query handler for getting the course by uuid.
  */
-@RequiredArgsConstructor
 @Component
 public class CourseByUUIDQueryHandler {
 
 	private final CourseRepository repository;
 
-	/**
+    public CourseByUUIDQueryHandler(CourseRepository repository) {
+        this.repository = repository;
+    }
+
+    /**
 	 * Retrieves course by uuid.
 	 *
 	 * @param query query.
@@ -29,7 +30,7 @@ public class CourseByUUIDQueryHandler {
 	@QueryHandler
 	@NonNull
 	public Optional<CourseDTO> handle(CourseByUUIDQuery query) {
-		return repository.findDTOByUuid(query.getUuid());
+		return repository.findDTOByUuid(query.uuid());
 	}
 
 }

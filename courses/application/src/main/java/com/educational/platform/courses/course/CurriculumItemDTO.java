@@ -2,9 +2,6 @@ package com.educational.platform.courses.course;
 
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public abstract class CurriculumItemDTO {
 
 	public static final String TYPE = "curriculumItems_type";
@@ -16,4 +13,10 @@ public abstract class CurriculumItemDTO {
 	String title, description;
 	Integer serialNumber;
 
+	public CurriculumItemDTO(UUID uuid, String title, String description, Integer serialNumber) {
+		this.uuid = uuid;
+		this.title = title;
+		this.description = description;
+		this.serialNumber = serialNumber;
+	}
 }

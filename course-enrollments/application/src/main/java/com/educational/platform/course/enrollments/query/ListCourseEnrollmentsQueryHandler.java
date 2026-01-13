@@ -1,7 +1,6 @@
 package com.educational.platform.course.enrollments.query;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.lang.NonNull;
@@ -13,18 +12,19 @@ import org.springframework.stereotype.Component;
 import com.educational.platform.course.enrollments.CourseEnrollmentDTO;
 import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Query handler for getting the course enrollments.
  */
-@RequiredArgsConstructor
 @Component
 public class ListCourseEnrollmentsQueryHandler {
 
 	private final CourseEnrollmentRepository repository;
 
-	/**
+    public ListCourseEnrollmentsQueryHandler(CourseEnrollmentRepository repository) {
+        this.repository = repository;
+    }
+
+    /**
 	 * Retrieves course enrollments.
 	 *
 	 * @param query query.

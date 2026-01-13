@@ -24,20 +24,22 @@ import com.educational.platform.course.reviews.create.ReviewCourseCommand;
 import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommand;
 import com.educational.platform.course.reviews.query.ListCourseReviewsByCourseUUIDQuery;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Represents Course Review Controller.
  */
 @Validated
 @RestController
-@RequiredArgsConstructor
 public class CourseReviewController {
 
 	private final CommandGateway commandGateway;
 	private final QueryGateway queryGateway;
 
-	@PostMapping(value = "/courses/{uuid}/reviews", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public CourseReviewController(CommandGateway commandGateway, QueryGateway queryGateway) {
+        this.commandGateway = commandGateway;
+        this.queryGateway = queryGateway;
+    }
+
+    @PostMapping(value = "/courses/{uuid}/reviews", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public CourseReviewCreatedResponse review(@PathVariable("uuid") UUID uuid, @RequestBody @Valid ReviewCourseRequest request) {
 		final ReviewCourseCommand command = new ReviewCourseCommand(uuid, request.rating(), request.comment());

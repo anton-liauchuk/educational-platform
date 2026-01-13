@@ -3,7 +3,6 @@ package com.educational.platform.courses.course.approve;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseRepository;
-import lombok.RequiredArgsConstructor;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.stereotype.Component;
@@ -14,12 +13,15 @@ import java.util.Optional;
 /**
  * Command handler for {@link ApproveCourseCommand} approves a course.
  */
-@RequiredArgsConstructor
 @Component
 @Transactional
 public class ApproveCourseCommandHandler {
 
     private final CourseRepository repository;
+
+    public ApproveCourseCommandHandler(CourseRepository repository) {
+        this.repository = repository;
+    }
 
     /**
      * Handles approve course command. Approves and save approved course
