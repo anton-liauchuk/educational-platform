@@ -110,13 +110,18 @@ Communication between bounded contexts is asynchronous. Bounded contexts don't s
 
 This solution reduces coupling of bounded contexts through data replication across contexts which results to higher bounded contexts independence. Event publishing/subscribing is used from Axon Framework. The example of implementation:
 ```java
-@RequiredArgsConstructor
 @Component
 public class ApproveCourseProposalCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;
     private final EventBus eventBus;
+
+    public ApproveCourseProposalCommandHandler(TransactionTemplate transactionTemplate, CourseProposalRepository repository, EventBus eventBus) {
+      this.transactionTemplate = transactionTemplate;
+      this.repository = repository;
+      this.eventBus = eventBus;
+    }
 
     /**
      * Handles approve course proposal command. Approves and save approved course proposal
@@ -142,10 +147,13 @@ public class ApproveCourseProposalCommandHandler {
 The listener for this integration event:
 ```java
 @Component
-@RequiredArgsConstructor
 public class SendCourseToApproveIntegrationEventHandler {
 
     private final CommandGateway commandGateway;
+
+    public SendCourseToApproveIntegrationEventHandler(CommandGateway commandGateway) {
+      this.commandGateway = commandGateway;
+    }
 
     @EventHandler
     public void handleSendCourseToApproveEvent(SendCourseToApproveIntegrationEvent event) {
@@ -174,12 +182,16 @@ Example of running validation rules inside the factory:
 /**
  * Represents Course Factory.
  */
-@RequiredArgsConstructor
 @Component
 public class CourseFactory {
 
 	private final Validator validator;
 	private final CurrentUserAsTeacher currentUserAsTeacher;
+
+    public CourseFactory(Validator validator, CurrentUserAsTeacher currentUserAsTeacher) {
+      this.validator = validator;
+      this.currentUserAsTeacher = currentUserAsTeacher;
+    }
 
 	/**
 	 * Creates course from command.
@@ -211,10 +223,13 @@ Example of running format validation:
 @Validated
 @RequestMapping(value = "/courses")
 @RestController
-@RequiredArgsConstructor
 public class CourseController {
 
     private final CommandGateway commandGateway;
+
+    public CourseController(CommandGateway commandGateway) {
+      this.commandGateway = commandGateway;
+    }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -255,12 +270,15 @@ public class GlobalExceptionHandler {
 CQRS principle is used. It gives the flexibility in optimizing model for read and write operations. The simple version of CQRS is implemented in this application. On write operations, full logic is executed via aggregate. On read operations, DTO objects are created via JPQL queries on repository level.
 Example of command handler:
 ```java
-@RequiredArgsConstructor
 @Component
 @Transactional
 public class PublishCourseCommandHandler {
 
     private final CourseRepository repository;
+
+    public PublishCourseCommandHandler(CourseRepository repository) {
+      this.repository = repository;
+    }
 
     /**
      * Handles publish course command. Publishes and save published course
