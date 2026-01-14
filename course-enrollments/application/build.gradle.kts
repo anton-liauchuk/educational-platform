@@ -7,9 +7,6 @@ dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-data-jpa")
     implementation("org.springframework.boot", "spring-boot-starter-validation")
 
-    compileOnly("org.projectlombok", "lombok", libs.versions.lombok.get())
-    annotationProcessor("org.projectlombok", "lombok", libs.versions.lombok.get())
-
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
     testImplementation("org.springframework.security", "spring-security-test")
     testImplementation("org.junit.jupiter", "junit-jupiter-api")

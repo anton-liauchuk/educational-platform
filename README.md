@@ -352,7 +352,6 @@ Axon Framework is used as DDD library for not creating custom building block cla
 ### 3.14. Technology stack
 - Spring;
 - Java 25;
-- Lombok;
 - Axon Framework;
 - ArchUnit;
 - Gradle;

@@ -11,9 +11,6 @@ dependencies {
     implementation("javax.xml.bind", "jaxb-api", libs.versions.jaxbApi.get())
     implementation("org.passay", "passay", libs.versions.passay.get())
 
-    compileOnly("org.projectlombok", "lombok", libs.versions.lombok.get())
-    annotationProcessor("org.projectlombok", "lombok", libs.versions.lombok.get())
-
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
     testImplementation("org.junit.jupiter", "junit-jupiter-api")
     testImplementation("org.junit.platform", "junit-platform-engine")

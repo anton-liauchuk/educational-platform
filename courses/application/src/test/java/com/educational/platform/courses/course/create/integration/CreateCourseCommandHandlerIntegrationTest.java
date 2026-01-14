@@ -60,7 +60,7 @@ public class CreateCourseCommandHandlerIntegrationTest {
                         CreateQuizCommand
                                 .builder()
                                 .title("quiz title")
-                                .questions(Collections.singletonList(CreateQuestionCommand.builder().content("question text").build()))
+                                .questions(Collections.singletonList(new CreateQuestionCommand("question text")))
                                 .build()
                 ))
                 .build();

@@ -8,9 +8,6 @@ dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-security")
     implementation("org.springframework.boot", "spring-boot-starter-validation")
 
-    compileOnly("org.projectlombok", "lombok", libs.versions.lombok.get())
-    annotationProcessor("org.projectlombok", "lombok", libs.versions.lombok.get())
-
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
     testImplementation("org.junit.jupiter", "junit-jupiter-api")
     testImplementation("org.junit.platform", "junit-platform-engine")
@@ -20,9 +17,6 @@ dependencies {
     testImplementation("io.rest-assured", "rest-assured", libs.versions.restAssured.get())
     testImplementation("io.rest-assured", "json-path", libs.versions.restAssured.get())
     testImplementation("io.rest-assured", "xml-path", libs.versions.restAssured.get())
-
-    testCompileOnly("org.projectlombok", "lombok", libs.versions.lombok.get())
-    testAnnotationProcessor("org.projectlombok", "lombok", libs.versions.lombok.get())
 }
 
 tasks.test {

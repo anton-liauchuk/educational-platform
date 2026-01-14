@@ -45,7 +45,7 @@ public class ListCourseQueryHandlerIntegrationTest {
 						CreateQuizCommand
 								.builder()
 								.title("quiz title")
-								.questions(Collections.singletonList(CreateQuestionCommand.builder().content("question text").build()))
+								.questions(Collections.singletonList(new CreateQuestionCommand("question text")))
 								.build()
 				)).build(), teacher.getId());
 		courseRepository.save(course);
