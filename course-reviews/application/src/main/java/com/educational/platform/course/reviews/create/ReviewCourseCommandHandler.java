@@ -6,7 +6,7 @@ import com.educational.platform.course.reviews.CourseReviewFactory;
 import com.educational.platform.course.reviews.CourseReviewRepository;
 
 import org.axonframework.commandhandling.CommandHandler;
-import org.springframework.lang.NonNull;
+import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +37,7 @@ public class ReviewCourseCommandHandler {
      * @throws RelatedResourceIsNotResolvedException if course or reviewer is not found by relation
      */
     @CommandHandler
-    @NonNull
+    @Nonnull
     public UUID handle(ReviewCourseCommand command) {
         final CourseReview courseReview = courseReviewFactory.createFrom(command);
         courseReviewRepository.save(courseReview);

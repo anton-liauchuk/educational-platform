@@ -3,7 +3,7 @@ package com.educational.platform.course.reviews.query;
 import java.util.List;
 
 import org.axonframework.queryhandling.QueryHandler;
-import org.springframework.lang.NonNull;
+import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 
 import com.educational.platform.course.reviews.CourseReviewDTO;
@@ -28,7 +28,7 @@ public class ListCourseReviewsByCourseUUIDQueryHandler {
 	 * @return course reviews.
 	 */
 	@QueryHandler
-	@NonNull
+	@Nonnull
 	public List<CourseReviewDTO> handle(ListCourseReviewsByCourseUUIDQuery query) {
 		return repository.listCourseReviews(query.uuid());
 	}

@@ -2,7 +2,7 @@
 Date: 2026-01-09
 
 ## Status
-Accepted
+Done
 
 ## Context
 The codebase currently uses `Lombok` for reducing boilerplate code (getters, setters, builders, etc.). However, this introduces:

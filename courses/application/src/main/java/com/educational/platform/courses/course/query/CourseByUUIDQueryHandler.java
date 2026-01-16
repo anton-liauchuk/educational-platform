@@ -3,7 +3,7 @@ package com.educational.platform.courses.course.query;
 import java.util.Optional;
 
 import org.axonframework.queryhandling.QueryHandler;
-import org.springframework.lang.NonNull;
+import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 
 import com.educational.platform.courses.course.CourseDTO;
@@ -28,7 +28,7 @@ public class CourseByUUIDQueryHandler {
 	 * @return corresponding course dto.
 	 */
 	@QueryHandler
-	@NonNull
+	@Nonnull
 	public Optional<CourseDTO> handle(CourseByUUIDQuery query) {
 		return repository.findDTOByUuid(query.uuid());
 	}

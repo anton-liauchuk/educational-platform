@@ -9,7 +9,7 @@ import com.educational.platform.course.enrollments.integration.event.StudentEnro
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventhandling.EventBus;
 import org.axonframework.eventhandling.GenericEventMessage;
-import org.springframework.lang.NonNull;
+import jakarta.annotation.Nonnull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +45,7 @@ public class RegisterStudentToCourseCommandHandler {
      * @param command command
      */
     @CommandHandler
-    @NonNull
+    @Nonnull
     @PreAuthorize("hasRole('STUDENT')")
     public UUID handle(RegisterStudentToCourseCommand command) {
         final CourseEnrollment courseEnrollment = transactionTemplate.execute(transactionStatus -> {

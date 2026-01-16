@@ -5,12 +5,12 @@ import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
-
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.axonframework.commandhandling.CommandHandler;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
 @AnalyzeClasses(packages = "com.educational.platform")
 public class CommandHandlerTest {
@@ -25,7 +25,7 @@ public class CommandHandlerTest {
                 }
             })
             .and().areAnnotatedWith(CommandHandler.class)
-            .should().beAnnotatedWith(NonNull.class).orShould().beAnnotatedWith(Nullable.class)
+            .should().beAnnotatedWith(Nonnull.class).orShould().beAnnotatedWith(Nullable.class)
             .because("Command handlers should provide detailed documentation of API, it's why nullability annotations are needed.");
 
     @ArchTest

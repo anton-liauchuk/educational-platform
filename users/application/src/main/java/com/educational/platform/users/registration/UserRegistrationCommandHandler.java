@@ -11,7 +11,7 @@ import com.educational.platform.users.security.JwtTokenProvider;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventhandling.EventBus;
 import org.axonframework.eventhandling.GenericEventMessage;
-import org.springframework.lang.NonNull;
+import jakarta.annotation.Nonnull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -54,7 +54,7 @@ public class UserRegistrationCommandHandler {
      * @throws UnprocessableEntityException if username is already in use
      */
     @CommandHandler
-    @NonNull
+    @Nonnull
     public String handle(UserRegistrationCommand command) {
         final User user = transactionTemplate.execute(transactionStatus -> {
             final Set<ConstraintViolation<UserRegistrationCommand>> violations = validator.validate(command);

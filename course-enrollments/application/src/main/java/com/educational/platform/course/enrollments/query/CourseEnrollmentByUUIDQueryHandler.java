@@ -3,7 +3,7 @@ package com.educational.platform.course.enrollments.query;
 import java.util.Optional;
 
 import org.axonframework.queryhandling.QueryHandler;
-import org.springframework.lang.NonNull;
+import jakarta.annotation.Nonnull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +31,7 @@ public class CourseEnrollmentByUUIDQueryHandler {
 	 * @return corresponding course enrollment dto.
 	 */
 	@QueryHandler
-	@NonNull
+	@Nonnull
 	@PreAuthorize("hasRole('STUDENT')")
 	public Optional<CourseEnrollmentDTO> handle(CourseEnrollmentByUUIDQuery query) {
 		var principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

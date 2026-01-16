@@ -3,7 +3,7 @@ package com.educational.platform.courses.course.query;
 import java.util.List;
 
 import org.axonframework.queryhandling.QueryHandler;
-import org.springframework.lang.NonNull;
+import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 
 import com.educational.platform.courses.course.CourseLightDTO;
@@ -28,7 +28,7 @@ public class ListCourseQueryHandler {
 	 * @return corresponding list of course dtos.
 	 */
 	@QueryHandler
-	@NonNull
+	@Nonnull
 	public List<CourseLightDTO> handle(ListCourseQuery query) {
 		return repository.list();
 	}
