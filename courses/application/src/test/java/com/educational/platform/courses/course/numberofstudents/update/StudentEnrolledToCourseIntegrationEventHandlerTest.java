@@ -4,7 +4,7 @@ import com.educational.platform.course.enrollments.integration.event.StudentEnro
 import com.educational.platform.courses.course.numberofsudents.update.StudentEnrolledToCourseIntegrationEventHandler;
 import com.educational.platform.courses.course.numberofsudents.update.IncreaseNumberOfStudentsCommand;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

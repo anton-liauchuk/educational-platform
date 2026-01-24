@@ -7,7 +7,7 @@ import com.educational.platform.administration.course.approve.ApproveCoursePropo
 import com.educational.platform.administration.course.decline.DeclineCourseProposalCommand;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.springboot.autoconfig.SecurityAutoConfiguration;
 import org.junit.jupiter.api.Test;

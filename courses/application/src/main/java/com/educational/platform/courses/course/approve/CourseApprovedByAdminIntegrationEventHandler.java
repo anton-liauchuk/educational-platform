@@ -2,8 +2,8 @@ package com.educational.platform.courses.course.approve;
 
 import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 import org.springframework.stereotype.Component;
 
 /**

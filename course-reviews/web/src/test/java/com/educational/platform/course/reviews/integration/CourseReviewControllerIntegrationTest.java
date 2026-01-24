@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 import jakarta.validation.ConstraintViolationException;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseType;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.springboot.autoconfig.SecurityAutoConfiguration;

@@ -7,7 +7,7 @@ import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
 import com.educational.platform.users.security.WebSecurityConfig;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;

@@ -6,9 +6,9 @@ import com.educational.platform.courses.course.CourseAlreadyApprovedException;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 
-import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
+import org.axonframework.messaging.eventhandling.EventBus;
+import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;

@@ -7,8 +7,8 @@ import com.educational.platform.courses.integration.event.SendCourseToApproveInt
 import com.educational.platform.courses.teacher.Teacher;
 
 import org.assertj.core.api.ThrowableAssert;
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.messaging.eventhandling.EventBus;
+import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

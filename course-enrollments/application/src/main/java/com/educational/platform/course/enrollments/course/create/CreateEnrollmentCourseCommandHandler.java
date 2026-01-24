@@ -3,7 +3,7 @@ package com.educational.platform.course.enrollments.course.create;
 import com.educational.platform.course.enrollments.course.EnrollCourse;
 import com.educational.platform.course.enrollments.course.EnrollCourseRepository;
 
-import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

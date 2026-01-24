@@ -2,7 +2,7 @@ package com.educational.platform.administration.course.query;
 
 import java.util.List;
 
-import org.axonframework.queryhandling.QueryHandler;
+import org.axonframework.messaging.queryhandling.annotation.QueryHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import jakarta.inject.Named;

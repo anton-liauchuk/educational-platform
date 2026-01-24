@@ -5,7 +5,7 @@ import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
 import com.educational.platform.web.handler.ErrorResponse;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

@@ -2,8 +2,8 @@ package com.educational.platform.courses.teacher.create;
 
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 import org.springframework.stereotype.Component;
 
 /**

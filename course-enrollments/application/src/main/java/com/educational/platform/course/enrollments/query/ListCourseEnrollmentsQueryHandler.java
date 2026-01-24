@@ -2,7 +2,7 @@ package com.educational.platform.course.enrollments.query;
 
 import java.util.List;
 
-import org.axonframework.queryhandling.QueryHandler;
+import org.axonframework.messaging.queryhandling.annotation.QueryHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;

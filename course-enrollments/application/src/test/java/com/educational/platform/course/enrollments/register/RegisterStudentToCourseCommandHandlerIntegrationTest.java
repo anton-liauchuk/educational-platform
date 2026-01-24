@@ -9,8 +9,8 @@ import com.educational.platform.course.enrollments.student.Student;
 import com.educational.platform.course.enrollments.student.StudentRepository;
 import com.educational.platform.course.enrollments.student.create.CreateStudentCommand;
 
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.messaging.eventhandling.EventBus;
+import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.axonframework.springboot.autoconfig.AxonAutoConfiguration;
 import org.axonframework.springboot.autoconfig.JdbcAutoConfiguration;
 import org.axonframework.springboot.autoconfig.JpaAutoConfiguration;

@@ -7,9 +7,9 @@ import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseDeclinedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 
-import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
+import org.axonframework.messaging.eventhandling.EventBus;
+import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import jakarta.inject.Named;
 import org.springframework.transaction.support.TransactionTemplate;

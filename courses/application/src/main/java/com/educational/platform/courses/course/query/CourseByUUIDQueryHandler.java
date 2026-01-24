@@ -2,7 +2,7 @@ package com.educational.platform.courses.course.query;
 
 import java.util.Optional;
 
-import org.axonframework.queryhandling.QueryHandler;
+import org.axonframework.messaging.queryhandling.annotation.QueryHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 

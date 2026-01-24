@@ -3,7 +3,7 @@ package com.educational.platform.course.enrollments;
 import com.educational.platform.course.enrollments.query.ListCourseEnrollmentsQuery;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpStatus;

@@ -5,7 +5,7 @@ import com.educational.platform.course.enrollments.CourseEnrollmentController;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 import com.educational.platform.users.security.WebSecurityConfig;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.springboot.autoconfig.SecurityAutoConfiguration;
 import org.junit.jupiter.api.Test;

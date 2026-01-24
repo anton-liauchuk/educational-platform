@@ -3,7 +3,7 @@ package com.educational.platform.courses.teacher.create;
 import com.educational.platform.courses.teacher.Teacher;
 import com.educational.platform.courses.teacher.TeacherRepository;
 
-import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

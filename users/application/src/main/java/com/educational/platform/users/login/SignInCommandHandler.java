@@ -5,7 +5,7 @@ import com.educational.platform.users.Role;
 import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.security.JwtTokenProvider;
 
-import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

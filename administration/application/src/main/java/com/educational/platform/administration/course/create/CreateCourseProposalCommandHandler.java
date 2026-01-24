@@ -5,7 +5,7 @@ import com.educational.platform.administration.course.CourseProposalRepository;
 
 import jakarta.inject.Named;
 
-import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
