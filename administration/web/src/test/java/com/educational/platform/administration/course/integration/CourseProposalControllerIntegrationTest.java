@@ -8,8 +8,7 @@ import com.educational.platform.administration.course.decline.DeclineCoursePropo
 import com.educational.platform.common.exception.ResourceNotFoundException;
 
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
-import org.axonframework.queryhandling.QueryGateway;
-import org.axonframework.springboot.autoconfig.SecurityAutoConfiguration;
+import org.axonframework.messaging.queryhandling.gateway.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -28,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Represents course proposal controller integration tests.
  */
-@WebMvcTest(controllers = CourseProposalController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
+@WebMvcTest(controllers = CourseProposalController.class)
 public class CourseProposalControllerIntegrationTest {
 
     @Autowired

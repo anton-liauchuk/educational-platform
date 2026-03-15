@@ -34,7 +34,7 @@ public class UserController {
 				.password(signUpRequest.password())
 				.build();
 
-		return commandGateway.sendAndWait(command);
+		return commandGateway.sendAndWait(command, String.class);
 	}
 
 	@PostMapping("/sign-in")
@@ -45,6 +45,6 @@ public class UserController {
 				.password(signInRequest.password())
 				.build();
 
-		return commandGateway.sendAndWait(command);
+		return commandGateway.sendAndWait(command, String.class);
 	}
 }

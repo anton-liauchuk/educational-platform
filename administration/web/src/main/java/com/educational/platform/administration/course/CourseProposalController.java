@@ -6,8 +6,7 @@ import com.educational.platform.administration.course.query.ListCourseProposalsQ
 import com.educational.platform.web.handler.ErrorResponse;
 
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
-import org.axonframework.messaging.responsetypes.ResponseTypes;
-import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.messaging.queryhandling.gateway.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +46,7 @@ public class CourseProposalController {
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public List<CourseProposalDTO> courseProposals() {
-		return queryGateway.query(new ListCourseProposalsQuery(), ResponseTypes.multipleInstancesOf(CourseProposalDTO.class)).join();
+		return queryGateway.queryMany(new ListCourseProposalsQuery(), CourseProposalDTO.class).join();
 	}
 
 	@ExceptionHandler({ CourseProposalAlreadyDeclinedException.class, CourseProposalAlreadyApprovedException.class })

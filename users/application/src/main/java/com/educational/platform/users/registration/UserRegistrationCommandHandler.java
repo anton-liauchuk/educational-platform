@@ -9,6 +9,7 @@ import com.educational.platform.users.integration.event.UserCreatedIntegrationEv
 import com.educational.platform.users.security.JwtTokenProvider;
 
 import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
+import org.axonframework.messaging.core.MessageType;
 import org.axonframework.messaging.eventhandling.EventBus;
 import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import jakarta.annotation.Nonnull;
@@ -72,7 +73,7 @@ public class UserRegistrationCommandHandler {
         });
 
         final UserDTO dto = Objects.requireNonNull(user).toDTO();
-        eventBus.publish(GenericEventMessage.asEventMessage(new UserCreatedIntegrationEvent(dto.username(), dto.email())));
+        eventBus.publish(null, new GenericEventMessage(new MessageType(UserCreatedIntegrationEvent.class), new UserCreatedIntegrationEvent(dto.username(), dto.email())));
 
         return jwtTokenProvider.createToken(dto.username(), Collections.singletonList(Role.from(dto.role())));
     }

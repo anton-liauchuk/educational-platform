@@ -7,6 +7,7 @@ import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 
 import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
+import org.axonframework.messaging.core.MessageType;
 import org.axonframework.messaging.eventhandling.EventBus;
 import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,6 +51,6 @@ public class SendCourseToApproveCommandHandler {
         course.sendToApprove();
 
         // todo integration event outside transaction
-        eventBus.publish(GenericEventMessage.asEventMessage(new SendCourseToApproveIntegrationEvent(command.uuid())));
+        eventBus.publish(null, new GenericEventMessage(new MessageType(SendCourseToApproveIntegrationEvent.class), new SendCourseToApproveIntegrationEvent(command.uuid())));
     }
 }

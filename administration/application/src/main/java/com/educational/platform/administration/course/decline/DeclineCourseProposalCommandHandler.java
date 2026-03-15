@@ -6,12 +6,12 @@ import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseDeclinedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
-
+import jakarta.inject.Named;
 import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
+import org.axonframework.messaging.core.MessageType;
 import org.axonframework.messaging.eventhandling.EventBus;
 import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
-import jakarta.inject.Named;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Objects;
@@ -57,7 +57,7 @@ public class DeclineCourseProposalCommandHandler {
         });
 
         final CourseProposalDTO dto = Objects.requireNonNull(proposal).toDTO();
-        eventBus.publish(GenericEventMessage.asEventMessage(new CourseDeclinedByAdminIntegrationEvent(dto.uuid())));
+        eventBus.publish(null, new GenericEventMessage(new MessageType(CourseDeclinedByAdminIntegrationEvent.class), new CourseDeclinedByAdminIntegrationEvent(dto.uuid())));
     }
 
 }

@@ -1,8 +1,9 @@
 dependencies {
     implementation(project(":common"))
     implementation(project(":web"))
-    implementation(project(":security:security-config"))
-    implementation(project(":administration:administration-application"))
+    implementation(project(":administration:administration-application")) {
+        exclude("org.springframework.boot", "spring-boot-starter-security")
+    }
 
     implementation("org.springframework.boot", "spring-boot-starter-web")
     implementation("org.springframework.boot", "spring-boot-starter-validation")

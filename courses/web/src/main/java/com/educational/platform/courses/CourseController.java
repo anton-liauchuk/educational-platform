@@ -38,7 +38,7 @@ public class CourseController {
                 .description(courseCreateRequest.description())
                 .build();
 
-        return new CreatedCourseResponse(commandGateway.sendAndWait(command));
+        return new CreatedCourseResponse(commandGateway.sendAndWait(command, UUID.class));
     }
 
     @PutMapping(value = "/{uuid}/publish-status", produces = APPLICATION_JSON_VALUE)

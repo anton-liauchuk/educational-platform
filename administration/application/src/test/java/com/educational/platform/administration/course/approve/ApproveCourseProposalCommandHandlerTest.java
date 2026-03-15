@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -71,9 +72,9 @@ class ApproveCourseProposalCommandHandlerTest {
         assertThat(proposal)
                 .hasFieldOrPropertyWithValue("status", CourseProposalStatus.APPROVED);
 
-        final ArgumentCaptor<GenericEventMessage<CourseApprovedByAdminIntegrationEvent>> eventArgument = ArgumentCaptor.forClass(GenericEventMessage.class);
-        verify(eventBus).publish(eventArgument.capture());
-        final CourseApprovedByAdminIntegrationEvent event = eventArgument.getValue().getPayload();
+        final ArgumentCaptor<GenericEventMessage> eventArgument = ArgumentCaptor.forClass(GenericEventMessage.class);
+        verify(eventBus).publish(any(), eventArgument.capture());
+        final CourseApprovedByAdminIntegrationEvent event = (CourseApprovedByAdminIntegrationEvent) eventArgument.getValue().payload();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("courseId", uuid);
     }
