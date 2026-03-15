@@ -4,7 +4,7 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseRepository;
 
-import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

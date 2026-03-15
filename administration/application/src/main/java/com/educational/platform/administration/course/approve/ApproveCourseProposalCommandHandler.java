@@ -6,12 +6,11 @@ import com.educational.platform.administration.course.CourseProposalDTO;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
-
 import jakarta.inject.Named;
-
-import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
+import org.axonframework.messaging.core.MessageType;
+import org.axonframework.messaging.eventhandling.EventBus;
+import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -28,13 +27,13 @@ public class ApproveCourseProposalCommandHandler {
     private final CourseProposalRepository repository;
     private final EventBus eventBus;
 
-	public ApproveCourseProposalCommandHandler(TransactionTemplate transactionTemplate, CourseProposalRepository repository, EventBus eventBus) {
-		this.transactionTemplate = transactionTemplate;
-		this.repository = repository;
-		this.eventBus = eventBus;
-	}
+    public ApproveCourseProposalCommandHandler(TransactionTemplate transactionTemplate, CourseProposalRepository repository, EventBus eventBus) {
+        this.transactionTemplate = transactionTemplate;
+        this.repository = repository;
+        this.eventBus = eventBus;
+    }
 
-	/**
+    /**
      * Handles approve course proposal command. Approves and save approved course proposal
      *
      * @param command command
@@ -58,6 +57,6 @@ public class ApproveCourseProposalCommandHandler {
         });
 
         final CourseProposalDTO dto = Objects.requireNonNull(proposal).toDTO();
-        eventBus.publish(GenericEventMessage.asEventMessage(new CourseApprovedByAdminIntegrationEvent(dto.uuid())));
+        eventBus.publish(null, new GenericEventMessage(new MessageType(CourseApprovedByAdminIntegrationEvent.class), new CourseApprovedByAdminIntegrationEvent(dto.uuid())));
     }
 }

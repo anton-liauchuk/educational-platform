@@ -5,7 +5,7 @@ import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseCannotBePublishedException;
 import com.educational.platform.courses.course.CourseRepository;
 
-import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;

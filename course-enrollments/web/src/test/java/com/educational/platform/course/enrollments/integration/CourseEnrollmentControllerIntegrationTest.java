@@ -5,12 +5,12 @@ import com.educational.platform.course.enrollments.CourseEnrollmentController;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 import com.educational.platform.users.security.WebSecurityConfig;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.extension.springboot.autoconfig.SecurityAutoConfiguration;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.queryhandling.gateway.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -58,12 +58,13 @@ public class CourseEnrollmentControllerIntegrationTest {
     @Test
     @WithMockUser(username = "student", roles = "STUDENT")
     void enroll_relatedResourceIsNotResolvedException_badRequest() throws Exception {
-        doThrow(RelatedResourceIsNotResolvedException.class).when(commandGateway).sendAndWait(any(RegisterStudentToCourseCommand.class));
+        doThrow(RelatedResourceIsNotResolvedException.class).when(commandGateway).sendAndWait(any(RegisterStudentToCourseCommand.class), eq(UUID.class));
 
         this.mockMvc.perform(post("/courses/{uuid}/course-enrollments", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
-                .content("{\n" +
-                        "  \"student\": \"username\"\n" +
-                        "}")
+                .content("""
+                        {
+                          "student": "username"
+                        }""")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
@@ -74,12 +75,13 @@ public class CourseEnrollmentControllerIntegrationTest {
     void enroll_constraintViolationException_badRequest() throws Exception {
         final ConstraintViolationException exception = mock(ConstraintViolationException.class);
         doReturn(new HashSet<>()).when(exception).getConstraintViolations();
-        doThrow(exception).when(commandGateway).sendAndWait(any(RegisterStudentToCourseCommand.class));
+        doThrow(exception).when(commandGateway).sendAndWait(any(RegisterStudentToCourseCommand.class), eq(UUID.class));
 
         this.mockMvc.perform(post("/courses/{uuid}/course-enrollments", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
-                .content("{\n" +
-                        "  \"student\": \"username\"\n" +
-                        "}")
+                .content("""
+                        {
+                          "student": "username"
+                        }""")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());

@@ -5,7 +5,7 @@ import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewFactory;
 import com.educational.platform.course.reviews.CourseReviewRepository;
 
-import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

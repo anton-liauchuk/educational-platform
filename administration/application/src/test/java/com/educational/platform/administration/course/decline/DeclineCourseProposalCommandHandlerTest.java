@@ -6,8 +6,8 @@ import com.educational.platform.administration.course.CourseProposalStatus;
 import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import org.assertj.core.api.ThrowableAssert;
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.messaging.eventhandling.EventBus;
+import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -71,8 +72,8 @@ public class DeclineCourseProposalCommandHandlerTest {
                 .hasFieldOrPropertyWithValue("status", CourseProposalStatus.DECLINED);
 
         var eventArgument = ArgumentCaptor.forClass(GenericEventMessage.class);
-        verify(eventBus).publish(eventArgument.capture());
-        var event = eventArgument.getValue().getPayload();
+        verify(eventBus).publish(any(), eventArgument.capture());
+        var event = eventArgument.getValue().payload();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("courseId", uuid);
     }

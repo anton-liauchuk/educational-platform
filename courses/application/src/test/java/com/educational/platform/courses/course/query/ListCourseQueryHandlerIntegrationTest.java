@@ -2,21 +2,15 @@ package com.educational.platform.courses.course.query;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
-import com.educational.platform.courses.course.create.CreateLectureCommand;
-import com.educational.platform.courses.course.create.CreateQuestionCommand;
-import com.educational.platform.courses.course.create.CreateQuizCommand;
 import com.educational.platform.courses.teacher.Teacher;
 import com.educational.platform.courses.teacher.TeacherRepository;
 import com.educational.platform.courses.teacher.create.CreateTeacherCommand;
@@ -39,15 +33,7 @@ public class ListCourseQueryHandlerIntegrationTest {
 		var teacher = new Teacher(new CreateTeacherCommand("teacher"));
 		teacherRepository.save(teacher);
 
-		var course = new Course(CreateCourseCommand.builder().name("name").description("description")
-				.curriculumItems(Arrays.asList(
-						CreateLectureCommand.builder().title("lecture title").text("text").build(),
-						CreateQuizCommand
-								.builder()
-								.title("quiz title")
-								.questions(Collections.singletonList(new CreateQuestionCommand("question text")))
-								.build()
-				)).build(), teacher.getId());
+		var course = new Course(CreateCourseCommand.builder().name("name").description("description").build(), teacher.getId());
 		courseRepository.save(course);
 	}
 

@@ -6,9 +6,10 @@ import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
 import com.educational.platform.course.enrollments.CurrentUserAsStudent;
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
 
-import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
+import org.axonframework.messaging.core.MessageType;
+import org.axonframework.messaging.eventhandling.EventBus;
+import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import jakarta.annotation.Nonnull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -56,7 +57,7 @@ public class RegisterStudentToCourseCommandHandler {
         });
 
         final UUID uuid = Objects.requireNonNull(courseEnrollment).getUuid();
-        eventBus.publish(GenericEventMessage.asEventMessage(new StudentEnrolledToCourseIntegrationEvent(command.courseId(),
+        eventBus.publish(null, new GenericEventMessage(new MessageType(StudentEnrolledToCourseIntegrationEvent.class), new StudentEnrolledToCourseIntegrationEvent(command.courseId(),
                 currentUserAsStudent.userAsStudent().toReference())));
 
         return uuid;

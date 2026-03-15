@@ -7,9 +7,8 @@ import java.util.UUID;
 
 import jakarta.validation.Valid;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.messaging.responsetypes.ResponseTypes;
-import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.queryhandling.gateway.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +43,7 @@ public class CourseReviewController {
 	public CourseReviewCreatedResponse review(@PathVariable("uuid") UUID uuid, @RequestBody @Valid ReviewCourseRequest request) {
 		final ReviewCourseCommand command = new ReviewCourseCommand(uuid, request.rating(), request.comment());
 
-		return new CourseReviewCreatedResponse(commandGateway.sendAndWait(command));
+		return new CourseReviewCreatedResponse(commandGateway.sendAndWait(command, UUID.class));
 	}
 
 	@GetMapping(value = "/courses/{uuid}/reviews", produces = APPLICATION_JSON_VALUE)
@@ -52,7 +51,7 @@ public class CourseReviewController {
 	public List<CourseReviewDTO> reviews(@PathVariable("uuid") UUID uuid) {
 		final ListCourseReviewsByCourseUUIDQuery query = new ListCourseReviewsByCourseUUIDQuery(uuid);
 
-		return queryGateway.query(query, ResponseTypes.multipleInstancesOf(CourseReviewDTO.class)).join();
+		return queryGateway.queryMany(query, CourseReviewDTO.class).join();
 	}
 
 	@PutMapping(value = "/courses/{courseUuid}/reviews/{reviewUuid}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)

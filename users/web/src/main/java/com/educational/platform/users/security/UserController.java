@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 
 import com.educational.platform.users.login.SignInCommand;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +34,7 @@ public class UserController {
 				.password(signUpRequest.password())
 				.build();
 
-		return commandGateway.sendAndWait(command);
+		return commandGateway.sendAndWait(command, String.class);
 	}
 
 	@PostMapping("/sign-in")
@@ -45,6 +45,6 @@ public class UserController {
 				.password(signInRequest.password())
 				.build();
 
-		return commandGateway.sendAndWait(command);
+		return commandGateway.sendAndWait(command, String.class);
 	}
 }

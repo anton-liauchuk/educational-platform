@@ -1,6 +1,7 @@
 package com.educational.platform.course.reviews.integration;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -17,13 +18,12 @@ import java.util.concurrent.CompletableFuture;
 
 import jakarta.validation.ConstraintViolationException;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.messaging.responsetypes.ResponseType;
-import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.extension.springboot.autoconfig.SecurityAutoConfiguration;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.queryhandling.gateway.QueryGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -81,7 +81,7 @@ public class CourseReviewControllerIntegrationTest {
 
     @Test
     void review_relatedResourceIsNotResolvedException_badRequest() throws Exception {
-        doThrow(RelatedResourceIsNotResolvedException.class).when(commandGateway).sendAndWait(any(ReviewCourseCommand.class));
+        doThrow(RelatedResourceIsNotResolvedException.class).when(commandGateway).sendAndWait(any(ReviewCourseCommand.class), eq(UUID.class));
 
         this.mockMvc.perform(post("/courses/{uuid}/reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{\n" +
@@ -97,7 +97,7 @@ public class CourseReviewControllerIntegrationTest {
     void review_constraintViolationException_badRequest() throws Exception {
         final ConstraintViolationException exception = mock(ConstraintViolationException.class);
         doReturn(new HashSet<>()).when(exception).getConstraintViolations();
-        doThrow(exception).when(commandGateway).sendAndWait(any(ReviewCourseCommand.class));
+        doThrow(exception).when(commandGateway).sendAndWait(any(ReviewCourseCommand.class), eq(UUID.class));
 
         this.mockMvc.perform(post("/courses/{uuid}/reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{\n" +
@@ -112,7 +112,7 @@ public class CourseReviewControllerIntegrationTest {
     @Test
     void reviews_validCourseId_reviews() throws Exception {
         var completableFuture = mock(CompletableFuture.class);
-        doReturn(completableFuture).when(queryGateway).query(any(), any(ResponseType.class));
+        doReturn(completableFuture).when(queryGateway).queryMany(any(), eq(CourseReviewDTO.class));
         var dto = new CourseReviewDTO(null, UUID.fromString("123e4567-e89b-12d3-a456-426655440001"), "username", "comment", 3.0);
         doReturn(Collections.singletonList(dto)).when(completableFuture).join();
 

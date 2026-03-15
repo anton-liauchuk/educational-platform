@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,7 +20,7 @@ import com.educational.platform.course.enrollments.query.CourseEnrollmentByUUIDQ
 @SpringBootTest(properties = "com.educational.platform.security.enabled=true")
 public class ListCourseEnrollmentsQueryHandlerSecurityTest {
 
-	@MockitoSpyBean
+	@Autowired
 	private CourseEnrollmentByUUIDQueryHandler sut;
 
 	@Test

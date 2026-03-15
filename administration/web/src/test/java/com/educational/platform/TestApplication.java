@@ -1,8 +1,9 @@
 package com.educational.platform;
 
+import org.axonframework.extension.springboot.autoconfig.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+//import org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration;
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication()
 public class TestApplication {
 }

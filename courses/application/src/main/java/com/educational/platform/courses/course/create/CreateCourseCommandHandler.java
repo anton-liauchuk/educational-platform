@@ -4,7 +4,7 @@ import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
 
-import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;

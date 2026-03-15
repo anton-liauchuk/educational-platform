@@ -2,7 +2,7 @@ package com.educational.platform.courses.course.approve;
 
 import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

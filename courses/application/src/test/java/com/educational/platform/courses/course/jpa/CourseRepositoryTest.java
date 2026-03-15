@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseRepository;
@@ -12,6 +11,7 @@ import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.teacher.Teacher;
 import com.educational.platform.courses.teacher.TeacherRepository;
 import com.educational.platform.courses.teacher.create.CreateTeacherCommand;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
 @DataJpaTest
 public class CourseRepositoryTest {

@@ -7,11 +7,11 @@ import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
 import com.educational.platform.users.security.WebSecurityConfig;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.extension.springboot.autoconfig.SecurityAutoConfiguration;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -81,7 +81,7 @@ public class CourseControllerIntegrationTest {
     void create_constraintViolationException_badRequest() throws Exception {
         final ConstraintViolationException exception = mock(ConstraintViolationException.class);
         doReturn(new HashSet<>()).when(exception).getConstraintViolations();
-        doThrow(exception).when(commandGateway).sendAndWait(any(CreateCourseCommand.class));
+        doThrow(exception).when(commandGateway).sendAndWait(any(CreateCourseCommand.class), eq(UUID.class));
 
         this.mockMvc.perform(post("/courses")
                 .content("{\n" +

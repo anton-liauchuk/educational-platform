@@ -5,7 +5,7 @@ import com.educational.platform.courses.course.create.CreateCourseCommand;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
 import com.educational.platform.web.handler.ErrorResponse;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -38,7 +38,7 @@ public class CourseController {
                 .description(courseCreateRequest.description())
                 .build();
 
-        return new CreatedCourseResponse(commandGateway.sendAndWait(command));
+        return new CreatedCourseResponse(commandGateway.sendAndWait(command, UUID.class));
     }
 
     @PutMapping(value = "/{uuid}/publish-status", produces = APPLICATION_JSON_VALUE)

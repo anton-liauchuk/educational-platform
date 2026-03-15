@@ -9,18 +9,18 @@ import com.educational.platform.course.enrollments.student.Student;
 import com.educational.platform.course.enrollments.student.StudentRepository;
 import com.educational.platform.course.enrollments.student.create.CreateStudentCommand;
 
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.GenericEventMessage;
-import org.axonframework.springboot.autoconfig.AxonAutoConfiguration;
-import org.axonframework.springboot.autoconfig.JdbcAutoConfiguration;
-import org.axonframework.springboot.autoconfig.JpaAutoConfiguration;
-import org.axonframework.springboot.autoconfig.JpaEventStoreAutoConfiguration;
+import org.axonframework.extension.springboot.autoconfig.AxonAutoConfiguration;
+import org.axonframework.extension.springboot.autoconfig.EventProcessingAutoConfiguration;
+import org.axonframework.extension.springboot.autoconfig.JpaAutoConfiguration;
+import org.axonframework.extension.springboot.autoconfig.JpaEventStoreAutoConfiguration;
+import org.axonframework.messaging.eventhandling.EventBus;
+import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -30,11 +30,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 @AutoConfigureTestDatabase
 @SpringBootTest
-@EnableAutoConfiguration(exclude = { AxonAutoConfiguration.class, JpaAutoConfiguration.class, JpaEventStoreAutoConfiguration.class, JdbcAutoConfiguration.class })
+@EnableAutoConfiguration(exclude = { AxonAutoConfiguration.class, JpaAutoConfiguration.class, JpaEventStoreAutoConfiguration.class, EventProcessingAutoConfiguration.class })
 public class RegisterStudentToCourseCommandHandlerIntegrationTest {
 
     @Autowired
@@ -86,9 +87,9 @@ public class RegisterStudentToCourseCommandHandlerIntegrationTest {
         var uuid = sut.handle(command);
 
         // then
-        final ArgumentCaptor<GenericEventMessage<StudentEnrolledToCourseIntegrationEvent>> argument = ArgumentCaptor.forClass(GenericEventMessage.class);
-        verify(eventBus).publish(argument.capture());
-        final StudentEnrolledToCourseIntegrationEvent event = argument.getValue().getPayload();
+        final ArgumentCaptor<GenericEventMessage> argument = ArgumentCaptor.forClass(GenericEventMessage.class);
+        verify(eventBus).publish(any(), argument.capture());
+        final StudentEnrolledToCourseIntegrationEvent event = (StudentEnrolledToCourseIntegrationEvent) argument.getValue().payload();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("courseId", courseUuid)
                 .hasFieldOrPropertyWithValue("username", "username");

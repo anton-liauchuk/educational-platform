@@ -7,8 +7,8 @@ import com.educational.platform.courses.integration.event.SendCourseToApproveInt
 import com.educational.platform.courses.teacher.Teacher;
 
 import org.assertj.core.api.ThrowableAssert;
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.messaging.eventhandling.EventBus;
+import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -71,9 +72,9 @@ public class SendCourseToApproveCommandHandlerTest {
         sut.handle(command);
 
         // then
-        final ArgumentCaptor<GenericEventMessage<SendCourseToApproveIntegrationEvent>> argument = ArgumentCaptor.forClass(GenericEventMessage.class);
-        verify(eventBus).publish(argument.capture());
-        assertThat(argument.getValue().getPayload())
+        final ArgumentCaptor<GenericEventMessage> argument = ArgumentCaptor.forClass(GenericEventMessage.class);
+        verify(eventBus).publish(any(), argument.capture());
+        assertThat(argument.getValue().payload())
                 .hasFieldOrPropertyWithValue("courseId", uuid);
     }
 

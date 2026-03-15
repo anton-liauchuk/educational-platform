@@ -2,8 +2,8 @@ package com.educational.platform.administration.course.create;
 
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 import jakarta.inject.Named;
 
 /**

@@ -8,8 +8,8 @@ import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 import com.educational.platform.users.security.JwtTokenProvider;
 import org.assertj.core.api.ThrowableAssert;
-import org.axonframework.eventhandling.EventBus;
-import org.axonframework.eventhandling.GenericEventMessage;
+import org.axonframework.messaging.eventhandling.EventBus;
+import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +26,7 @@ import jakarta.validation.Validator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -82,9 +83,9 @@ public class UserRegistrationCommandHandlerTest {
                 .hasFieldOrPropertyWithValue("email", "email@gmail.com")
                 .hasFieldOrPropertyWithValue("role", Role.ROLE_STUDENT);
 
-        final ArgumentCaptor<GenericEventMessage<UserCreatedIntegrationEvent>> eventArgument = ArgumentCaptor.forClass(GenericEventMessage.class);
-        verify(eventBus).publish(eventArgument.capture());
-        final UserCreatedIntegrationEvent event = eventArgument.getValue().getPayload();
+        final ArgumentCaptor<GenericEventMessage> eventArgument = ArgumentCaptor.forClass(GenericEventMessage.class);
+        verify(eventBus).publish(any(), eventArgument.capture());
+        final UserCreatedIntegrationEvent event = (UserCreatedIntegrationEvent) eventArgument.getValue().payload();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("username", "username")
                 .hasFieldOrPropertyWithValue("email", "email@gmail.com");

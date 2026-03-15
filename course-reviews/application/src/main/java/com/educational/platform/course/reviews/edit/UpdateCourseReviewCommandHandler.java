@@ -4,7 +4,7 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewRepository;
 
-import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;

@@ -3,9 +3,8 @@ package com.educational.platform.course.enrollments;
 import com.educational.platform.course.enrollments.query.ListCourseEnrollmentsQuery;
 import com.educational.platform.course.enrollments.register.RegisterStudentToCourseCommand;
 
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.messaging.responsetypes.ResponseTypes;
-import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.queryhandling.gateway.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +32,12 @@ public class CourseEnrollmentController {
     public UUID enroll(@PathVariable("uuid") UUID uuid, @RequestBody CourseEnrollmentRequest request) {
         var command = new RegisterStudentToCourseCommand(uuid);
 
-        return commandGateway.sendAndWait(command);
+        return commandGateway.sendAndWait(command, UUID.class);
     }
 
     @GetMapping(value = "/course-enrollments", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<CourseEnrollmentDTO> courseEnrollments() {
-        return queryGateway.query(new ListCourseEnrollmentsQuery(), ResponseTypes.multipleInstancesOf(CourseEnrollmentDTO.class)).join();
+        return queryGateway.queryMany(new ListCourseEnrollmentsQuery(), CourseEnrollmentDTO.class).join();
     }
 }
