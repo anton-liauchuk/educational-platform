@@ -2,7 +2,6 @@ package com.educational.platform.administration.course.create;
 
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 
-import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 import jakarta.inject.Named;
 
@@ -12,15 +11,15 @@ import jakarta.inject.Named;
 @Named
 public class SendCourseToApproveIntegrationEventHandler {
 
-    private final CommandGateway commandGateway;
+    private final CreateCourseProposalCommandHandler createCourseProposalCommandHandler;
 
-    public SendCourseToApproveIntegrationEventHandler(CommandGateway commandGateway) {
-        this.commandGateway = commandGateway;
+    public SendCourseToApproveIntegrationEventHandler(CreateCourseProposalCommandHandler createCourseProposalCommandHandler) {
+        this.createCourseProposalCommandHandler = createCourseProposalCommandHandler;
     }
 
     @EventHandler
     public void handleSendCourseToApproveEvent(SendCourseToApproveIntegrationEvent event) {
-        commandGateway.send(new CreateCourseProposalCommand(event.courseId()));
+        createCourseProposalCommandHandler.handle(new CreateCourseProposalCommand(event.courseId()));
     }
 
 }

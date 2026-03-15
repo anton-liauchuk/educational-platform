@@ -2,7 +2,6 @@ package com.educational.platform.administration.course.create;
 
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 
-import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -19,7 +18,7 @@ import static org.mockito.Mockito.verify;
 class SendCourseToApproveIntegrationEventHandlerTest {
 
     @Mock
-    private CommandGateway commandGateway;
+    private CreateCourseProposalCommandHandler createCourseProposalCommandHandler;
 
     @InjectMocks
     private SendCourseToApproveIntegrationEventHandler sut;
@@ -35,7 +34,7 @@ class SendCourseToApproveIntegrationEventHandlerTest {
 
         // then
         final ArgumentCaptor<CreateCourseProposalCommand> argument = ArgumentCaptor.forClass(CreateCourseProposalCommand.class);
-        verify(commandGateway).send(argument.capture());
+        verify(createCourseProposalCommandHandler).handle(argument.capture());
         final CreateCourseProposalCommand createCourseProposalCommand = argument.getValue();
         assertThat(createCourseProposalCommand)
                 .hasFieldOrPropertyWithValue("uuid", uuid);
