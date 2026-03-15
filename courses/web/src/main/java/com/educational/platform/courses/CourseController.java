@@ -2,10 +2,11 @@ package com.educational.platform.courses;
 
 import com.educational.platform.courses.course.CourseCannotBePublishedException;
 import com.educational.platform.courses.course.create.CreateCourseCommand;
+import com.educational.platform.courses.course.create.CreateCourseCommandHandler;
 import com.educational.platform.courses.course.publish.PublishCourseCommand;
+import com.educational.platform.courses.course.publish.PublishCourseCommandHandler;
 import com.educational.platform.web.handler.ErrorResponse;
 
-import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,10 +25,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 public class CourseController {
 
-    private final CommandGateway commandGateway;
+    private final CreateCourseCommandHandler createCourseCommandHandler;
+    private final PublishCourseCommandHandler publishCourseCommandHandler;
 
-    public CourseController(CommandGateway commandGateway) {
-        this.commandGateway = commandGateway;
+    public CourseController(CreateCourseCommandHandler createCourseCommandHandler, PublishCourseCommandHandler publishCourseCommandHandler) {
+        this.createCourseCommandHandler = createCourseCommandHandler;
+        this.publishCourseCommandHandler = publishCourseCommandHandler;
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -38,13 +41,13 @@ public class CourseController {
                 .description(courseCreateRequest.description())
                 .build();
 
-        return new CreatedCourseResponse(commandGateway.sendAndWait(command, UUID.class));
+        return new CreatedCourseResponse(createCourseCommandHandler.handle(command));
     }
 
     @PutMapping(value = "/{uuid}/publish-status", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void publish(@PathVariable("uuid") UUID uuid) {
-        commandGateway.sendAndWait(new PublishCourseCommand(uuid));
+        publishCourseCommandHandler.handle(new PublishCourseCommand(uuid));
     }
 
     @ExceptionHandler(CourseCannotBePublishedException.class)
