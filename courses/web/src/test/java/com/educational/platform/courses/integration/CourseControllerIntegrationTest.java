@@ -9,7 +9,6 @@ import com.educational.platform.users.security.WebSecurityConfig;
 
 import org.axonframework.extension.springboot.autoconfig.SecurityAutoConfiguration;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -32,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Represents course controller integration tests.
  */
-@Disabled
 @WebMvcTest(controllers = CourseController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class}, excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = WebSecurityConfig.class)})
 public class CourseControllerIntegrationTest {
@@ -83,7 +81,7 @@ public class CourseControllerIntegrationTest {
     void create_constraintViolationException_badRequest() throws Exception {
         final ConstraintViolationException exception = mock(ConstraintViolationException.class);
         doReturn(new HashSet<>()).when(exception).getConstraintViolations();
-        doThrow(exception).when(commandGateway).sendAndWait(any(CreateCourseCommand.class));
+        doThrow(exception).when(commandGateway).sendAndWait(any(CreateCourseCommand.class), eq(UUID.class));
 
         this.mockMvc.perform(post("/courses")
                 .content("{\n" +
