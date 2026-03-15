@@ -5,10 +5,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import java.util.List;
 import java.util.UUID;
 
+import com.educational.platform.course.reviews.create.ReviewCourseCommandHandler;
+import com.educational.platform.course.reviews.edit.UpdateCourseReviewCommandHandler;
+import com.educational.platform.course.reviews.query.ListCourseReviewsByCourseUUIDQueryHandler;
 import jakarta.validation.Valid;
 
-import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
-import org.axonframework.messaging.queryhandling.gateway.QueryGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +31,14 @@ import com.educational.platform.course.reviews.query.ListCourseReviewsByCourseUU
 @RestController
 public class CourseReviewController {
 
-	private final CommandGateway commandGateway;
-	private final QueryGateway queryGateway;
+	private final ReviewCourseCommandHandler reviewCourseCommandHandler;
+	private final UpdateCourseReviewCommandHandler updateCourseReviewCommandHandler;
+	private final ListCourseReviewsByCourseUUIDQueryHandler listCourseReviewsByCourseUUIDQueryHandler;
 
-    public CourseReviewController(CommandGateway commandGateway, QueryGateway queryGateway) {
-        this.commandGateway = commandGateway;
-        this.queryGateway = queryGateway;
+    public CourseReviewController(ReviewCourseCommandHandler reviewCourseCommandHandler, UpdateCourseReviewCommandHandler updateCourseReviewCommandHandler, ListCourseReviewsByCourseUUIDQueryHandler listCourseReviewsByCourseUUIDQueryHandler) {
+        this.reviewCourseCommandHandler = reviewCourseCommandHandler;
+        this.updateCourseReviewCommandHandler = updateCourseReviewCommandHandler;
+        this.listCourseReviewsByCourseUUIDQueryHandler = listCourseReviewsByCourseUUIDQueryHandler;
     }
 
     @PostMapping(value = "/courses/{uuid}/reviews", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -43,7 +46,7 @@ public class CourseReviewController {
 	public CourseReviewCreatedResponse review(@PathVariable("uuid") UUID uuid, @RequestBody @Valid ReviewCourseRequest request) {
 		final ReviewCourseCommand command = new ReviewCourseCommand(uuid, request.rating(), request.comment());
 
-		return new CourseReviewCreatedResponse(commandGateway.sendAndWait(command, UUID.class));
+		return new CourseReviewCreatedResponse(reviewCourseCommandHandler.handle(command));
 	}
 
 	@GetMapping(value = "/courses/{uuid}/reviews", produces = APPLICATION_JSON_VALUE)
@@ -51,7 +54,7 @@ public class CourseReviewController {
 	public List<CourseReviewDTO> reviews(@PathVariable("uuid") UUID uuid) {
 		final ListCourseReviewsByCourseUUIDQuery query = new ListCourseReviewsByCourseUUIDQuery(uuid);
 
-		return queryGateway.queryMany(query, CourseReviewDTO.class).join();
+		return listCourseReviewsByCourseUUIDQueryHandler.handle(query);
 	}
 
 	@PutMapping(value = "/courses/{courseUuid}/reviews/{reviewUuid}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -59,6 +62,6 @@ public class CourseReviewController {
 	public void updateReview(@PathVariable("courseUuid") UUID courseUuid, @PathVariable("reviewUuid") UUID reviewUuid, @RequestBody @Valid UpdateCourseReviewRequest request) {
 		final UpdateCourseReviewCommand command = new UpdateCourseReviewCommand(reviewUuid, request.rating(), request.comment());
 
-		commandGateway.sendAndWait(command);
+		updateCourseReviewCommandHandler.handle(command);
 	}
 }
