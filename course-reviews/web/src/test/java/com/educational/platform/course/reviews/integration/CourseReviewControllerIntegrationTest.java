@@ -21,7 +21,6 @@ import jakarta.validation.ConstraintViolationException;
 import org.axonframework.extension.springboot.autoconfig.SecurityAutoConfiguration;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.queryhandling.gateway.QueryGateway;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -42,7 +41,6 @@ import com.educational.platform.users.security.WebSecurityConfig;
 /**
  * Represents course review controller integration tests.
  */
-@Disabled
 @WebMvcTest(controllers = CourseReviewController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class}, excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = WebSecurityConfig.class)})
 public class CourseReviewControllerIntegrationTest {
@@ -83,7 +81,7 @@ public class CourseReviewControllerIntegrationTest {
 
     @Test
     void review_relatedResourceIsNotResolvedException_badRequest() throws Exception {
-        doThrow(RelatedResourceIsNotResolvedException.class).when(commandGateway).sendAndWait(any(ReviewCourseCommand.class));
+        doThrow(RelatedResourceIsNotResolvedException.class).when(commandGateway).sendAndWait(any(ReviewCourseCommand.class), eq(UUID.class));
 
         this.mockMvc.perform(post("/courses/{uuid}/reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{\n" +
@@ -99,7 +97,7 @@ public class CourseReviewControllerIntegrationTest {
     void review_constraintViolationException_badRequest() throws Exception {
         final ConstraintViolationException exception = mock(ConstraintViolationException.class);
         doReturn(new HashSet<>()).when(exception).getConstraintViolations();
-        doThrow(exception).when(commandGateway).sendAndWait(any(ReviewCourseCommand.class));
+        doThrow(exception).when(commandGateway).sendAndWait(any(ReviewCourseCommand.class), eq(UUID.class));
 
         this.mockMvc.perform(post("/courses/{uuid}/reviews", UUID.fromString("123e4567-e89b-12d3-a456-426655440001"))
                 .content("{\n" +
