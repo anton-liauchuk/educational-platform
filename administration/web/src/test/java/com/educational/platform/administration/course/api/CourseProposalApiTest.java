@@ -2,14 +2,11 @@ package com.educational.platform.administration.course.api;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.axonframework.extension.springboot.autoconfig.SecurityAutoConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.UUID;
