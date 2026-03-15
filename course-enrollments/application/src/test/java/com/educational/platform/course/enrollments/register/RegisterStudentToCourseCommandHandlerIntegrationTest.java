@@ -9,10 +9,13 @@ import com.educational.platform.course.enrollments.student.Student;
 import com.educational.platform.course.enrollments.student.StudentRepository;
 import com.educational.platform.course.enrollments.student.create.CreateStudentCommand;
 
+import org.axonframework.extension.springboot.autoconfig.AxonAutoConfiguration;
+import org.axonframework.extension.springboot.autoconfig.EventProcessingAutoConfiguration;
+import org.axonframework.extension.springboot.autoconfig.JpaAutoConfiguration;
+import org.axonframework.extension.springboot.autoconfig.JpaEventStoreAutoConfiguration;
 import org.axonframework.messaging.eventhandling.EventBus;
 import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +33,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
-@Disabled
 @AutoConfigureTestDatabase
 @SpringBootTest
-//@EnableAutoConfiguration(exclude = { AxonAutoConfiguration.class, JpaAutoConfiguration.class, JpaEventStoreAutoConfiguration.class, JdbcAutoConfiguration.class })
+@EnableAutoConfiguration(exclude = { AxonAutoConfiguration.class, JpaAutoConfiguration.class, JpaEventStoreAutoConfiguration.class, EventProcessingAutoConfiguration.class })
 public class RegisterStudentToCourseCommandHandlerIntegrationTest {
 
     @Autowired
