@@ -2,7 +2,6 @@ package com.educational.platform.courses.course.rating.update;
 
 import com.educational.platform.course.reviews.integration.event.CourseRatingRecalculatedIntegrationEvent;
 
-import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 import org.springframework.stereotype.Component;
 
@@ -12,15 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class CourseRatingRecalculatedIntegrationEventHandler {
 
-    private final CommandGateway commandGateway;
+    private final UpdateCourseRatingCommandHandler updateCourseRatingCommandHandler;
 
-    public CourseRatingRecalculatedIntegrationEventHandler(CommandGateway commandGateway) {
-        this.commandGateway = commandGateway;
+    public CourseRatingRecalculatedIntegrationEventHandler(UpdateCourseRatingCommandHandler updateCourseRatingCommandHandler) {
+        this.updateCourseRatingCommandHandler = updateCourseRatingCommandHandler;
     }
 
     @EventHandler
     public void handleCourseRatingRecalculatedEvent(CourseRatingRecalculatedIntegrationEvent event) {
-        commandGateway.send(new UpdateCourseRatingCommand(event.courseId(), event.rating()));
+        updateCourseRatingCommandHandler.handle(new UpdateCourseRatingCommand(event.courseId(), event.rating()));
     }
 
 }

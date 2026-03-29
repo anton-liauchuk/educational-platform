@@ -1,17 +1,17 @@
 package com.educational.platform.users;
 
+import com.educational.platform.users.login.SignInCommandHandler;
+import com.educational.platform.users.registration.UserRegistrationCommandHandler;
 import com.educational.platform.users.security.UserController;
 import com.educational.platform.users.security.WebSecurityConfig;
-
 import org.axonframework.extension.springboot.autoconfig.SecurityAutoConfiguration;
-import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,14 +28,22 @@ public class UserControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private CommandGateway commandGateway;
+    private UserRegistrationCommandHandler userRegistrationCommandHandler;
+
+    @MockitoBean
+    private SignInCommandHandler signInCommandHandler;
 
     @Test
     void signUp_validRequest_signedUp() throws Exception {
         this.mockMvc
                 .perform(post("/users/sign-up")
-                        .content("{\n" + "    \"role\": \"ROLE_STUDENT\",\n" + "    \"username\": \"username\",\n"
-                                + "    \"email\": \"mail@gmail.com\",\n" + "    \"password\": \"password\"\n" + "}")
+                        .content("""
+                                {
+                                    "role": "ROLE_STUDENT",
+                                    "username": "username",
+                                    "email": "mail@gmail.com",
+                                    "password": "password"
+                                }""")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -45,8 +53,12 @@ public class UserControllerIntegrationTest {
     void signUp_emptyUsername_badRequest() throws Exception {
         this.mockMvc
                 .perform(post("/users/sign-up")
-                        .content("{\n" + "    \"role\": \"ROLE_STUDENT\",\n" + "    \"email\": \"mail@gmail.com\",\n"
-                                + "    \"password\": \"password\"\n" + "}")
+                        .content("""
+                                {
+                                    "role": "ROLE_STUDENT",
+                                    "email": "mail@gmail.com",
+                                    "password": "password"
+                                }""")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
@@ -57,8 +69,12 @@ public class UserControllerIntegrationTest {
         this.mockMvc
                 .perform(post("/users/sign-up")
                         .content(
-                                "{\n" + "    \"role\": \"ROLE_STUDENT\",\n" + "    \"username\": \"username\",\n" + "    \"password\": \"password\"\n"
-                                        + "}")
+                                """
+                                        {
+                                            "role": "ROLE_STUDENT",
+                                            "username": "username",
+                                            "password": "password"
+                                        }""")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
@@ -68,8 +84,12 @@ public class UserControllerIntegrationTest {
     void signUp_emptyPassword_badRequest() throws Exception {
         this.mockMvc
                 .perform(post("/users/sign-up")
-                        .content("{\n" + "    \"role\": \"ROLE_STUDENT\",\n" + "    \"username\": \"username\",\n"
-                                + "    \"email\": \"mail@gmail.com\"\n" + "}")
+                        .content("""
+                                {
+                                    "role": "ROLE_STUDENT",
+                                    "username": "username",
+                                    "email": "mail@gmail.com"
+                                }""")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
@@ -79,8 +99,12 @@ public class UserControllerIntegrationTest {
     void signUp_emptyRole_badRequest() throws Exception {
         this.mockMvc
                 .perform(post("/users/sign-up")
-                        .content("{\n" + "    \"username\": \"username\",\n" + "    \"email\": \"mail@gmail.com\",\n"
-                                + "    \"password\": \"password\"\n" + "}")
+                        .content("""
+                                {
+                                    "username": "username",
+                                    "email": "mail@gmail.com",
+                                    "password": "password"
+                                }""")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
@@ -90,8 +114,11 @@ public class UserControllerIntegrationTest {
     void signIn_validRequest_signedIn() throws Exception {
         this.mockMvc
                 .perform(post("/users/sign-in")
-                        .content("{\n" + "    \"username\": \"username\",\n"
-                                + "    \"password\": \"password\"\n" + "}")
+                        .content("""
+                                {
+                                    "username": "username",
+                                    "password": "password"
+                                }""")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -101,8 +128,10 @@ public class UserControllerIntegrationTest {
     void signIn_emptyUsername_badRequest() throws Exception {
         this.mockMvc
                 .perform(post("/users/sign-in")
-                        .content("{\n" +
-                                "    \"password\": \"password\"\n" + "}")
+                        .content("""
+                                {
+                                    "password": "password"
+                                }""")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
@@ -112,8 +141,10 @@ public class UserControllerIntegrationTest {
     void signIn_emptyPassword_badRequest() throws Exception {
         this.mockMvc
                 .perform(post("/users/sign-in")
-                        .content("{\n" + "    \"username\": \"username\"\n"
-                                + "}")
+                        .content("""
+                                {
+                                    "username": "username"
+                                }""")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());

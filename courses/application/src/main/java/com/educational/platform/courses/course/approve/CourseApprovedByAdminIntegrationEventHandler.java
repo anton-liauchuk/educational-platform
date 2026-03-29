@@ -1,8 +1,6 @@
 package com.educational.platform.courses.course.approve;
 
 import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
-
-import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 import org.springframework.stereotype.Component;
 
@@ -12,15 +10,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class CourseApprovedByAdminIntegrationEventHandler {
 
-    private final CommandGateway commandGateway;
+    private final ApproveCourseCommandHandler approveCourseCommandHandler;
 
-    public CourseApprovedByAdminIntegrationEventHandler(CommandGateway commandGateway) {
-        this.commandGateway = commandGateway;
+    public CourseApprovedByAdminIntegrationEventHandler(ApproveCourseCommandHandler approveCourseCommandHandler) {
+        this.approveCourseCommandHandler = approveCourseCommandHandler;
     }
 
     @EventHandler
     public void handleCourseApprovedByAdminEvent(CourseApprovedByAdminIntegrationEvent event) {
-        commandGateway.send(new ApproveCourseCommand(event.courseId()));
+        approveCourseCommandHandler.handle(new ApproveCourseCommand(event.courseId()));
     }
 
 }

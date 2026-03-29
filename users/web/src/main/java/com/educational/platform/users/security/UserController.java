@@ -1,10 +1,11 @@
 package com.educational.platform.users.security;
 
+import com.educational.platform.users.login.SignInCommandHandler;
+import com.educational.platform.users.registration.UserRegistrationCommandHandler;
 import jakarta.validation.Valid;
 
 import com.educational.platform.users.login.SignInCommand;
 
-import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,15 +19,17 @@ import com.educational.platform.users.registration.UserRegistrationCommand;
 @Validated
 public class UserController {
 
-	private final CommandGateway commandGateway;
+	private final UserRegistrationCommandHandler userRegistrationCommandHandler;
+	private final SignInCommandHandler signInCommandHandler;
 
-    public UserController(CommandGateway commandGateway) {
-        this.commandGateway = commandGateway;
+    public UserController(UserRegistrationCommandHandler userRegistrationCommandHandler, SignInCommandHandler signInCommandHandler) {
+        this.userRegistrationCommandHandler = userRegistrationCommandHandler;
+        this.signInCommandHandler = signInCommandHandler;
     }
 
     @PostMapping("/sign-up")
 	public String signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
-		UserRegistrationCommand command = UserRegistrationCommand
+		var command = UserRegistrationCommand
 				.builder()
 				.role(signUpRequest.role())
 				.email(signUpRequest.email())
@@ -34,17 +37,17 @@ public class UserController {
 				.password(signUpRequest.password())
 				.build();
 
-		return commandGateway.sendAndWait(command, String.class);
+		return userRegistrationCommandHandler.handle(command);
 	}
 
 	@PostMapping("/sign-in")
 	public String signIn(@Valid @RequestBody SignInRequest signInRequest) {
-		SignInCommand command = SignInCommand
+		var command = SignInCommand
 				.builder()
 				.username(signInRequest.username())
 				.password(signInRequest.password())
 				.build();
 
-		return commandGateway.sendAndWait(command, String.class);
+		return signInCommandHandler.handle(command);
 	}
 }

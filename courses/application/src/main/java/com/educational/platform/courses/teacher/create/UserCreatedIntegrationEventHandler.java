@@ -2,7 +2,6 @@ package com.educational.platform.courses.teacher.create;
 
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 
-import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 import org.springframework.stereotype.Component;
 
@@ -13,15 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserCreatedIntegrationEventHandler {
 
-    private final CommandGateway commandGateway;
+    private final CreateTeacherCommandHandler createTeacherCommandHandler;
 
-    public UserCreatedIntegrationEventHandler(CommandGateway commandGateway) {
-        this.commandGateway = commandGateway;
+    public UserCreatedIntegrationEventHandler(CreateTeacherCommandHandler createTeacherCommandHandler) {
+        this.createTeacherCommandHandler = createTeacherCommandHandler;
     }
 
     @EventHandler
     public void handleUserCreatedEvent(UserCreatedIntegrationEvent event) {
-        commandGateway.send(new CreateTeacherCommand(event.username()));
+        createTeacherCommandHandler.handle(new CreateTeacherCommand(event.username()));
     }
 
 }
