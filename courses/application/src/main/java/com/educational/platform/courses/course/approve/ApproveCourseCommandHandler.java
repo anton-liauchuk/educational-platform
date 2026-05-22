@@ -4,7 +4,6 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseRepository;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +28,6 @@ public class ApproveCourseCommandHandler {
      * @param command command
      * @throws ResourceNotFoundException        if resource not found
      */
-    @CommandHandler
     public void handle(ApproveCourseCommand command) {
         final Optional<Course> dbResult = repository.findByUuid(command.uuid());
         if (dbResult.isEmpty()) {

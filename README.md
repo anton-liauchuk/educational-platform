@@ -130,7 +130,6 @@ public class ApproveCourseProposalCommandHandler {
      * @throws ResourceNotFoundException              if resource not found
      * @throws CourseProposalAlreadyApprovedException course proposal already approved
      */
-    @CommandHandler
     @PreAuthorize("hasRole('ADMIN')")
     public void handle(ApproveCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {
@@ -287,7 +286,6 @@ public class PublishCourseCommandHandler {
      * @throws ResourceNotFoundException        if resource not found
      * @throws CourseCannotBePublishedException if course is not approved
      */
-    @CommandHandler
     @PreAuthorize("hasRole('TEACHER') and @courseTeacherChecker.hasAccess(authentication, #c.uuid)")
     public void handle(@P("c") PublishCourseCommand command) {
         final Optional<Course> dbResult = repository.findByUuid(command.getUuid());

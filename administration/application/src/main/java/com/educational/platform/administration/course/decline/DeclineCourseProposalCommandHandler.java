@@ -7,7 +7,6 @@ import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseDeclinedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import jakarta.inject.Named;
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.axonframework.messaging.core.MessageType;
 import org.axonframework.messaging.eventhandling.EventBus;
 import org.axonframework.messaging.eventhandling.GenericEventMessage;
@@ -40,7 +39,6 @@ public class DeclineCourseProposalCommandHandler {
      * @throws ResourceNotFoundException              if resource not found
      * @throws CourseProposalAlreadyDeclinedException course proposal already declined
      */
-    @CommandHandler
     @PreAuthorize("hasRole('ADMIN')")
     public void handle(DeclineCourseProposalCommand command) {
         final CourseProposal proposal = transactionTemplate.execute(transactionStatus -> {

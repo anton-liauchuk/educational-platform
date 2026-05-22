@@ -8,7 +8,6 @@ import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 import com.educational.platform.users.security.JwtTokenProvider;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.axonframework.messaging.core.MessageType;
 import org.axonframework.messaging.eventhandling.EventBus;
 import org.axonframework.messaging.eventhandling.GenericEventMessage;
@@ -54,7 +53,6 @@ public class UserRegistrationCommandHandler {
      * @throws ConstraintViolationException validation errors
      * @throws UnprocessableEntityException if username is already in use
      */
-    @CommandHandler
     @Nonnull
     public String handle(UserRegistrationCommand command) {
         final User user = transactionTemplate.execute(transactionStatus -> {

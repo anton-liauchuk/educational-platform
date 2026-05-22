@@ -2,7 +2,6 @@ package com.educational.platform.courses.course.query;
 
 import java.util.Optional;
 
-import org.axonframework.messaging.queryhandling.annotation.QueryHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +26,6 @@ public class CourseByUUIDQueryHandler {
 	 * @param query query.
 	 * @return corresponding course dto.
 	 */
-	@QueryHandler
 	@Nonnull
 	public Optional<CourseDTO> handle(CourseByUUIDQuery query) {
 		return repository.findDTOByUuid(query.uuid());

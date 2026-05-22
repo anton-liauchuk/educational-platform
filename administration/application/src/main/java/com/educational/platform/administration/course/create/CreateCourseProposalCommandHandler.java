@@ -5,7 +5,6 @@ import com.educational.platform.administration.course.CourseProposalRepository;
 
 import jakarta.inject.Named;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -26,7 +25,6 @@ public class CreateCourseProposalCommandHandler {
      *
      * @param command command
      */
-    @CommandHandler
     public void handle(CreateCourseProposalCommand command) {
         final CourseProposal courseProposal = new CourseProposal(command);
         courseProposalRepository.save(courseProposal);

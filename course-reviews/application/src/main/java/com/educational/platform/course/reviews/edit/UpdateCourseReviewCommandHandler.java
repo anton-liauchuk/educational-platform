@@ -4,7 +4,6 @@ import com.educational.platform.common.exception.ResourceNotFoundException;
 import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewRepository;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
@@ -38,7 +37,6 @@ public class UpdateCourseReviewCommandHandler {
      * @throws ResourceNotFoundException    course review not found
      * @throws ConstraintViolationException validation issues
      */
-    @CommandHandler
     @PreAuthorize("hasRole('STUDENT') and @courseReviewChecker.hasAccess(authentication, #c.uuid)")
     public void handle(@P("c") UpdateCourseReviewCommand command) {
         final Optional<CourseReview> dbResult = courseReviewRepository.findByUuid(command.uuid());

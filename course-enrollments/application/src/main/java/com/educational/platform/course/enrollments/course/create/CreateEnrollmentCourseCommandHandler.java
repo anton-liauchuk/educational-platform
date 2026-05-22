@@ -3,7 +3,6 @@ package com.educational.platform.course.enrollments.course.create;
 import com.educational.platform.course.enrollments.course.EnrollCourse;
 import com.educational.platform.course.enrollments.course.EnrollCourseRepository;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +24,6 @@ public class CreateEnrollmentCourseCommandHandler {
      *
      * @param command command
      */
-    @CommandHandler
     public void handle(CreateCourseCommand command) {
         final EnrollCourse course = new EnrollCourse(command);
         courseRepository.save(course);

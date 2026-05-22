@@ -4,7 +4,6 @@ import com.educational.platform.courses.course.Course;
 import com.educational.platform.courses.course.CourseFactory;
 import com.educational.platform.courses.course.CourseRepository;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -35,7 +34,6 @@ public class CreateCourseCommandHandler {
      * @throws ConstraintViolationException in the case of validation issues
      */
     // todo move to factory
-    @CommandHandler
     @Nonnull
     @PreAuthorize("hasRole('TEACHER')")
     public UUID handle(CreateCourseCommand command) {

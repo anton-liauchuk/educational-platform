@@ -7,7 +7,6 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
@@ -24,7 +23,7 @@ public class CommandHandlerTest {
                     return javaClass.isPrimitive() || javaClass.isEquivalentTo(Void.TYPE);
                 }
             })
-            .and().areAnnotatedWith(CommandHandler.class)
+            .and().areDeclaredInClassesThat().haveSimpleNameEndingWith("CommandHandler")
             .should().beAnnotatedWith(Nonnull.class).orShould().beAnnotatedWith(Nullable.class)
             .because("Command handlers should provide detailed documentation of API, it's why nullability annotations are needed.");
 

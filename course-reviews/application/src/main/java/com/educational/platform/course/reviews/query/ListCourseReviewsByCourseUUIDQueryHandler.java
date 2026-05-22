@@ -2,7 +2,6 @@ package com.educational.platform.course.reviews.query;
 
 import java.util.List;
 
-import org.axonframework.messaging.queryhandling.annotation.QueryHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +26,6 @@ public class ListCourseReviewsByCourseUUIDQueryHandler {
 	 * @param query query.
 	 * @return course reviews.
 	 */
-	@QueryHandler
 	@Nonnull
 	public List<CourseReviewDTO> handle(ListCourseReviewsByCourseUUIDQuery query) {
 		return repository.listCourseReviews(query.uuid());

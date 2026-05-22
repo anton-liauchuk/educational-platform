@@ -6,7 +6,6 @@ import com.educational.platform.courses.course.CourseAlreadyApprovedException;
 import com.educational.platform.courses.course.CourseRepository;
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.axonframework.messaging.core.MessageType;
 import org.axonframework.messaging.eventhandling.EventBus;
 import org.axonframework.messaging.eventhandling.GenericEventMessage;
@@ -39,7 +38,6 @@ public class SendCourseToApproveCommandHandler {
      * @throws CourseAlreadyApprovedException if course was already approved
      * @throws ResourceNotFoundException      if resource not found
      */
-    @CommandHandler
     @PreAuthorize("hasRole('TEACHER') and @courseTeacherChecker.hasAccess(authentication, #c.uuid)")
     public void handle(@P("c") SendCourseToApproveCommand command) {
         final Optional<Course> dbResult = repository.findByUuid(command.uuid());

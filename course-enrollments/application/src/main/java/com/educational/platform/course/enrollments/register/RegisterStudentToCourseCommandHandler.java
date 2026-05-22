@@ -6,7 +6,6 @@ import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
 import com.educational.platform.course.enrollments.CurrentUserAsStudent;
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.axonframework.messaging.core.MessageType;
 import org.axonframework.messaging.eventhandling.EventBus;
 import org.axonframework.messaging.eventhandling.GenericEventMessage;
@@ -45,7 +44,6 @@ public class RegisterStudentToCourseCommandHandler {
      *
      * @param command command
      */
-    @CommandHandler
     @Nonnull
     @PreAuthorize("hasRole('STUDENT')")
     public UUID handle(RegisterStudentToCourseCommand command) {

@@ -3,7 +3,6 @@ package com.educational.platform.courses.teacher.create;
 import com.educational.platform.courses.teacher.Teacher;
 import com.educational.platform.courses.teacher.TeacherRepository;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,6 @@ public class CreateTeacherCommandHandler {
         this.teacherRepository = teacherRepository;
     }
 
-    @CommandHandler
     public void handle(CreateTeacherCommand command) {
         teacherRepository.save(new Teacher(command));
     }

@@ -2,7 +2,6 @@ package com.educational.platform.courses.course.query;
 
 import java.util.List;
 
-import org.axonframework.messaging.queryhandling.annotation.QueryHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +26,6 @@ public class ListCourseQueryHandler {
 	 * @param query query.
 	 * @return corresponding list of course dtos.
 	 */
-	@QueryHandler
 	@Nonnull
 	public List<CourseLightDTO> handle(ListCourseQuery query) {
 		return repository.list();

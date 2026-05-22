@@ -3,7 +3,6 @@ package com.educational.platform.course.reviews.reviewer.create;
 import com.educational.platform.course.reviews.reviewer.Reviewer;
 import com.educational.platform.course.reviews.reviewer.ReviewerRepository;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +24,6 @@ public class CreateReviewerCommandHandler {
      *
      * @param command command
      */
-    @CommandHandler
     public void handle(CreateReviewerCommand command) {
         final Reviewer reviewer = new Reviewer(command);
         reviewerRepository.save(reviewer);

@@ -5,7 +5,6 @@ import com.educational.platform.users.Role;
 import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.security.JwtTokenProvider;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,7 +43,6 @@ public class SignInCommandHandler {
      * @throws ConstraintViolationException validation errors
      * @throws UnprocessableEntityException invalid username/password
      */
-    @CommandHandler
     @Nonnull
     public String handle(SignInCommand command) {
         try {

@@ -3,7 +3,6 @@ package com.educational.platform.course.reviews.course.create;
 import com.educational.platform.course.reviews.course.ReviewableCourse;
 import com.educational.platform.course.reviews.course.ReviewableCourseRepository;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +24,6 @@ public class CreateReviewableCourseCommandHandler {
      *
      * @param command command
      */
-    @CommandHandler
     public void handle(CreateReviewableCourseCommand command) {
         final ReviewableCourse reviewableCourse = new ReviewableCourse(command);
         reviewableCourseRepository.save(reviewableCourse);

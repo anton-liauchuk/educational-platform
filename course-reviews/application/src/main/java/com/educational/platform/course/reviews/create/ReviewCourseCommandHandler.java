@@ -5,7 +5,6 @@ import com.educational.platform.course.reviews.CourseReview;
 import com.educational.platform.course.reviews.CourseReviewFactory;
 import com.educational.platform.course.reviews.CourseReviewRepository;
 
-import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +35,6 @@ public class ReviewCourseCommandHandler {
      * @throws ConstraintViolationException          in the case of validation issues
      * @throws RelatedResourceIsNotResolvedException if course or reviewer is not found by relation
      */
-    @CommandHandler
     @Nonnull
     public UUID handle(ReviewCourseCommand command) {
         final CourseReview courseReview = courseReviewFactory.createFrom(command);
