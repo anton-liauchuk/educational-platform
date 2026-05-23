@@ -14,7 +14,7 @@ Example of Modular Monolith Java application with Domain-Driven Design. In the p
     + [3.8. Architecture Decisions](#38-architecture-decisions)
     + [3.9. Results from command handlers](#39-results-from-command-handlers)
     + [3.10. Architecture tests](#310-architecture-tests)
-    + [3.11. Axon Framework](#311-axon-framework)
+    + [3.11. Communication between bounded contexts](#311-communication-between-bounded-contexts)
     + [3.12. Bounded context map](#312-bounded-context-map)
     + [3.13. Integration events inside application](#313-integration-events-inside-application)
     + [3.14. Technology stack](#314-technology-stack)
@@ -108,19 +108,19 @@ Definition of common formats for API.
 ### 3.2. Communications between bounded contexts
 Communication between bounded contexts is asynchronous. Bounded contexts don't share data, it's forbidden to create a transaction which spans more than one bounded context.
 
-This solution reduces coupling of bounded contexts through data replication across contexts which results to higher bounded contexts independence. Event publishing/subscribing is used from Axon Framework. The example of implementation:
+This solution reduces coupling of bounded contexts through data replication across contexts which results to higher bounded contexts independence. Event publishing/subscribing is used from Spring's `ApplicationEventPublisher`. The example of implementation:
 ```java
 @Component
 public class ApproveCourseProposalCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;
-    private final EventBus eventBus;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public ApproveCourseProposalCommandHandler(TransactionTemplate transactionTemplate, CourseProposalRepository repository, EventBus eventBus) {
+    public ApproveCourseProposalCommandHandler(TransactionTemplate transactionTemplate, CourseProposalRepository repository, ApplicationEventPublisher eventPublisher) {
       this.transactionTemplate = transactionTemplate;
       this.repository = repository;
-      this.eventBus = eventBus;
+      this.eventPublisher = eventPublisher;
     }
 
     /**
@@ -138,7 +138,7 @@ public class ApproveCourseProposalCommandHandler {
 
         final CourseProposalDTO dto = Objects.requireNonNull(proposal).toDTO();
         // publishing integration event outside the transaction
-        eventBus.publish(GenericEventMessage.asEventMessage(new CourseApprovedByAdminIntegrationEvent(dto.getUuid())));
+        eventPublisher.publishEvent(new CourseApprovedByAdminIntegrationEvent(dto.getUuid()));
     }
 }
 ```
@@ -148,15 +148,16 @@ The listener for this integration event:
 @Component
 public class SendCourseToApproveIntegrationEventHandler {
 
-    private final CommandGateway commandGateway;
+    private final CreateCourseProposalCommandHandler createCourseProposalCommandHandler;
 
-    public SendCourseToApproveIntegrationEventHandler(CommandGateway commandGateway) {
-      this.commandGateway = commandGateway;
+    public SendCourseToApproveIntegrationEventHandler(CreateCourseProposalCommandHandler createCourseProposalCommandHandler) {
+      this.createCourseProposalCommandHandler = createCourseProposalCommandHandler;
     }
 
-    @EventHandler
+    @Async
+    @EventListener
     public void handleSendCourseToApproveEvent(SendCourseToApproveIntegrationEvent event) {
-        commandGateway.send(new CreateCourseProposalCommand(event.getCourseId()));
+        createCourseProposalCommandHandler.handle(new CreateCourseProposalCommand(event.getCourseId()));
     }
 
 }
@@ -224,10 +225,10 @@ Example of running format validation:
 @RestController
 public class CourseController {
 
-    private final CommandGateway commandGateway;
+    private final CreateCourseCommandHandler createCourseCommandHandler;
 
-    public CourseController(CommandGateway commandGateway) {
-      this.commandGateway = commandGateway;
+    public CourseController(CreateCourseCommandHandler createCourseCommandHandler) {
+      this.createCourseCommandHandler = createCourseCommandHandler;
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -238,7 +239,7 @@ public class CourseController {
                 .description(courseCreateRequest.getDescription())
                 .build();
 
-        return new CreatedCourseResponse(commandGateway.sendAndWait(command));
+        return new CreatedCourseResponse(createCourseCommandHandler.handle(command));
     }
     
     //...
@@ -356,8 +357,8 @@ ArchUnit are used for implementing architecture tests. These tests are placed in
 
 **LayerTest** - tests for validating the dependencies between layers of application.
 
-### 3.11. Axon Framework
-Axon Framework is used as DDD library for not creating custom building block classes. Also, more functionality for event publishing/event sourcing is used from Axon functionality.
+### 3.11. Communication between bounded contexts
+Communication between bounded contexts is performed via Spring's `ApplicationEventPublisher` for publishing integration events and `@Async`/`@EventListener` annotations for handling them asynchronously.
 
 ### 3.12. Bounded context map
 ![](docs/bounded_context_map.png)
@@ -368,7 +369,6 @@ Axon Framework is used as DDD library for not creating custom building block cla
 ### 3.14. Technology stack
 - Spring;
 - Java 25;
-- Axon Framework;
 - ArchUnit;
 - Gradle;
 

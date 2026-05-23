@@ -4,7 +4,6 @@ import com.educational.platform.users.login.SignInCommandHandler;
 import com.educational.platform.users.registration.UserRegistrationCommandHandler;
 import com.educational.platform.users.security.UserController;
 import com.educational.platform.users.security.WebSecurityConfig;
-import org.axonframework.extension.springboot.autoconfig.SecurityAutoConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -20,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Represents course controller integration tests.
  */
-@WebMvcTest(value = UserController.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class}, excludeFilters = {
+@WebMvcTest(value = UserController.class, excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = WebSecurityConfig.class)})
 public class UserControllerIntegrationTest {
 

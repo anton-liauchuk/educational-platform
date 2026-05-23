@@ -8,9 +8,7 @@ import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 import com.educational.platform.users.security.JwtTokenProvider;
 
-import org.axonframework.messaging.core.MessageType;
-import org.axonframework.messaging.eventhandling.EventBus;
-import org.axonframework.messaging.eventhandling.GenericEventMessage;
+import org.springframework.context.ApplicationEventPublisher;
 import jakarta.annotation.Nonnull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -33,15 +31,15 @@ public class UserRegistrationCommandHandler {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository repository;
-    private final EventBus eventBus;
+    private final ApplicationEventPublisher eventPublisher;
     private final Validator validator;
 
-    public UserRegistrationCommandHandler(TransactionTemplate transactionTemplate, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, UserRepository repository, EventBus eventBus, Validator validator) {
+    public UserRegistrationCommandHandler(TransactionTemplate transactionTemplate, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, UserRepository repository, ApplicationEventPublisher eventPublisher, Validator validator) {
         this.transactionTemplate = transactionTemplate;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
         this.repository = repository;
-        this.eventBus = eventBus;
+        this.eventPublisher = eventPublisher;
         this.validator = validator;
     }
 
@@ -71,7 +69,7 @@ public class UserRegistrationCommandHandler {
         });
 
         final UserDTO dto = Objects.requireNonNull(user).toDTO();
-        eventBus.publish(null, new GenericEventMessage(new MessageType(UserCreatedIntegrationEvent.class), new UserCreatedIntegrationEvent(dto.username(), dto.email())));
+        eventPublisher.publishEvent(new UserCreatedIntegrationEvent(dto.username(), dto.email()));
 
         return jwtTokenProvider.createToken(dto.username(), Collections.singletonList(Role.from(dto.role())));
     }

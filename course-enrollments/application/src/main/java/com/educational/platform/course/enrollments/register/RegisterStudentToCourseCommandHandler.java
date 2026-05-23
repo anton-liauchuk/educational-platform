@@ -6,10 +6,8 @@ import com.educational.platform.course.enrollments.CourseEnrollmentRepository;
 import com.educational.platform.course.enrollments.CurrentUserAsStudent;
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
 
-import org.axonframework.messaging.core.MessageType;
-import org.axonframework.messaging.eventhandling.EventBus;
-import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import jakarta.annotation.Nonnull;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,14 +27,14 @@ public class RegisterStudentToCourseCommandHandler {
     private final CourseEnrollmentRepository courseEnrollmentRepository;
     private final CourseEnrollmentFactory courseEnrollmentFactory;
     private final CurrentUserAsStudent currentUserAsStudent;
-    private final EventBus eventBus;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public RegisterStudentToCourseCommandHandler(TransactionTemplate transactionTemplate, CourseEnrollmentRepository courseEnrollmentRepository, CourseEnrollmentFactory courseEnrollmentFactory, CurrentUserAsStudent currentUserAsStudent, EventBus eventBus) {
+    public RegisterStudentToCourseCommandHandler(TransactionTemplate transactionTemplate, CourseEnrollmentRepository courseEnrollmentRepository, CourseEnrollmentFactory courseEnrollmentFactory, CurrentUserAsStudent currentUserAsStudent, ApplicationEventPublisher eventPublisher) {
         this.transactionTemplate = transactionTemplate;
         this.courseEnrollmentRepository = courseEnrollmentRepository;
         this.courseEnrollmentFactory = courseEnrollmentFactory;
         this.currentUserAsStudent = currentUserAsStudent;
-        this.eventBus = eventBus;
+        this.eventPublisher = eventPublisher;
     }
 
     /**
@@ -55,8 +53,8 @@ public class RegisterStudentToCourseCommandHandler {
         });
 
         final UUID uuid = Objects.requireNonNull(courseEnrollment).getUuid();
-        eventBus.publish(null, new GenericEventMessage(new MessageType(StudentEnrolledToCourseIntegrationEvent.class), new StudentEnrolledToCourseIntegrationEvent(command.courseId(),
-                currentUserAsStudent.userAsStudent().toReference())));
+        eventPublisher.publishEvent(new StudentEnrolledToCourseIntegrationEvent(command.courseId(),
+                currentUserAsStudent.userAsStudent().toReference()));
 
         return uuid;
     }

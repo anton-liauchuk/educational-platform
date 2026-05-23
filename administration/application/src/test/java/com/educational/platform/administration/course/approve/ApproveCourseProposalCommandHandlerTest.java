@@ -7,14 +7,13 @@ import com.educational.platform.administration.course.create.CreateCourseProposa
 import com.educational.platform.administration.integration.event.CourseApprovedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import org.assertj.core.api.ThrowableAssert;
-import org.axonframework.messaging.eventhandling.EventBus;
-import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -24,7 +23,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,14 +39,14 @@ class ApproveCourseProposalCommandHandlerTest {
     private TransactionTemplate transactionTemplate;
 
     @Mock
-    private EventBus eventBus;
+    private ApplicationEventPublisher eventPublisher;
 
     private ApproveCourseProposalCommandHandler sut;
 
     @BeforeEach
     void setUp() {
         transactionTemplate = new TransactionTemplate(transactionManager);
-        sut = new ApproveCourseProposalCommandHandler(transactionTemplate, repository, eventBus);
+        sut = new ApproveCourseProposalCommandHandler(transactionTemplate, repository, eventPublisher);
     }
 
     @Test
@@ -72,9 +70,9 @@ class ApproveCourseProposalCommandHandlerTest {
         assertThat(proposal)
                 .hasFieldOrPropertyWithValue("status", CourseProposalStatus.APPROVED);
 
-        final ArgumentCaptor<GenericEventMessage> eventArgument = ArgumentCaptor.forClass(GenericEventMessage.class);
-        verify(eventBus).publish(any(), eventArgument.capture());
-        final CourseApprovedByAdminIntegrationEvent event = (CourseApprovedByAdminIntegrationEvent) eventArgument.getValue().payload();
+        final ArgumentCaptor<CourseApprovedByAdminIntegrationEvent> eventArgument = ArgumentCaptor.forClass(CourseApprovedByAdminIntegrationEvent.class);
+        verify(eventPublisher).publishEvent(eventArgument.capture());
+        final CourseApprovedByAdminIntegrationEvent event = eventArgument.getValue();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("courseId", uuid);
     }

@@ -2,7 +2,8 @@ package com.educational.platform.courses.course.numberofsudents.update;
 
 import com.educational.platform.course.enrollments.integration.event.StudentEnrolledToCourseIntegrationEvent;
 
-import org.axonframework.messaging.eventhandling.annotation.EventHandler;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,7 +18,8 @@ public class StudentEnrolledToCourseIntegrationEventHandler {
         this.increaseNumberOfStudentsCommandHandler = increaseNumberOfStudentsCommandHandler;
     }
 
-    @EventHandler
+    @Async
+    @EventListener
     public void handleStudentEnrolledToCourseEvent(StudentEnrolledToCourseIntegrationEvent event) {
         increaseNumberOfStudentsCommandHandler.handle(new IncreaseNumberOfStudentsCommand(event.courseId()));
     }

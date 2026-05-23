@@ -2,13 +2,14 @@ package com.educational.platform.administration.course.create;
 
 import com.educational.platform.courses.integration.event.SendCourseToApproveIntegrationEvent;
 
-import org.axonframework.messaging.eventhandling.annotation.EventHandler;
-import jakarta.inject.Named;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 /**
  * Event listener for {@link SendCourseToApproveIntegrationEvent}, executes the logic for creating course proposal by {@link CreateCourseProposalCommandHandler}.
  */
-@Named
+@Component
 public class SendCourseToApproveIntegrationEventHandler {
 
     private final CreateCourseProposalCommandHandler createCourseProposalCommandHandler;
@@ -17,7 +18,8 @@ public class SendCourseToApproveIntegrationEventHandler {
         this.createCourseProposalCommandHandler = createCourseProposalCommandHandler;
     }
 
-    @EventHandler
+    @Async
+    @EventListener
     public void handleSendCourseToApproveEvent(SendCourseToApproveIntegrationEvent event) {
         createCourseProposalCommandHandler.handle(new CreateCourseProposalCommand(event.courseId()));
     }

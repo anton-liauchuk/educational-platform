@@ -2,7 +2,8 @@ package com.educational.platform.courses.course.rating.update;
 
 import com.educational.platform.course.reviews.integration.event.CourseRatingRecalculatedIntegrationEvent;
 
-import org.axonframework.messaging.eventhandling.annotation.EventHandler;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,7 +18,8 @@ public class CourseRatingRecalculatedIntegrationEventHandler {
         this.updateCourseRatingCommandHandler = updateCourseRatingCommandHandler;
     }
 
-    @EventHandler
+    @Async
+    @EventListener
     public void handleCourseRatingRecalculatedEvent(CourseRatingRecalculatedIntegrationEvent event) {
         updateCourseRatingCommandHandler.handle(new UpdateCourseRatingCommand(event.courseId(), event.rating()));
     }

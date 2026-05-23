@@ -8,14 +8,13 @@ import com.educational.platform.users.UserRepository;
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 import com.educational.platform.users.security.JwtTokenProvider;
 import org.assertj.core.api.ThrowableAssert;
-import org.axonframework.messaging.eventhandling.EventBus;
-import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -43,7 +42,7 @@ public class UserRegistrationCommandHandlerTest {
     private TransactionTemplate transactionTemplate;
 
     @Mock
-    private EventBus eventBus;
+    private ApplicationEventPublisher eventPublisher;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -57,7 +56,7 @@ public class UserRegistrationCommandHandlerTest {
     void setUp() {
         transactionTemplate = new TransactionTemplate(transactionManager);
         final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        sut = new UserRegistrationCommandHandler(transactionTemplate, passwordEncoder, jwtTokenProvider, repository, eventBus, validator);
+        sut = new UserRegistrationCommandHandler(transactionTemplate, passwordEncoder, jwtTokenProvider, repository, eventPublisher, validator);
     }
 
     @Test
@@ -83,9 +82,9 @@ public class UserRegistrationCommandHandlerTest {
                 .hasFieldOrPropertyWithValue("email", "email@gmail.com")
                 .hasFieldOrPropertyWithValue("role", Role.ROLE_STUDENT);
 
-        final ArgumentCaptor<GenericEventMessage> eventArgument = ArgumentCaptor.forClass(GenericEventMessage.class);
-        verify(eventBus).publish(any(), eventArgument.capture());
-        final UserCreatedIntegrationEvent event = (UserCreatedIntegrationEvent) eventArgument.getValue().payload();
+        final ArgumentCaptor<UserCreatedIntegrationEvent> eventArgument = ArgumentCaptor.forClass(UserCreatedIntegrationEvent.class);
+        verify(eventPublisher).publishEvent(eventArgument.capture());
+        final UserCreatedIntegrationEvent event = eventArgument.getValue();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("username", "username")
                 .hasFieldOrPropertyWithValue("email", "email@gmail.com");

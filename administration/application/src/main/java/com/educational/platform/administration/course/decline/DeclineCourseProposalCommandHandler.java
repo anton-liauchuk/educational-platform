@@ -7,9 +7,7 @@ import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.integration.event.CourseDeclinedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import jakarta.inject.Named;
-import org.axonframework.messaging.core.MessageType;
-import org.axonframework.messaging.eventhandling.EventBus;
-import org.axonframework.messaging.eventhandling.GenericEventMessage;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -24,12 +22,12 @@ public class DeclineCourseProposalCommandHandler {
 
     private final TransactionTemplate transactionTemplate;
     private final CourseProposalRepository repository;
-    private final EventBus eventBus;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public DeclineCourseProposalCommandHandler(TransactionTemplate transactionTemplate, CourseProposalRepository repository, EventBus eventBus) {
+    public DeclineCourseProposalCommandHandler(TransactionTemplate transactionTemplate, CourseProposalRepository repository, ApplicationEventPublisher eventPublisher) {
         this.transactionTemplate = transactionTemplate;
         this.repository = repository;
-        this.eventBus = eventBus;
+        this.eventPublisher = eventPublisher;
     }
 
     /**
@@ -55,7 +53,7 @@ public class DeclineCourseProposalCommandHandler {
         });
 
         final CourseProposalDTO dto = Objects.requireNonNull(proposal).toDTO();
-        eventBus.publish(null, new GenericEventMessage(new MessageType(CourseDeclinedByAdminIntegrationEvent.class), new CourseDeclinedByAdminIntegrationEvent(dto.uuid())));
+        eventPublisher.publishEvent(new CourseDeclinedByAdminIntegrationEvent(dto.uuid()));
     }
 
 }

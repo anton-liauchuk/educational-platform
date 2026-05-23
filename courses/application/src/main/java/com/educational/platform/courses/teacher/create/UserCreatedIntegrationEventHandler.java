@@ -2,7 +2,8 @@ package com.educational.platform.courses.teacher.create;
 
 import com.educational.platform.users.integration.event.UserCreatedIntegrationEvent;
 
-import org.axonframework.messaging.eventhandling.annotation.EventHandler;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,7 +19,8 @@ public class UserCreatedIntegrationEventHandler {
         this.createTeacherCommandHandler = createTeacherCommandHandler;
     }
 
-    @EventHandler
+    @Async
+    @EventListener
     public void handleUserCreatedEvent(UserCreatedIntegrationEvent event) {
         createTeacherCommandHandler.handle(new CreateTeacherCommand(event.username()));
     }

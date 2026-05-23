@@ -7,8 +7,6 @@ import com.educational.platform.courses.integration.event.SendCourseToApproveInt
 import com.educational.platform.courses.teacher.Teacher;
 
 import org.assertj.core.api.ThrowableAssert;
-import org.axonframework.messaging.eventhandling.EventBus;
-import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +14,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -24,7 +23,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -41,7 +39,7 @@ public class SendCourseToApproveCommandHandlerTest {
     private CourseRepository repository;
 
     @Mock
-    private EventBus eventBus;
+    private ApplicationEventPublisher eventPublisher;
 
     @InjectMocks
     private SendCourseToApproveCommandHandler sut;
@@ -72,9 +70,9 @@ public class SendCourseToApproveCommandHandlerTest {
         sut.handle(command);
 
         // then
-        final ArgumentCaptor<GenericEventMessage> argument = ArgumentCaptor.forClass(GenericEventMessage.class);
-        verify(eventBus).publish(any(), argument.capture());
-        assertThat(argument.getValue().payload())
+        final ArgumentCaptor<SendCourseToApproveIntegrationEvent> argument = ArgumentCaptor.forClass(SendCourseToApproveIntegrationEvent.class);
+        verify(eventPublisher).publishEvent(argument.capture());
+        assertThat(argument.getValue())
                 .hasFieldOrPropertyWithValue("courseId", uuid);
     }
 

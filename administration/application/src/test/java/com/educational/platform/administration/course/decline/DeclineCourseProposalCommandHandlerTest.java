@@ -4,16 +4,16 @@ import com.educational.platform.administration.course.CourseProposal;
 import com.educational.platform.administration.course.CourseProposalRepository;
 import com.educational.platform.administration.course.CourseProposalStatus;
 import com.educational.platform.administration.course.create.CreateCourseProposalCommand;
+import com.educational.platform.administration.integration.event.CourseDeclinedByAdminIntegrationEvent;
 import com.educational.platform.common.exception.ResourceNotFoundException;
 import org.assertj.core.api.ThrowableAssert;
-import org.axonframework.messaging.eventhandling.EventBus;
-import org.axonframework.messaging.eventhandling.GenericEventMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -23,7 +23,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,14 +39,14 @@ public class DeclineCourseProposalCommandHandlerTest {
     private TransactionTemplate transactionTemplate;
 
     @Mock
-    private EventBus eventBus;
+    private ApplicationEventPublisher eventPublisher;
 
     private DeclineCourseProposalCommandHandler sut;
 
     @BeforeEach
     void setUp() {
         transactionTemplate = new TransactionTemplate(transactionManager);
-        sut = new DeclineCourseProposalCommandHandler(transactionTemplate, repository, eventBus);
+        sut = new DeclineCourseProposalCommandHandler(transactionTemplate, repository, eventPublisher);
     }
 
     @Test
@@ -71,9 +70,9 @@ public class DeclineCourseProposalCommandHandlerTest {
         assertThat(proposal)
                 .hasFieldOrPropertyWithValue("status", CourseProposalStatus.DECLINED);
 
-        var eventArgument = ArgumentCaptor.forClass(GenericEventMessage.class);
-        verify(eventBus).publish(any(), eventArgument.capture());
-        var event = eventArgument.getValue().payload();
+        final ArgumentCaptor<CourseDeclinedByAdminIntegrationEvent> eventArgument = ArgumentCaptor.forClass(CourseDeclinedByAdminIntegrationEvent.class);
+        verify(eventPublisher).publishEvent(eventArgument.capture());
+        final CourseDeclinedByAdminIntegrationEvent event = eventArgument.getValue();
         assertThat(event)
                 .hasFieldOrPropertyWithValue("courseId", uuid);
     }
